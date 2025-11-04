@@ -1,0 +1,632 @@
+body {
+    overflow-x: hidden;
+}
+
+.landing {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Left yellow section */
+.left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #FFC43A;
+    clip-path: polygon(0 0, 0% 0%, 60% 100%, 0 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 1;
+    transform: translateX(-100%);
+    animation: slideInLeft 1s forwards;
+}
+
+/* Right black section */
+.right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    clip-path: polygon(0% 0, 100% 0, 100% 100%, 60% 100%);
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    z-index: 2;
+    transform: translateX(100%);
+    animation: slideInRight 1s forwards;
+}
+
+/* Image slider container */
+.image-slider {
+    position: relative;
+    width: 60%;
+    height: 100%;
+    margin-right: 5vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Each slide wrapper */
+.slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* text above, image below */
+    padding-top: 6vh; /* ensures text isn’t too close to top */
+}
+
+    .slide.active {
+        opacity: 1;
+        z-index: 5;
+    }
+
+/* Responsive text styling */
+.slider-text {
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.7s ease;
+    z-index: 10;
+    line-height: 1.1;
+    margin-bottom: 3vh;
+    /* Responsive scaling */
+    font-size: clamp(1.8rem, 4vw + 1rem, 6rem);
+    max-width: 80%;
+/*    word-break: break-word;*/
+}
+
+    .slider-text.active {
+        opacity: 1;
+    }
+
+    .slider-text span {
+        color: #FFC43A;
+    }
+/*    .slider-text::after {
+        content: "";
+        display: block;
+        margin: 0.6rem auto 0;
+        width: 60px;
+        height: 4px;
+        background: #FFC43A;
+        border-radius: 2px;
+    }*/
+
+/* Image styling */
+.slider-image {
+    width: 80%;
+    height: auto;
+    max-height: 75vh;
+    object-fit: contain;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: transform 0.7s ease, opacity 0.7s ease;
+    will-change: transform, opacity;
+    margin-top: 25vh; /* keeps image toward bottom naturally */
+}
+
+.slider-image.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Controls */
+.slider-controls {
+    position: absolute;
+    left: 15%;
+    top: 73%;
+    transform: translateY(-50%);
+    z-index: 20;
+    display: flex;
+    gap: 14px;
+}
+
+.slider-btn {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s;
+}
+
+.slider-btn:hover {
+    transform: scale(1.05);
+    background: rgba(0, 0, 0, 0.9);
+}
+
+/* Entrance animations */
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive fixes */
+@media (max-width: 1024px) {
+    .slider-text {
+        font-size: clamp(1.6rem, 3vw + 1rem, 4rem);
+        margin-bottom: 2vh;
+    }
+
+    .slider-image {
+        width: 90%;
+        max-height: 60vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .image-slider {
+        width: 90%;
+        margin-right: 0;
+    }
+
+    .slider-text {
+        font-size: 1.8rem;
+        padding: 0 1rem;
+    }
+
+    .slider-controls {
+        top: 85%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+
+
+/*    This is for main content*/
+
+.hero-section {
+    background: url('/images/hero-bg.jpg') center no-repeat;
+    background-size: cover;
+    position: relative;
+    padding: 100px 20px;
+    border-radius: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+/* Add a subtle overlay to make text pop */
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.45); /* dark overlay */
+    border-radius: 20px;
+    z-index: 0;
+}
+
+/* Ensure content is above overlay */
+.hero-section h1,
+.hero-section p,
+.hero-section .hero-buttons {
+    position: relative;
+    z-index: 1;
+}
+
+
+.disclaimer-banner {
+    background-color: rgba(0,0,0,0.2);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 15px auto;
+    max-width: 600px;
+    font-style: italic;
+}
+
+.hero-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #33d6ff;
+    color: white;
+    border: none;
+}
+
+    .btn-primary:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+    }
+
+.btn-outline-dark {
+    border: 2px solid #343a40;
+    color: #343a40;
+}
+
+    .btn-outline-dark:hover {
+        background: #343a40;
+        color: white;
+    }
+
+.btn-light:hover {
+    transform: translateY(-2px);
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 30px;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: scale(1.05);
+}
+
+.stat-card h3 {
+    font-size: 2.5em;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.brands-section {
+    text-align: center;
+    padding: 40px 0;
+    background: #282828;
+}
+
+.brands-section h3 {
+    font-weight: 700;
+    font-size: 1.75rem;
+    margin-bottom: 25px;
+    color: #0d6efd;
+}
+
+.brands-slider {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.brands-track {
+    display: flex;
+    width: calc(200%);
+    animation: scroll-left 20s linear infinite;
+}
+
+.brand-item {
+    flex: 0 0 auto;
+    margin: 0 30px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 12px 24px;
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
+    transition: transform 0.3s ease;
+}
+
+.brands-track .brand-item img {
+    max-height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+.brand-item:hover {
+    transform: scale(1.1);
+    color: #0d6efd;
+}
+
+@keyframes scroll-left {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* Featured Vehicles Section */
+.featured-vehicles {
+    padding: 60px 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #e5e5e5;
+}
+
+    .featured-vehicles h3 {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+        color: #111111;
+        font-weight: 600;
+    }
+
+/* Grid layout */
+.vehicle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    justify-content: center;
+}
+
+/* Vehicle Card */
+.vehicle-card {
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+    .vehicle-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+
+/* Vehicle Image */
+.vehicle-image {
+    overflow: hidden;
+    height: 200px;
+    background: #f5f5f5;
+}
+
+.vehicle-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.vehicle-card:hover .vehicle-image img {
+    transform: scale(1.05);
+}
+
+/* Vehicle Details */
+.vehicle-details {
+    padding: 16px 20px;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.vehicle-details h4 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #007bff;
+    font-weight: 600;
+}
+
+.vehicle-price {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 6px;
+}
+
+.vehicle-desc {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+/* Button inside card */
+.vehicle-details .btn-sm {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    text-decoration: none;
+/*    transition: background 0.3s ease;*/
+    display: inline-block;
+}
+
+.vehicle-details .btn-sm:hover {
+    background: #0056b3;
+}
+
+/* View All Button */
+.view-all-link {
+    margin-top: 35px;
+}
+
+.view-all-link .btn {
+    background: #007bff;
+    color: #fff;
+    font-size: 0.95rem;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+/*transition: background 0.3s ease;*/
+}
+
+.view-all-link .btn:hover {
+    background: #0056b3;
+}
+
+.cta-section {
+    background: linear-gradient(90deg, #000000 0%, #001f4d 50%, #00c6ff 100%);
+    color: white;
+    padding: 80px 20px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.cta-section h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.cta-section p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    opacity: 0.95;
+}
+
+/* Buttons */
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.cta-buttons .btn {
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-buttons .btn-primary {
+    background: #fff;
+    color: black;
+    border: none;
+}
+
+.cta-buttons .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.cta-buttons .btn-outline-light {
+    border: 2px solid #fff;
+    color: #fff;
+    background: transparent;
+}
+
+.cta-buttons .btn-outline-light:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-3px);
+}
+
+
+/*This is site map*/
+
+.why-choose-us {
+    margin-top: 60px;
+    padding: 50px 20px;
+    background: #f9fbfd;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.why-choose-us h3 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: #222;
+}
+
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.why-card {
+    background: #fff;
+    padding: 25px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease;
+}
+
+.why-card:hover {
+    transform: translateY(-6px);
+}
+
+.why-card i {
+    font-size: 2rem;
+    color: #007bff;
+    margin-bottom: 12px;
+}
+
+.why-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #007bff;
+}
+
+.why-card p {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+a.btn:hover, .brand-item:hover, .vehicle-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}

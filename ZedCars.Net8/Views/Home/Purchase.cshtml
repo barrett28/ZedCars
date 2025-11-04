@@ -1,0 +1,166 @@
+﻿@model ZedCars.Net8.ViewModels.HomeCont.PurchaseViewModel
+@{
+    ViewData["Title"] = "Purchase Car";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">@ViewData["Title"]</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <!-- Car Info Section -->
+            <div class="row align-items-center mb-4">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <h4>@Model.Purchase.Car?.Brand - @Model.Purchase.Car?.Model</h4>
+                    <p class="fs-5"><strong>Price:</strong> $<span id="carPrice">@Model.Purchase.Car?.Price.ToString("N0")</span></p>
+                    <p class="small text-muted">Stock: @Model.Purchase.Car?.StockQuantity available</p>
+                    <div class="">
+                        <p class="">@Model.Purchase.Car?.FuelType</p>
+                        <p class="">@Model.Purchase.Car?.Transmission</p>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img src="@Model.Purchase.Car?.ImageUrl" alt="@Model.Purchase.Car?.Model" class="img-fluid rounded" style="max-height: 250px;">
+                </div>
+            </div>
+
+            <!-- Purchase Form -->
+            <form asp-action="Purchase" method="post">
+            @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Purchase.CarId" />
+
+                <div class="mb-3">
+                    <label asp-for="Purchase.BuyerName" class="form-label">Full Name</label>
+                    <input asp-for="Purchase.BuyerName" class="form-control" placeholder="Enter your name" />
+                    <span asp-validation-for="Purchase.BuyerName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Purchase.BuyerEmail" class="form-label">Email Address</label>
+                    <input asp-for="Purchase.BuyerEmail" class="form-control" placeholder="Enter your email" />
+                    <span asp-validation-for="Purchase.BuyerEmail" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Purchase.PurchaseQuantity" class="form-label">Quantity</label>
+                    <input asp-for="Purchase.PurchaseQuantity" class="form-control" type="number" min="1" max="@Model.Purchase.Car?.StockQuantity" value="1" id="quantity" onchange="updateTotals()" />
+                    <span asp-validation-for="Purchase.PurchaseQuantity" class="text-danger"></span>
+                </div>
+
+                <!-- Price Summary -->
+                <div class="card mb-4 bg-light">
+                    <div class="card-body">
+                        <h5>Price Summary</h5>
+                        <div class="d-flex justify-content-between">
+                            <span>Car Price:</span>
+                            <span>$<span id="totalCarPrice">@((Model.Purchase.Car?.Price ?? 0).ToString("N0"))</span></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Accessories:</span>
+                            <span>$<span id="totalAccessoryPrice">0</span></span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold">
+                            <span>Total:</span>
+                            <span>$<span id="grandTotal">@((Model.Purchase.Car?.Price ?? 0).ToString("N0"))</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#accessoryModal">
+                        Choose Accessories
+                    </button>
+                    <button type="submit" class="btn btn-success btn-lg">Purchase</button>
+                    <a asp-action="Index" class="btn btn-secondary btn-lg">Cancel</a>
+                </div>
+
+                <!-- Accessories Modal -->
+                <div class="modal fade" id="accessoryModal" tabindex="-1" aria-labelledby="accessoryModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header bg-dark text-white">
+                                <h5 class="modal-title" id="accessoryModalLabel">Select Accessories</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    @foreach (var category in Model.Accessories.GroupBy(a => a.Category).OrderBy(g => g.Key))
+                                    {
+                                        <div class="col-md-6 mb-4">
+                                            <h6 class="border-bottom pb-1 fw-bold">@category.Key</h6>
+                                            @foreach (var accessory in category.OrderBy(a => a.Name))
+                                            {
+                                                <div class="form-check d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <input class="form-check-input accessory-checkbox" type="checkbox" 
+                                                               name="SelectedAccessories" value="@accessory.Name" 
+                                                               id="accessory_@accessory.AccessoryId" 
+                                                               data-price="@accessory.Price" 
+                                                               onchange="updateModalTotal()" />
+                                                        <label class="form-check-label" for="accessory_@accessory.AccessoryId">
+                                                            @accessory.Name
+                                                        </label>
+                                                    </div>
+                                                    <span class="text-muted">$@accessory.Price</span>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                                <div class="border-top pt-3 mt-3">
+                                    <div class="d-flex justify-content-between fw-bold">
+                                        <span>Accessories Total:</span>
+                                        <span>$<span id="modalTotal">0</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="saveAccessorySelection()">Save Selection</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const carPrice = @(Model.Purchase.Car?.Price ?? 0);
+        
+        function updateModalTotal() {
+            let total = 0;
+            document.querySelectorAll('.accessory-checkbox:checked').forEach(checkbox => {
+                total += parseFloat(checkbox.dataset.price || 0);
+            });
+            document.getElementById('modalTotal').textContent = total.toLocaleString();
+        }
+        
+        function saveAccessorySelection() {
+            updateTotals();
+        }
+        
+        function updateTotals() {
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            const totalCarPrice = carPrice * quantity;
+            
+            let accessoryTotal = 0;
+            document.querySelectorAll('.accessory-checkbox:checked').forEach(checkbox => {
+                accessoryTotal += parseFloat(checkbox.dataset.price || 0);
+            });
+            
+            document.getElementById('totalCarPrice').textContent = totalCarPrice.toLocaleString();
+            document.getElementById('totalAccessoryPrice').textContent = accessoryTotal.toLocaleString();
+            document.getElementById('grandTotal').textContent = (totalCarPrice + accessoryTotal).toLocaleString();
+        }
+        
+        // Initialize totals on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTotals();
+        });
+    </script>
+}

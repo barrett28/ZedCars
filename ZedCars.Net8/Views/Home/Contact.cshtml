@@ -1,0 +1,95 @@
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<div class="container py-5">
+    <h1 class="text-center mb-5 display-4 text-dark">@ViewData["Title"] Us</h1>
+
+    <div class="row g-4">
+        <!-- Location Card -->
+        <div class="col-md-6">
+            <div class="card shadow-lg h-100 border-0 rounded-4">
+                <div class="card-body text-center">
+                    <div class="mb-3 text-white bg-primary rounded-circle d-inline-flex align-items-center justify-content-center" style="width:70px; height:70px;">
+                        <i class="bi bi-geo-alt-fill fs-2"></i>
+                    </div>
+                    <h5 class="card-title mt-3 mb-3 fw-bold">Our Location</h5>
+                    <address class="mb-0 text-secondary">
+                        <strong>ZedCars Main Office</strong><br />
+                        123 Auto Avenue<br />
+                        Cartown, CT 12345<br />
+                        <abbr title="Phone">P:</abbr> 425.555.0100
+                    </address>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Card -->
+        <div class="col-md-6">
+            <div class="card shadow-lg h-100 border-0 rounded-4">
+                <div class="card-body text-center">
+                    <div class="mb-3 text-white bg-primary rounded-circle d-inline-flex align-items-center justify-content-center" style="width:70px; height:70px;">
+                        <i class="bi bi-envelope-fill fs-2"></i>
+                    </div>
+                    <h5 class="card-title mt-3 mb-3 fw-bold">Get In Touch</h5>
+                    <address class="mb-0 text-secondary">
+                        <strong>Support:</strong> <a href="mailto:Support@zedcars.com" class="text-decoration-none">Support@zedcars.com</a><br />
+                        <strong>Sales:</strong> <a href="mailto:Sales@zedcars.com" class="text-decoration-none">Sales@zedcars.com</a>
+                    </address>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Business Hours -->
+    <div class="card shadow-lg mt-5 border-0 rounded-4">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-4">
+                <div class="text-white bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width:50px; height:50px;">
+                    <i class="bi bi-clock-fill fs-4"></i>
+                </div>
+                <h5 class="mb-0 fw-bold">Business Hours</h5>
+            </div>
+            <div class="row text-center text-md-start">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <p class="mb-1"><strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM</p>
+                    <p class="mb-1"><strong>Saturday:</strong> 9:00 AM - 5:00 PM</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1"><strong>Sunday:</strong> Closed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-color: #f8f9fa;
+    }
+
+    h1 {
+        font-weight: 700;
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+
+    .card-body a {
+        color: #0d6efd;
+        font-weight: 500;
+    }
+
+        .card-body a:hover {
+            text-decoration: underline;
+        }
+</style>

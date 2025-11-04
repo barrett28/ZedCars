@@ -1,0 +1,568 @@
+﻿@model ZedCars.Net8.ViewModels.ReportsCont.SalesReportViewModel
+
+@{
+    ViewData["Title"] = "Reports";
+}
+    <!-- Header -->
+    <div class="admin-header text-white p-4 shadow">
+        <h1>Reports</h1>
+        <p class="lead">View and generate business reports</p>
+
+        <div class="d-flex gap-2 mt-3">
+            <a href="@Url.Action("Dashboard", "Admin")" class="btn btn-secondary">
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+
+
+<div class="container my-4 mb-4">
+    <!-- Generate Report Modal -->
+    <div class="modal fade" id="generateReportModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Generate New Report</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="generate-report-form">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Report Type</label>
+                            <select class="form-select">
+                                <option value="sales">Sales</option>
+                                <option value="inventory">Inventory</option>
+                                <option value="users">User Activity</option>
+                                <option value="financial">Financial</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Report Period</label>
+                            <select class="form-select">
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly" selected>Monthly</option>
+                                <option value="yearly">Yearly</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Format</label>
+                            <select class="form-select">
+                                <option value="pdf">PDF</option>
+                                <option value="excel">Excel</option>
+                                <option value="csv">CSV</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Delivery Method</label>
+                            <select class="form-select" id="report-delivery">
+                                <option value="download">Download</option>
+                                <option value="email">Email</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 d-none" id="email-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" placeholder="Enter email">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Notes</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary">Generate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Filters -->
+    <div class="bg-light p-3 rounded shadow-sm mb-4">
+        <div class="row g-3 align-items-end">
+            <!-- Report Type -->
+            <div class="col-md-3">
+                <label for="report-type" class="form-label">Report Type</label>
+                <select id="report-type" class="form-select">
+                    <option value="carSales" selected>Car Sales</option>
+                    <option value="accessorySales">Accessory Sales</option>
+                </select>
+            </div>
+
+            <!-- Buttons -->
+            <div class="col-md-8 d-flex gap-4">
+                <button id="view-report-btn" class="btn btn-primary w-100"><i class="bi bi-eye"></i> View Report</button>
+                <button id="export-report-btn" class="btn btn-secondary w-100" onclick="downloadPdf()"><i class="bi bi-download"> </i>PDF</button>
+                <button type="button" class="btn btn-success w-100" onclick="downloadExcel()"><i class="bi bi-file-earmark-excel"></i> Excel</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Summary of Car Sales -->
+    <div id ="car-sales-summary" class="justify-content-evenly align-items-center bg-light p-3 gap-2">
+        <div class="col-md-3" id="car-sales-summary">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Sales</h6>
+                    <h4 class="fw-bold">$@Model.TotalSalesValue.ToString("F2")</h4>
+                    <small class="text-success">Total sales of Cars</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3" id="car-sales-summary">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Units Sold</h6>
+                    <h4 class="fw-bold">@Model.TotalUnitsSold</h4>
+                    <small class="text-success">Number of cars sold</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3" id="car-sales-summary">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Average Sales</h6>
+                    <h4 class="fw-bold">$@Model.AverageSalesValue.ToString("F2")</h4>
+                    <small class="text-danger">Average sale price of cars</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary of Accessory Sales -->
+    <div id="accessory-sales-summary" class="justify-content-evenly align-items-center bg-light p-3 gap-2 mt-2">
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Accessory Sales</h6>
+                    <h4 class="fw-bold">$@Model.AccessoryTotalSales</h4>
+                    <small class="text-success">Total sales of Accessories</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Units Sold</h6>
+                    <h4 class="fw-bold">@Model.AccessoryCount</h4>
+                    <small class="text-success">Number of accessories sold</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Average Sales</h6>
+                    <h4 class="fw-bold">$@Model.AccessoryAverageSales.ToString("F2")</h4>
+                    <small class="text-danger">Average sale price of accessories</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Car Charts -->
+
+    <div id="car-charts" class="row g-4 mb-4 mt-2">
+        <!-- Pie Chart -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Car Sales by Brand</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="chart-container">
+                        <canvas id="carSalesPieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bar Chart -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header">
+                    <h5 class="mb-0">Car Monthly Sales Trend</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="chart-container">
+                        <canvas id="carMonthlySalesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accessory Charts -->
+
+    <div id="accessory-charts" class="row g-4 mb-4 mt-2">
+        <!-- Pie Chart -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Accessory Sales by Category</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="chart-container">
+                        <canvas id="accessorySalesPieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bar Chart -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header">
+                    <h5 class="mb-0">Accessory Monthly Sales Trend</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="chart-container">
+                        <canvas id="accessoryMonthlySalesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Report Details -->
+    <div class="card shadow-sm mt-4" id="car-sales">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Car Purchase History</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0 text-center table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Date</th>
+                            <th>Brand</th>
+                            <th>Vehicle</th>
+                            <th>Sale Price</th>
+                            <th>Buyer</th>
+                            <th>Buyer Gmail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var purchase in @Model.Purchases)
+                        {
+                            <tr>
+                                <td>@purchase.PurchaseDate.ToString("yyyy-MM-dd")</td>
+                                <td>@purchase.Car?.Brand</td>
+                                <td>@purchase.Car?.Model</td>
+                                <td>$@purchase.PurchasePrice.ToString("F2")</td>
+                                <td>@purchase.BuyerName</td>
+                                <td>@purchase.BuyerEmail</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @if (Model.PurchasesTotalPages > 1)
+            {
+                <div class="card-footer">
+                    <nav>
+                        <ul class="pagination justify-content-end mb-0">
+                            @if (Model.PurchasesCurrentPage > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("SalesReport", new { purchasePage = Model.PurchasesCurrentPage - 1, accessoryPage = Model.AccessoryCurrentPage })">Previous</a>
+                                </li>
+                            }
+                            @for (int i = 1; i <= Model.PurchasesTotalPages; i++)
+                            {
+                                <li class="page-item @(i == Model.PurchasesCurrentPage ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("SalesReport", new { purchasePage = i, accessoryPage = Model.AccessoryCurrentPage })">@i</a>
+                                </li>
+                            }
+                            @if (Model.PurchasesCurrentPage < Model.PurchasesTotalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("SalesReport", new { purchasePage = Model.PurchasesCurrentPage + 1, accessoryPage = Model.AccessoryCurrentPage })">Next</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                    <small class="text-muted d-block text-center mt-2">
+                        Showing @((Model.PurchasesCurrentPage - 1) * 7 + 1) to @(Math.Min(Model.PurchasesCurrentPage * 7, Model.PurchasesTotalCount)) of @Model.PurchasesTotalCount entries
+                    </small>
+                </div>
+            }        </div>
+    </div>
+
+    <div class="card shadow-sm mt-4" id="accessory-sales">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Accessory Purchase History</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0 text-center table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Date</th>
+                            <th>BuyerName</th>
+                            <th>BuyerEmail</th>
+                            <th>Sale Price</th>
+                            <th>Accessories</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var accessory in @Model.AccessoryPurchaseOnly)
+                        {
+                            <tr>
+                                <td>@accessory.PurchaseDate.ToString("yyyy-MM-dd")</td>
+                                <td>@accessory.BuyerName</td>
+                                <td>@accessory.BuyerEmail</td>
+                                <td>$@accessory.TotalPrice.ToString("F2")</td>
+                                <td>@accessory.SelectedAccessoriesString</td>
+                            </tr>
+            @if (Model.AccessoryTotalPages > 1)
+            {
+                <div class="card-footer">
+                    <nav>
+                        <ul class="pagination justify-content-end mb-0">
+                            @if (Model.AccessoryCurrentPage > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("SalesReport", new { purchasePage = Model.PurchasesCurrentPage, accessoryPage = Model.AccessoryCurrentPage - 1 })">Previous</a>
+                                </li>
+                            }
+                            @for (int i = 1; i <= Model.AccessoryTotalPages; i++)
+                            {
+                                <li class="page-item @(i == Model.AccessoryCurrentPage ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("SalesReport", new { purchasePage = Model.PurchasesCurrentPage, accessoryPage = i })">@i</a>
+                                </li>
+                            }
+                            @if (Model.AccessoryCurrentPage < Model.AccessoryTotalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("SalesReport", new { purchasePage = Model.PurchasesCurrentPage, accessoryPage = Model.AccessoryCurrentPage + 1 })">Next</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                    <small class="text-muted d-block text-center mt-2">
+                        Showing @((Model.AccessoryCurrentPage - 1) * 7 + 1) to @(Math.Min(Model.AccessoryCurrentPage * 7, Model.AccessoryTotalCount)) of @Model.AccessoryTotalCount entries
+                    </small>
+                </div>
+            }                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+  
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const reportModel = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model));
+        console.log("ReportModel:", reportModel);
+
+        // const response = await fetch(`/Reports/GetSalesData`);
+        // const data = await response.json();
+
+        // Car charts
+        // Pie Chart
+        const carBrandLabels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.SalesByBrand.Select(x => x.Brand)));
+        const carBrandSalesData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.SalesByBrand.Select(x => x.TotalSales)));
+
+
+        const carPieCtx = document.getElementById('carSalesPieChart').getContext('2d');
+        const carPieChart = new Chart(carPieCtx, {
+            type: 'doughnut',
+            data: {
+                labels: carBrandLabels,
+                datasets: [{
+                    data: carBrandSalesData,
+                    backgroundColor: [
+                        '#3498db','#2ecc71','#e74c3c','#f39c12','#9b59b6','#1abc9c'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+
+        const carMonthLabels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                    Model.SalesByMonths.Select(x => new DateTime(x.Year, x.Month, 1).ToString("MMM yyyy"))
+            ));
+        const carMonthlySalesData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                    Model.SalesByMonths.Select(x => x.TotalSales)
+            ));
+
+        const carBarCtx = document.getElementById('carMonthlySalesChart').getContext('2d');
+        const carBarChart = new Chart(carBarCtx, {
+            type: 'bar',
+            data: {
+                labels: carMonthLabels,
+                datasets: [{
+                    label: 'Sales',
+                    data: carMonthlySalesData,
+                    backgroundColor: '#3498db'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Accessory Bar Chart
+
+        const accessoryCategoryLabels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AccessorySalesByCategories.Select(a=>a.Category)));
+        const accessoryCategorySalesData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AccessorySalesByCategories.Select(a=>a.TotalSales)));
+
+
+        const accessoryPieCtx = document.getElementById('accessorySalesPieChart').getContext('2d');
+        const accessoryPieChart = new Chart(accessoryPieCtx,{
+            type: 'doughnut',
+            data:{
+                labels:accessoryCategoryLabels,
+                datasets: [{
+                    data: accessoryCategorySalesData,
+                    backgroundColor: ['#1abc9c','#9b59b6','#f39c12','#e74c3c','#2ecc71','#3498db']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        });
+
+        const accessoryMonthLabels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                                Model.AccessoryMonthlySales.Select(x => new DateTime(x.Year, x.Month, 1).ToString("MMM yyyy"))
+                        ));
+        const accessoryMonthlySalesData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                            Model.AccessoryMonthlySales.Select(x => x.TotalSales)
+                    ));
+
+        const accessoryBarCtx = document.getElementById('accessoryMonthlySalesChart').getContext('2d');
+        const accessoryBarChart = new Chart(accessoryBarCtx, {
+            type: 'bar',
+            data: {
+                labels: accessoryMonthLabels,
+                datasets: [{
+                    label: 'Sales',
+                    data: accessoryMonthlySalesData,
+                    backgroundColor: '#1abc9c'
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
+
+    // For conditional rendering with filters
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const reportTypeSelect = document.getElementById("report-type");
+            
+            const carSummary = document.getElementById("car-sales-summary");
+            const carTable = document.getElementById("car-sales");
+            const carCharts = document.getElementById("car-charts");
+
+            const accessorySummary = document.getElementById("accessory-sales-summary");
+            const accessoryTable = document.getElementById("accessory-sales");
+            const accessoryCharts = document.getElementById("accessory-charts");
+            
+            const reportButton = document.getElementById("view-report-btn");
+
+
+            function toggleReports() {
+                if (reportTypeSelect.value === "carSales") {
+                    // Show car summary + table
+                    carSummary.style.display = "flex";
+                    carTable.style.display = "flex";
+                    carCharts.style.display = "flex";
+
+                    // Hide accessory summary + table
+                    accessorySummary.style.display = "none";
+                    accessoryTable.style.display = "none";
+                    accessoryCharts.style.display = "none";
+
+                } else {
+                    // Show accessory summary + table
+                    accessorySummary.style.display = "flex";
+                    accessoryTable.style.display = "flex";
+                    accessoryCharts.style.display = "flex";
+
+                    // Hide car summary + table
+                    carSummary.style.display = "none";
+                    carTable.style.display = "none";
+                    carCharts.style.display = "none";
+                }
+            }
+
+            // Initial toggle
+            toggleReports();
+
+            // Toggle on dropdown change
+                reportButton.addEventListener("click", toggleReports);
+        });
+
+                 // Load sales data dynamically
+        async function loadSalesData() {
+            try 
+            {
+                const response = await fetch(`/Reports/GetSalesData`);
+                const data = await response.json();
+                console.log("Sales data loaded:", data);
+            } catch (error) {
+                console.error('Error fetching sales data:', error);
+            }
+        }
+
+        // Call loadSalesData when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSalesData();
+        });
+        // PDF Download Function
+        function downloadPdf() {
+            window.location.href = '@Url.Action("DownloadSalesReportPdf", "Reports")';
+        }
+
+                function downloadExcel(reportType) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '@Url.Action("DownloadExcel", "Reports")';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'reportType';
+            input.value = reportType;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+        }
+
+    </script>
+}
+
+<style>
+    .chart-container {
+        position: relative;
+        height: 300px; /* controls chart height */
+        width: 100%;
+        margin: auto;
+    }
+    
+    .admin-header{
+        background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+        color: white;
+    }
+
+</style>

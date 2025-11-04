@@ -1,0 +1,45 @@
+﻿@model ZedCars.Net8.ViewModels.AdminCont.AdminDashboardViewModel
+
+@{
+    ViewData["title"] = "UserActivity";
+}
+
+<div class="container p-4">
+    <h2>User Activity</h2>
+
+    <table class="table table-striped">
+
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Activity Type</th>
+                <th>Description</th>
+                <th>Activity Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model?.RecentActivities != null && Model.RecentActivities.Any())
+            {
+                @foreach (var act in Model.RecentActivities)
+                {
+                    <tr>
+                        <td>@(act.Username ?? "")</td>
+                        <td>@(act.ActivityType ?? "")</td>
+                        <td>@(act.Description ?? "")</td>
+                        <td>@act.ActivityDate.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@(act.Status ?? "N/A")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center">No user activities found</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

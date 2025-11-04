@@ -1,0 +1,53 @@
+@model ZedCars.Net8.Models.Admin
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<div class="container mt-4 min-vh-100">
+    <h2>@ViewData["Title"]</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.FullName)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.FullName)</dd>
+                        
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Username)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Username)</dd>
+                        
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Email)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Role)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Role)</dd>
+                        
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PhoneNumber)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.PhoneNumber)</dd>
+                        
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.IsActive)</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Inactive</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="mt-3">
+        <a asp-action="Edit" asp-route-id="@Model?.AdminId" class="btn btn-primary">Edit</a>
+        <a asp-action="ManageUsers" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

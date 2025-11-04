@@ -1,0 +1,428 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ZedCars.Net8.Data;
+using ZedCars.Net8.Models;
+using ZedCars.Net8.Services;
+
+namespace ZedCars.Net8.Controllers
+{
+    [Authorize(Roles = "SuperAdmin,Manager")]
+    public class AdminController : Controller
+    {
+        private readonly ZedCarsContext _context;
+        private readonly CarRepository _carRepository;
+        private readonly AdminRepository _adminRepository;
+        private readonly PurchaseRepository _purchaseRepository;
+
+        public AdminController(ZedCarsContext context, CarRepository carRepository, AdminRepository adminRepository, PurchaseRepository purchaseRepository)
+        {
+            _context = context;
+            _carRepository = carRepository;
+            _adminRepository = adminRepository;
+            _purchaseRepository = purchaseRepository;
+        }
+
+        public async Task<IActionResult> Dashboard()
+        {            
+            //Get number of active vehicles 
+            int ActiveVehicles = await _carRepository.GetActiveCarsAsync();
+            ViewBag.ActiveVehicles = ActiveVehicles;
+
+            //Total no. of vehicles in database (Active and Inactive)
+            int Totalcars = await _carRepository.GetTotalCarsAsync();
+            ViewBag.TotalCars = Totalcars;
+
+            decimal VehiclePrice = await _carRepository.GetPriceAsync();
+            ViewBag.VehiclePrice = VehiclePrice;
+
+            int ActiveUsers = await _adminRepository.GetActiveUserAsync();
+            ViewBag.ActiveUsers = ActiveUsers;
+
+            int TotalUsers = await _adminRepository.GetAllUserAsync();
+            ViewBag.TotalUsers = TotalUsers;
+
+            // Accessories total sum
+            decimal? AccessoryTotal = _context.Accessories.Sum(a => a.Price);
+            ViewBag.AccessoriesTotal = AccessoryTotal;
+
+            int? AccessoryCount = await _context.Accessories.CountAsync();
+            ViewBag.AccessoriesCount = AccessoryCount;
+            
+            // Took from purchase repository
+            decimal averageSale = await _purchaseRepository.GetAverageSalesAsync();
+            ViewBag.AverageSale = averageSale;
+
+            var recentInventory = await _carRepository.GetAllCarsAsync();
+            ViewBag.RecentInventory = recentInventory.Take(5).ToList();
+
+            int unitSold = await _purchaseRepository.GetUnitsSoldAsync();
+            ViewBag.UnitsSold = unitSold;
+
+            decimal totalSales = await _purchaseRepository.GetTotalSalesAsync();
+            ViewBag.TotalSales = totalSales;
+
+            var salesByBrand = await _purchaseRepository.GetSalesByBrandAsync();
+
+            var topBrand = salesByBrand.OrderByDescending(a => a.UnitsSold).FirstOrDefault();
+
+            ViewBag.TopBrandName = topBrand?.Brand;
+            ViewBag.TopBrandSalesPercent = salesByBrand.Sum(s => s.UnitsSold) > 0
+    ? (topBrand.UnitsSold * 100) / salesByBrand.Sum(s => s.UnitsSold)
+    : 0;
+
+            return View();
+        }
+
+        [Authorize(Roles ="SuperAdmin")]
+        public async Task<IActionResult> Inventory(string brand, int page = 1)
+        {
+            const int pageSize = 7;
+            
+            var carQuery = _context.Cars.Where(c => c.IsActive);
+
+            if (!string.IsNullOrWhiteSpace(brand))
+            {
+                carQuery = carQuery.Where(c => c.Brand == brand);
+            }
+
+            // Get total count for pagination
+            var totalCars = await carQuery.CountAsync();
+
+            // Execute the query with pagination
+            var cars = await carQuery.OrderBy(c => c.Brand)
+                .ThenBy(c => c.Model)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+            // Pass distinct brand list to ViewBag for dropdown
+            ViewBag.Brands = await _context.Cars
+                .Where(c => c.IsActive)
+                .Select(c => c.Brand)
+                .Distinct()
+                .OrderBy(b => b)
+                .ToListAsync();
+
+            ViewBag.SelectedBrand = brand; // keep selection after filtering
+            
+            // Pagination data
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalCars / pageSize);
+            ViewBag.TotalCars = totalCars;
+            ViewBag.PageSize = pageSize;
+
+            return View(cars);
+        }
+
+        // GET: Add Vehicle
+        public IActionResult AddVehicle()
+        {
+            return View();
+        }
+
+        // POST: Add Vehicle
+        [HttpPost]
+        public async Task<IActionResult> AddVehicle(Car car)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    // Set default values
+                    car.IsActive = true;
+                    car.CreatedDate = DateTime.Now;
+                    car.ModifiedDate = DateTime.Now;
+                    car.CreatedBy = User.Identity?.Name ?? "SuperAdmin";
+                    car.ModifiedBy = User.Identity?.Name ?? "SuperAdmin";
+
+                    _context.Cars.Add(car);
+                    await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = $"Vehicle {car.Brand} {car.Model} added successfully!";
+                    return RedirectToAction("Inventory");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Error adding vehicle: {ex.Message}";
+            }
+
+            return View(car);
+        }
+
+        // GET: Edit Vehicle
+        public async Task<IActionResult> EditVehicle(int id)
+        {
+            var car = await _carRepository.GetCarByIdAsync(id);
+            if (car == null)
+            {
+                return NotFound();
+            }
+            return View(car);
+        }
+
+        // POST: Edit Vehicle
+        [HttpPost]
+        public async Task<IActionResult> EditVehicle(Car car)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var existingCar = await _context.Cars.FindAsync(car.CarId);
+                    if (existingCar == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Update properties
+                    existingCar.Brand = car.Brand;
+                    existingCar.Model = car.Model;
+                    existingCar.Variant = car.Variant;
+                    existingCar.Price = car.Price;
+                    existingCar.StockQuantity = car.StockQuantity;
+                    existingCar.Color = car.Color;
+                    existingCar.Year = car.Year;
+                    existingCar.FuelType = car.FuelType;
+                    existingCar.Transmission = car.Transmission;
+                    existingCar.Mileage = car.Mileage;
+                    existingCar.Description = car.Description;
+                    existingCar.ImageUrl = car.ImageUrl;
+                    existingCar.ModifiedDate = DateTime.Now;
+                    existingCar.ModifiedBy = User.Identity?.Name ?? "Admin";
+
+                    await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = $"Vehicle {car.Brand} {car.Model} updated successfully!";
+                    return RedirectToAction("Inventory");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Error updating vehicle: {ex.Message}";
+            }
+
+            return View(car);
+        }
+
+        // GET: Delete Vehicle
+        public async Task<IActionResult> DeleteVehicle(int id)
+        {
+            var car = await _carRepository.GetCarByIdAsync(id);
+            if (car == null)
+            {
+                return NotFound();
+            }
+            return View(car);
+        }
+
+        // POST: Delete Vehicle
+        [HttpPost, ActionName("DeleteVehicle")]
+        public async Task<IActionResult> DeleteVehicleConfirmed(int id)
+        {
+            try
+            {
+                var car = await _context.Cars.FindAsync(id);
+                if (car != null)
+                {
+                    // Soft delete
+                    car.IsActive = false;
+                    car.ModifiedDate = DateTime.Now;
+                    car.ModifiedBy = User.Identity?.Name ?? "Admin";
+                    
+                    await _context.SaveChangesAsync();
+                    
+                    TempData["SuccessMessage"] = $"Vehicle {car.Brand} {car.Model} deleted successfully!";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Error deleting vehicle: {ex.Message}";
+            }
+
+            return RedirectToAction("Inventory");
+        }
+
+        //This is for Managing users
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> ManageUsers()
+        {
+            var users = await _adminRepository.GetAllAdminsAsync();
+            return View(users);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Admin admin)
+        {
+            if (ModelState.IsValid)
+            {
+                await _adminRepository.CreateAdminAsync(admin);
+                return RedirectToAction("ManageUsers");
+            }
+            return View(admin);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var admin = await _adminRepository.GetAdminByIdAsync(id);
+            if (admin == null) return NotFound();
+            return View(admin);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Admin admin)
+        {
+            try
+            {
+                // Debug: Check if model is valid
+                if (!ModelState.IsValid)
+                {
+                    TempData["ErrorMessage"] = "Model validation failed: " + string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                    return View(admin);
+                }
+
+                // Debug: Check AdminId
+                if (admin.AdminId <= 0)
+                {
+                    TempData["ErrorMessage"] = "Invalid Admin ID";
+                    return View(admin);
+                }
+
+                var result = await _adminRepository.UpdateAdminAsync(admin);
+                if (result != null)
+                {
+                    TempData["SuccessMessage"] = "User updated successfully!";
+                    return RedirectToAction("ManageUsers");
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "User not found or update failed.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Error updating user: {ex.Message}";
+            }
+            
+            return View(admin);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var admin = await _adminRepository.GetAdminByIdAsync(id);
+            if (admin == null) return NotFound();
+            return View(admin);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var admin = await _adminRepository.GetAdminByIdAsync(id);
+            if (admin == null) return NotFound();
+            return View(admin);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _adminRepository.DeleteAdminAsync(id);
+            return RedirectToAction("ManageUsers");
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetSalesData(string period = "month")
+        {
+            try
+            {
+                var salesByBrand = await _purchaseRepository.GetSalesByBrandAsync();
+                var monthlySales = await _purchaseRepository.GetMonthlySalesTrendAsync(GetMonthsForPeriod(period));
+                
+                // Calculate inventory turnover
+                var totalInventoryValue = await _carRepository.GetPriceAsync();
+                var totalSales = await _purchaseRepository.GetTotalSalesAsync();
+                var inventoryTurnover = totalInventoryValue > 0 ? (int)(totalSales / totalInventoryValue * 365) : 0;
+                
+                var result = new
+                {
+                    salesByBrand = salesByBrand.Take(6).Select(s => new { 
+                        brand = s.Brand, 
+                        unitsSold = s.UnitsSold,
+                        totalSales = s.TotalSales
+                    }),
+                    monthlySales = monthlySales.Select(m => new {
+                        month = $"{m.Year}-{m.Month:D2}",
+                        unitsSold = m.UnitsSold,
+                        totalSales = m.TotalSales
+                    }),
+                    inventoryTurnover = inventoryTurnover,
+                    averageSale = await _purchaseRepository.GetAverageSalesAsync()
+                };
+                
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetStockVsSoldData(string period = "month")
+        {
+            try
+            {
+                var cars = await _carRepository.GetAllCarsAsync();
+                var purchases = await _purchaseRepository.GetAllPurchasesAsync();
+                
+                // Group by brand and calculate stock vs sold
+                var stockData = cars.GroupBy(c => c.Brand)
+                    .Select(g => new {
+                        brand = g.Key,
+                        stockAvailable = g.Count(c => c.IsActive),
+                        unitsSold = purchases.Count(p => p.Car != null && p.Car.Brand == g.Key)
+                    })
+                    .OrderByDescending(x => x.stockAvailable + x.unitsSold)
+                    .Take(8)
+                    .ToList();
+                
+                // Calculate metrics
+                var totalInventoryValue = await _carRepository.GetPriceAsync();
+                var totalSales = await _purchaseRepository.GetTotalSalesAsync();
+                var inventoryTurnover = totalInventoryValue > 0 ? (int)(totalSales / totalInventoryValue * 365) : 0;
+                
+                var result = new
+                {
+                    stockData = stockData,
+                    inventoryTurnover = inventoryTurnover,
+                    averageSale = await _purchaseRepository.GetAverageSalesAsync()
+                };
+                
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
+        }        private int GetMonthsForPeriod(string period)
+        {
+            return period switch
+            {
+                "week" => 1,
+                "month" => 3,
+                "quarter" => 6,
+                "year" => 12,
+                _ => 3
+            };
+        }        
+
+        [Authorize(Roles = "SuperAdmin,Manager")]
+        public IActionResult Reports()
+        {
+            return View();
+        }
+    }
+}

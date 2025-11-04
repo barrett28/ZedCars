@@ -1,0 +1,181 @@
+﻿/* ===============================
+   Chat popup animations
+   =============================== */
+@keyframes chat-slide-in {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes chat-slide-out {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+}
+
+#chat-popup {
+    display: none; /* initially hidden */
+    width: 360px;
+    max-height: 500px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    background: #ffffff;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+    #chat-popup.cw-open {
+        display: flex;
+        animation: chat-slide-in 0.4s ease forwards;
+    }
+
+    #chat-popup.cw-closing {
+        animation: chat-slide-out 0.4s ease forwards;
+    }
+
+/* ===============================
+   Chat body
+   =============================== */
+#chat-body {
+    background: linear-gradient(180deg, #fbfdff 0%, #f7fbff 100%);
+    padding: 14px;
+    overflow-y: auto;
+}
+
+    /* Scrollbar */
+    #chat-body::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    #chat-body::-webkit-scrollbar-thumb {
+        background: rgba(13,110,253,0.12);
+        border-radius: 8px;
+    }
+
+/* ===============================
+   Chat bubbles
+   =============================== */
+.chat-bubble-user {
+    align-self: flex-end;
+    background: linear-gradient(90deg,#0d6efd,#0b5ed7);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 18px 18px 6px 18px;
+    max-width: 78%;
+    font-size: 14px;
+    line-height: 1.4;
+    box-shadow: 0 6px 18px rgba(11,92,215,0.12);
+    animation: fadeIn 0.3s ease;
+    word-wrap: break-word;
+}
+
+.chat-bubble-bot {
+    align-self: flex-start;
+    background: #ffffff;
+    border: 1px solid #e9eefc;
+    color: #212529;
+    padding: 10px 16px;
+    border-radius: 18px 18px 18px 6px;
+    max-width: 78%;
+    font-size: 14px;
+    line-height: 1.4;
+    box-shadow: 0 2px 8px rgba(16,24,40,0.04);
+    animation: fadeIn 0.3s ease;
+    word-wrap: break-word;
+}
+
+/* Typing indicator */
+.chat-typing {
+    font-style: italic;
+    color: #6c757d;
+    font-size: 13px;
+    padding-left: 4px;
+}
+
+/* ===============================
+   Quick pill buttons
+   =============================== */
+.chat-pil {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid #e7eefc;
+    background: #fff;
+    color: #0d6efd;
+    font-size: 13px;
+    box-shadow: 0 3px 8px rgba(13,110,253,0.06);
+    transition: transform .16s ease, background .16s ease, color .16s ease, box-shadow .16s ease;
+    cursor: pointer;
+}
+
+    .chat-pil:hover {
+        transform: translateY(-3px);
+        background: #0d6efd;
+        color: #fff;
+        box-shadow: 0 8px 20px rgba(13,110,253,0.18);
+    }
+
+/* ===============================
+   Card adjustments
+   =============================== */
+#chat-popup .card-header {
+    padding: 12px 16px;
+    background: #0d6efd;
+    color: #fff;
+    font-weight: 500;
+}
+
+#chat-popup .card-footer {
+    padding: 12px 16px;
+}
+
+#chat-popup input.form-control {
+    box-shadow: none;
+}
+
+/* ===============================
+   Floating toggle button
+   =============================== */
+#chat-toggle {
+    width: 64px;
+    height: 64px;
+    background-color: #212529;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+    #chat-toggle:hover {
+        transform: scale(1.04);
+        box-shadow: 0 12px 34px rgba(0,0,0,0.28);
+    }
+
+/* ===============================
+   Fade-in helper for chat bubbles
+   =============================== */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

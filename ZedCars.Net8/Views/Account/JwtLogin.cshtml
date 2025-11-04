@@ -1,0 +1,94 @@
+@{
+    ViewData["Title"] = "JWT Login Test";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>JWT Login Test</h4>
+                </div>
+                <div class="card-body">
+                    <form id="jwtLoginForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login with JWT</button>
+                    </form>
+                    
+                    <div id="result" class="mt-3"></div>
+                    
+                    <div class="mt-4">
+                        <h5>Test API Calls:</h5>
+                        <button id="testCarsApi" class="btn btn-info btn-sm">Test Cars API</button>
+                        <button id="logoutBtn" class="btn btn-danger btn-sm">Logout</button>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h6>Current Tokens:</h6>
+                        <div id="tokenInfo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jwt-auth.js"></script>
+<script>
+document.getElementById('jwtLoginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const result = document.getElementById('result');
+    
+    result.innerHTML = '<div class="alert alert-info">Logging in...</div>';
+    
+    const loginResult = await jwtAuth.login(username, password);
+    
+    if (loginResult.success) {
+        result.innerHTML = `<div class="alert alert-success">Login successful! Welcome ${loginResult.user.fullName}</div>`;
+        updateTokenInfo();
+    } else {
+        result.innerHTML = `<div class="alert alert-danger">Login failed: ${loginResult.message}</div>`;
+    }
+});
+
+document.getElementById('testCarsApi').addEventListener('click', async () => {
+    try {
+        const response = await jwtAuth.apiRequest('/api/apicars');
+        const cars = await response.json();
+        document.getElementById('result').innerHTML = 
+            `<div class="alert alert-success">API Call Success! Found ${cars.length} cars</div>`;
+    } catch (error) {
+        document.getElementById('result').innerHTML = 
+            `<div class="alert alert-danger">API Call Failed: ${error.message}</div>`;
+    }
+});
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+    jwtAuth.logout();
+});
+
+function updateTokenInfo() {
+    const accessToken = jwtAuth.getAccessToken();
+    const refreshToken = jwtAuth.getRefreshToken();
+    
+    document.getElementById('tokenInfo').innerHTML = `
+        <small>
+            <strong>Access Token:</strong> ${accessToken ? accessToken.substring(0, 50) + '...' : 'None'}<br>
+            <strong>Refresh Token:</strong> ${refreshToken ? refreshToken.substring(0, 50) + '...' : 'None'}
+        </small>
+    `;
+}
+
+// Update token info on page load
+updateTokenInfo();
+</script>

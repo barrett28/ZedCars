@@ -1,0 +1,28 @@
+ZedCars Application - Quick Start Guide
+======================================
+
+   1. Prerequisites:
+      - Visual Studio 2010 or 2019 with .NET Framework 4.0/4.8
+      - ASP.NET MVC 3.0.0.0
+      - MySQL 5.7 or 8.0
+
+2. Database Setup:
+   - Create a database named 'zoomcars_inventory'
+   - Create a user 'zoomcars_user' with password 'admin123'
+   - Run the SQL scripts in the database/init folder:
+     mysql -u zoomcars_user -p zoomcars_inventory < 01-create-tables.sql
+     mysql -u zoomcars_user -p zoomcars_inventory < 02-seed-data.sql
+
+3. Open the Solution:
+   - Open ZedCars.sln in Visual Studio
+
+4. Build and Run:
+   - Build the solution (Build > Build Solution)
+   - Press F5 to run the application
+
+5. Login Credentials:
+   - Admin: username=admin, password=admin123
+   - User: username=user1, password=password1
+
+For detailed instructions, please refer to README.md
+

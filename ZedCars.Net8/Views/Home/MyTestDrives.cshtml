@@ -1,0 +1,65 @@
+﻿@model List<ZedCars.Net8.Models.TestDrive>
+@{
+    ViewData["title"] = "MyTestDrives";
+}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">
+            <i class="bi bi-bag-check-fill me-2"></i> My Booked Test Drives
+        </h2>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var td in Model)
+        {
+            <div class="col-9">
+                <div class="card h-100 text-light bg-dark border-0 shadow hover-lift rounded-4 overflow-hidden">
+                    <div class="row g-0">
+                        <!-- Left Side: Car Info -->
+                        <div class="col-md-6 p-4 d-flex flex-column justify-content-between">
+                            <div>
+                                <h3 class="card-title fw-bold mb-1">@td.CustomerName</h3>
+                                
+                                <p class="text-light mb-2">@td.CustomerPhone</p>
+                                <p class="text-light mb-2"><strong>Booking Date:</strong> @td.BookingDate.ToString("yyyy-MM-dd")</p>
+
+                                <ul class="list-unstyled mb-3">
+                                    <li><strong>Brand:</strong> @td.Car?.Brand</li>
+                                    <li><strong>Transmission:</strong> @td.Car?.Transmission</li>
+                                    <li><strong>Variant:</strong> @td.Car?.Variant</li>
+                                </ul>
+
+                                <span class="badge bg-success fs-6">$@td.Car?.Price</span>
+                            </div>
+                            <a href="/Home/VehicleDetail/@td.Car?.CarId" class="btn btn-primary w-100 rounded-pill fw-semibold mt-2">
+                                View Car Details
+                            </a>
+                        </div>
+
+                        <!-- Right Side: Car Image -->
+                        <div class="col-md-6">
+                            <img src="@td.Car?.ImageUrl"
+                                 class="img-fluid h-100 w-100"
+                                 alt="@td.Car?.Model"
+                                 style="object-fit:cover;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+.card img {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+</style>

@@ -1,0 +1,26 @@
+﻿@model ZedCars.Net8.Models.Accessory
+
+@{
+    ViewData["Title"] = "Delete Accessory";
+}
+
+<h1>Delete Accessory</h1>
+<hr />
+<h4>Are you sure you want to delete this?</h4>
+
+<dl class="row">
+    <dt class="col-sm-2">Name</dt>
+    <dd class="col-sm-10">@Model.Name</dd>
+
+    <dt class="col-sm-2">Category</dt>
+    <dd class="col-sm-10">@Model.Category</dd>
+
+    <dt class="col-sm-2">Price</dt>
+    <dd class="col-sm-10">@Model.Price</dd>
+</dl>
+
+<form asp-action="Delete" asp-route-id="@Model.AccessoryId">
+    <input type="hidden" asp-for="AccessoryId" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

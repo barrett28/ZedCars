@@ -1,0 +1,401 @@
+﻿@model ZedCars.Net8.Models.Car
+
+@{
+    ViewData["Title"] = "Vehicle Details";
+}
+<div class="container vehicle-detail">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/Home/Inventory">Inventory</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Brand @Model.Model</li>
+        </ol>
+    </nav>
+
+    <!-- Vehicle Header -->
+    <div class="mb-4">
+        <h1 class="fw-bold">@Model.Brand @Model.Model</h1>
+        <div class="d-flex flex-wrap gap-3 align-items-center">
+            <span class="text-muted">ID: #@Model.CarId</span>
+            <span class="badge @(Model.StockQuantity > 0 ? "bg-success" : "bg-danger")">
+                @(Model.StockQuantity > 0 ? "Available" : "Out of Stock")
+            </span>
+        </div>
+    </div>
+
+    <!-- Main + Sidebar -->
+    <div class="row g-4">
+        <!-- Main Content -->
+        <div class="col-12 col-lg-8">
+            <!-- Vehicle Gallery -->
+            <div class="vehicle-gallery mb-4 shadow-sm rounded">
+                <img src="@(!string.IsNullOrEmpty(Model.ImageUrl) ? Model.ImageUrl : "https://via.placeholder.com/600x400?text=No+Image")"
+                     alt="@Model.Brand @Model.Model"
+                     class="img-fluid rounded main-vehicle-img" />
+            </div>
+
+            <!-- Price & Purchase Card -->
+            <div class="price-purchase-card p-4 mb-4 rounded shadow-sm bg-primary text-white">
+                <div class="row align-items-center">
+                    <!-- Price & Stock -->
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <div class="fs-2 fw-bold d-flex align-items-center justify-content-center justify-content-md-start">
+                            $@Model.Price.ToString("N0")
+                        </div>
+                        <div class="small text-light mt-1">
+                            Stock: @Model.StockQuantity available
+                        </div>
+                    </div>
+
+                    @if (User.IsInRole("Customer"))
+                    {
+                        <!-- Purchase Button -->
+                        <div class="col-md-6 text-center text-md-end">
+                            <a asp-controller="Home" asp-action="Purchase" asp-route-id="@Model.CarId" class="btn btn-light btn-lg mb-1">
+                                <i class="bi bi-car-front me-2"></i> Purchase Now
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Specs Section -->
+            <div class="specs-section mb-4">
+                <h2 class="h5 mb-3">Vehicle Specifications</h2>
+                <div class="row g-2 gap-4">
+                    <div class="card col-6 col-md-3 spec-item p-3 shadow-sm rounded bg-white">
+                        <div class="text-muted small">Brand</div>
+                        <div class="fw-semibold">@Model.Brand</div>
+                    </div>
+                    <div class="card col-6 col-md-3 spec-item p-3 shadow-sm rounded bg-white">
+                        <div class="text-muted small">Model</div>
+                        <div class="fw-semibold">@Model.Model</div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Year))
+                    {
+                        <div class="card col-6 col-md-3 spec-item p-3 shadow-sm rounded bg-white">
+                            <div class="text-muted small">Year</div>
+                            <div class="fw-semibold">@Model.Year</div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Variant))
+                    {
+                        <div class="card col-6 col-md-3 spec-item p-3 shadow-sm rounded bg-white">
+                            <div class="text-muted small">Variant</div>
+                            <div class="fw-semibold">@Model.Variant</div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Transmission))
+                    {
+                        <div class="card col-6 col-md-3 spec-item p-3 shadow-sm rounded bg-white">
+                            <div class="text-muted small">Transmission</div>
+                            <div class="fw-semibold">@Model.Transmission</div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.FuelType))
+                    {
+                        <div class="card col-6 col-md-3 spec-item p-3 shadow-sm rounded bg-white">
+                            <div class="text-muted small">Fuel Type</div>
+                            <div class="fw-semibold">@Model.FuelType</div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Color))
+                    {
+                        <div class="card col-6 col-md-3 spec-item p-3 shadow-sm rounded bg-white">
+                            <div class="text-muted small">Color</div>
+                            <div class="fw-semibold">@Model.Color</div>
+                        </div>
+                    }
+                    @if (Model.Mileage.HasValue)
+                    {
+                        <div class="card col-6 col-md-3 spec-item p-3 shadow-sm rounded bg-white">
+                            <div class="text-muted small">Mileage</div>
+                            <div class="fw-semibold">@Model.Mileage.Value.ToString("N0") MPG</div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Features Section -->
+           
+        </div>
+        <!-- Sidebar -->
+        <div class="col-12 col-lg-4">
+            <div class="d-flex flex-column gap-4">
+                <!-- Action Card -->
+                <div class="card p-3 shadow-sm">
+                    <h5>Interested in this vehicle?</h5>
+                    <div class="d-grid gap-2 mt-2">
+                        <a href="/Home/Contact?vehicle=@Model.CarId" class="btn btn-primary">Contact Us</a>
+
+                        @if (User.IsInRole("Customer")){
+                        <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Schedule Test Drive</a>
+                        }
+                    </div>
+                </div>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+               
+                
+                <!--Pop up Modal for test drive schedulling-->
+               
+                
+                <!-- Modal -->
+                
+                <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content p-3">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="bookingModalLabel">Book Your Slot</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form asp-action="BookTestDrive" asp-controller="Home" method="post">
+                                    <input type="hidden" name="CarId" value="@Model.CarId" />
+
+                                    <!-- Customer Information Section -->
+                                    <div class="mb-4">
+                                        <h6 class="text-primary mb-3"><i class="fas fa-user me-2"></i>Customer Information</h6>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-semibold">Full Name *</label>
+                                                <input type="text" name="CustomerName" class="form-control form-control-lg"
+                                                       value="@(User.Identity.IsAuthenticated? User.FindFirst("FullName")?.Value : "")"
+                                                       @(User.Identity.IsAuthenticated ? "readonly" : "")
+                                                       placeholder="Enter your full name" required />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-semibold">Email Address *</label>
+                                                <input type="email" name="CustomerEmail" class="form-control form-control-lg"
+                                                       value="@(User.Identity.IsAuthenticated? User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value : "")"
+                                                       @(User.Identity.IsAuthenticated ? "readonly" : "")
+                                                       placeholder="Enter your email" required />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-semibold">Phone Number *</label>
+                                                <input type="tel" name="CustomerPhone" class="form-control form-control-lg"
+                                                       placeholder="Enter your phone number" required />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-semibold">Preferred Date *</label>
+                                                <input type="date" name="BookingDate" class="form-control form-control-lg"
+                                                       min="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Time Slot Selection -->
+                                    <div class="mb-4">
+                                        <h6 class="text-primary mb-3"><i class="fas fa-clock me-2"></i>Select Time Slot *</h6>
+                                        <div class="row g-2">
+                                            @foreach (var time in new[] { "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM" })
+                                            {
+                                                <div class="col-6 col-md-3">
+                                                    <input type="radio" class="btn-check" name="TimeSlot" value="@time" id="time_@time.Replace(" ", "").Replace(":", "")" required>
+                                                    <label class="btn btn-outline-primary w-100 py-2" for="time_@time.Replace(" ", "").Replace(":", "")">
+                                                        <i class="fas fa-clock me-1"></i>@time
+                                                    </label>
+                                                </div>
+                                            }
+                                        </div>
+                                        <small class="text-muted mt-2 d-block">
+                                            <i class="fas fa-info-circle me-1"></i>Please select your preferred time slot for the test drive
+                                        </small>
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="d-flex gap-2 justify-content-end pt-3 border-top">
+                                        <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">
+                                            <i class="fas fa-times me-1"></i>Cancel
+                                        </button>
+                                        <button type="submit" class="btn btn-primary px-4">
+                                            <i class="fas fa-calendar-check me-1"></i>Book Test Drive
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    function selectTime(btn) {
+                        // Set hidden input value
+                        document.getElementById('TimeSlot').value = btn.innerText;
+
+                        // Highlight selected button
+                        document.querySelectorAll('.btn-outline-primary').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                    }
+                </script>
+
+                <!-- Bootstrap JS (Bundle includes Popper) -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+                <!-- Flatpickr JS -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+                <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                <script>
+                    flatpickr("#calendar", {
+                        inline: true,
+                        dateFormat: "Y-m-d"
+                    });
+                </script>
+
+
+                <!-- Info Card -->
+                <div class="card p-3 shadow-sm">
+                    <h5>Vehicle Location</h5>
+                    <p class="mb-0">
+                        <strong>ZedCars Main Showroom</strong><br />
+                        123 Auto Avenue<br />
+                        Cartown, CT 12345<br />
+                        <small>Phone: (555) 123-4567</small>
+                    </p>
+                </div>
+
+                <!-- Quick Facts -->
+                <div class="card p-3 shadow-sm">
+                    <h5>Quick Facts</h5>
+                    <div class="d-flex flex-column gap-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Stock ID:</span>
+                            <span>#@Model.CarId</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Availability:</span>
+                            <span class="fw-semibold @(Model.StockQuantity > 0 ? "text-success" : "text-danger")">
+                                @(Model.StockQuantity > 0 ? "In Stock" : "Out of Stock")
+                            </span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Quantity:</span>
+                            <span>@Model.StockQuantity units</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="card p-3 shadow-sm">
+                    <h5>Description</h5>
+                    <p>
+                        @if (!string.IsNullOrEmpty(Model.Description))
+                        {
+                            @Model.Description
+                        }
+                        else
+                        {
+                            <text>Experience the ultimate driving machine with this stunning @Model.Year @Model.Brand @Model.Model. Luxury, performance, and technology in one package.</text>
+                        }
+                    </p>
+                </div>
+
+                <div class="card p-3 shadow-sm rounded-3">
+                    <h5 class="mb-3">Share this Car</h5>
+                    <div class="d-flex justify-content-start align-items-center gap-3">
+                        <a href="#" class="btn btn-outline-primary btn-sm rounded-circle">
+                            <i class="bi bi-facebook fs-5"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-info btn-sm rounded-circle">
+                            <i class="bi bi-twitter fs-5"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-primary btn-sm rounded-circle">
+                            <i class="bi bi-linkedin fs-5"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="features-section mb-4">
+            <h2 class="h5 mb-3 text-center">Features & Options</h2>
+            <div class="row g-3">
+                <!-- Safety Features -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feature-category p-3 rounded shadow-sm bg-white h-100">
+                        <h3 class="h6">Safety Features</h3>
+                        <ul class="mb-0 ps-3">
+                            <li>ABS Brakes</li>
+                            <li>Airbags</li>
+                            <li>Traction Control</li>
+                            <li>Rear Parking Sensors</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Comfort & Convenience -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feature-category p-3 rounded shadow-sm bg-white h-100">
+                        <h3 class="h6">Comfort & Convenience</h3>
+                        <ul class="mb-0 ps-3">
+                            <li>Automatic Climate Control</li>
+                            <li>Leather Seats</li>
+                            <li>Heated Steering Wheel</li>
+                            <li>Keyless Entry</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Technology -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feature-category p-3 rounded shadow-sm bg-white h-100">
+                        <h3 class="h6">Technology</h3>
+                        <ul class="mb-0 ps-3">
+                            <li>Touchscreen Infotainment</li>
+                            <li>Apple CarPlay / Android Auto</li>
+                            <li>Bluetooth & USB</li>
+                            <li>Navigation System</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Vehicle Specs -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feature-category p-3 rounded shadow-sm bg-white h-100">
+                        <h3 class="h6">Vehicle Specifications</h3>
+                        <ul class="mb-0 ps-3">
+                            <li>@Model.Brand @Model.Model @(!string.IsNullOrEmpty(Model.Variant) ? $"({Model.Variant})" : "")</li>
+                            @if (!string.IsNullOrEmpty(Model.Year))
+                            {
+                                <li>@Model.Year Model Year</li>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Transmission))
+                            {
+                                <li>@Model.Transmission Transmission</li>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.FuelType))
+                            {
+                                <li>@Model.FuelType Engine</li>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Color))
+                            {
+                                <li>@Model.Color Exterior Color</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .vehicle-detail h1 {
+        font-size: 2rem;
+    }
+
+    .vehicle-gallery img {
+        object-fit: cover;
+        width: 100%;
+        height: auto;
+    }
+
+    .spec-item, .feature-category, .card {
+        border-radius: 12px;
+    }
+
+        .spec-item .fw-semibold {
+            font-size: 0.95rem;
+        }
+
+        .feature-category h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+</style>

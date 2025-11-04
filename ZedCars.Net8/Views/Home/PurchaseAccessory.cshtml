@@ -1,0 +1,79 @@
+@using ZedCars.Net8.ViewModels.HomeCont
+@model PurchaseAccessoryViewModel
+
+@{
+    ViewData["Title"] = "Purchase Accessories";
+}
+
+<div class="container p-4">
+    <h2 class="mb-4 text-center">@ViewData["Title"]</h2>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form asp-action="PurchaseAccessory" method="post">
+                
+                <!-- Buyer Information -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label asp-for="BuyerName" class="form-label">Full Name</label>
+                        <input asp-for="BuyerName" class="form-control" placeholder="Enter your name" />
+                        <span asp-validation-for="BuyerName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="BuyerEmail" class="form-label">Email Address</label>
+                        <input asp-for="BuyerEmail" class="form-control" placeholder="Enter your email" />
+                        <span asp-validation-for="BuyerEmail" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Dynamic Accessories Selection -->
+                <h5 class="mb-3">Select Accessories</h5>
+                <div class="row">
+                    @foreach (var categoryGroup in Model.Accessories.GroupBy(a => a.Category))
+                    {
+                        <div class="col-md-6 mb-4">
+                            <h6 class="border-bottom pb-1 fw-bold">@categoryGroup.Key</h6>
+                            @foreach (var accessory in categoryGroup)
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" 
+                                           type="checkbox" 
+                                           name="SelectedAccessories" 
+                                           value="@accessory.Name" 
+                                           id="accessory_@accessory.AccessoryId" />
+                                    <label class="form-check-label" for="accessory_@accessory.AccessoryId">
+                                        @accessory.Name 
+                                        <span class="text-success fw-bold">($@accessory.Price?.ToString("F2"))</span>
+                                        @if (accessory.StockQuantity <= 5)
+                                        {
+                                            <span class="badge bg-warning text-dark ms-1">Low Stock</span>
+                                        }
+                                    </label>
+                                    @if (!string.IsNullOrEmpty(accessory.Description))
+                                    {
+                                        <small class="text-muted d-block">@accessory.Description</small>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-secondary btn-lg">Cancel</a>
+                    <button type="submit" class="btn btn-success btn-lg">Purchase Accessories</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

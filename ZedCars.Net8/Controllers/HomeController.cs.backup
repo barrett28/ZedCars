@@ -1,0 +1,310 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ZedCars.Net8.Data;
+using ZedCars.Net8.Models;
+using ZedCars.Net8.Services;
+
+namespace ZedCars.Net8.Controllers
+{
+    public class HomeController : Controller
+    {
+        private readonly CarRepository _carRepository;
+        private readonly PurchaseRepository _purchaseRepository;
+        private readonly TestDriveRepository _testDriveRepository;
+        private readonly ZedCarsContext _context;
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(CarRepository carRepository,PurchaseRepository purchaseRepository, TestDriveRepository testDriveRepository, ZedCarsContext context, ILogger<HomeController> logger)
+        {
+            _carRepository = carRepository;
+            _purchaseRepository = purchaseRepository;
+            _testDriveRepository = testDriveRepository;
+            _context = context;
+            _logger = logger;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            ViewBag.Message = "Welcome to ZedCars!";
+            ViewBag.CurrentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+            //Get number of active vehicles 
+            int vehicleCount = await _carRepository.GetActiveCarsAsync();
+            ViewBag.VehicleCount = vehicleCount;
+
+            // Get cars for featured vehicles section
+            var featuredCars = await _carRepository.GetRandomCarsAsync(3);
+            return View(featuredCars);
+        }
+
+        public IActionResult About()
+        {
+            ViewBag.Message = "About ZedCars";
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            ViewBag.Message = "Contact Us";
+            return View();
+        }
+
+        [Authorize(Roles = "SuperAdmin,Customer,Manager")]
+        public async Task<IActionResult> Inventory(string? brand, string? priceRange, string? fuelType,int page=1)
+        {
+            List<Car> cars = await _carRepository.GetAllCarsAsync();
+
+            // Filter by brand
+            if (!string.IsNullOrEmpty(brand))
+            {
+                cars = cars.Where(c => c.Brand == brand).ToList();
+            }
+
+            // Filter by fuel type
+            if (!string.IsNullOrEmpty(fuelType))
+            {
+                cars = cars.Where(c => c.FuelType != null && c.FuelType.Contains(fuelType)).ToList();
+            }
+
+            // Filter by price range
+            if (!string.IsNullOrEmpty(priceRange))
+            {
+                var parts = priceRange.Split('-');
+                if (parts.Length == 2 &&
+                    decimal.TryParse(parts[0], out var minPrice) &&
+                    decimal.TryParse(parts[1], out var maxPrice))
+                {
+                    cars = cars.Where(c => c.Price >= minPrice && c.Price <= maxPrice).ToList();
+                }
+            }
+
+            const int pageSize = 6;
+            var totalCars = cars.Count;
+            var totalPages = (int)Math.Ceiling((double)totalCars / pageSize);
+            var pagedcars = cars.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            var brands = await _carRepository.GetDistinctBrandsAsync();
+            var fuelTypes = await _carRepository.GetDistinctFuelTypesAsync();
+
+            ViewBag.Brands = brands;
+            ViewBag.FuelTypes = fuelTypes;
+            ViewBag.SelectedBrand = brand;
+            ViewBag.SelectedFuelType = fuelType;
+            ViewBag.SelectedPriceRange = priceRange;
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalCars = totalCars;
+
+            return View(pagedcars);
+        }
+
+
+        public async Task<IActionResult> VehicleDetail(int id)
+        {
+            var car = await _carRepository.GetCarByIdAsync(id);
+            if (car == null)
+            {
+                return NotFound();
+            }
+            return View(car);
+        }
+
+        public IActionResult PurchaseAccessory()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PurchaseAccessory(string buyerName, string buyerEmail, List<string> selectedAccessories)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(purchase);
+            }
+
+            if (selectedAccessories == null || !selectedAccessories.Any())
+            {
+                ModelState.AddModelError("", "Please select at least one accessory.");
+                return View(purchase);
+            }
+
+            // Save each accessory as separate record
+            foreach (var accessory in selectedAccessories)
+            {
+                var accessoryPurchase = new AccessoryPurchase
+                {
+                    BuyerName = purchase.BuyerName,
+                    BuyerEmail = purchase.BuyerEmail,
+                    AccessoryName = accessory,
+                    Quantity = 1,
+                    TotalPrice = 50,
+                    PurchaseDate = DateTime.Now
+                };
+
+                _context.AccessoryPurchases.Add(accessoryPurchase);
+            }
+
+            await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Accessories purchased successfully!";
+            return RedirectToAction("Index");
+        }        
+
+        public IActionResult Direct()
+        {
+            ViewBag.Message = "Direct View Test";
+            ViewBag.CurrentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            return View();
+        }
+
+        public IActionResult Test()
+        {
+            return Content("Home controller is working! Time: " + DateTime.Now);
+        }
+
+        public IActionResult Status()
+        {
+            return Json(new 
+            { 
+                Status = "OK", 
+                Controller = "Home", 
+                Time = DateTime.Now.ToString() 
+            });
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> Purchase(int id)
+        {
+            var car = await _carRepository.GetCarByIdAsync(id);
+            if (car == null) return NotFound();
+
+            var purchase = new Purchase()
+            {
+                CarId = car.CarId.Value,
+                Car = car
+            };
+            return View(purchase);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Purchase(Purchase purchase,List<string> selectedAccessories)
+        {
+            if (!ModelState.IsValid)
+            {
+                purchase.Car = await _carRepository.GetCarByIdAsync(purchase.CarId);
+                return View(purchase);
+            }
+
+            // Get car details to calculate price
+            var car = await _carRepository.GetCarByIdAsync(purchase.CarId);
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+            // Set the purchase price
+            purchase.PurchasePrice = car.Price * purchase.PurchaseQuantity;
+            purchase.Car = car;
+            purchase.SelectedAccessories = selectedAccessories ?? new List<string>();
+
+            await _purchaseRepository.AddPurchaseWithAccessoriesAsync(purchase,selectedAccessories);
+            return RedirectToAction("Inventory", "Home");
+        }
+
+        [Authorize(Roles ="Customer")]
+        public async Task<IActionResult> MyPurchases()
+        {
+            // Get current user's email from authentication claims
+            var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+            
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var cars = await _purchaseRepository.GetCarsPurchasedByCustomerAsync(userEmail);
+            return View(cars);
+        }
+
+        // Methods for testdrive functionality
+
+        [Authorize(Roles ="Customer")]
+        public async Task<IActionResult> MyTestDrives()
+        {
+            var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+
+
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var testDrives = await _testDriveRepository.GetTestDrivesByCustomerAsync(userEmail);
+            return View(testDrives);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BookTestDrive(TestDrive testDrive)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Please fill all required fields.";
+                return RedirectToAction("VehicleDetail", new { id = testDrive.CarId });
+            }
+
+            // Check if slot is available
+            var isAvailable = await _testDriveRepository.IsSlotAvailableAsync(testDrive.BookingDate, testDrive.TimeSlot);
+            if (!isAvailable)
+            {
+                TempData["ErrorMessage"] = "Selected time slot is not available.";
+                return RedirectToAction("VehicleDetail", new { id = testDrive.CarId });
+            }
+
+            await _testDriveRepository.AddTestDriveAsync(testDrive);
+            TempData["SuccessMessage"] = "Test drive booked successfully!";
+            return RedirectToAction("VehicleDetail", new { id = testDrive.CarId });
+        }
+
+        public async Task<IActionResult> TestDrive(int id)
+        {
+            var car = await _carRepository.GetCarByIdAsync(id);
+            if(car == null) return NotFound();
+
+            var testDrive = new TestDrive()
+            {
+                CarId = car.CarId.Value,
+                Car = car
+            };
+            return View(testDrive);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TestDrive(TestDrive testDrive)
+        {
+            if (!ModelState.IsValid)
+            {
+                testDrive.Car = await _carRepository.GetCarByIdAsync(testDrive.CarId);
+                return View(testDrive);
+            }
+
+            // Checking if slot is avaliable
+            var isAvailable = await _testDriveRepository.IsSlotAvailableAsync(testDrive.BookingDate, testDrive.TimeSlot);
+            if (!isAvailable)
+            {
+                ModelState.AddModelError("", "Selected time slot is not available.");
+                testDrive.Car = await _carRepository.GetCarByIdAsync(testDrive.CarId);
+                return View(testDrive);
+            }
+            await _testDriveRepository.AddTestDriveAsync(testDrive);
+            return RedirectToAction("VehicleDetail", new { id = testDrive.CarId });
+        }
+
+    }
+}

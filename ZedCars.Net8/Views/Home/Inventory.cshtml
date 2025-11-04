@@ -1,0 +1,352 @@
+@model ZedCars.Net8.ViewModels.HomeCont.InventoryViewModel
+@{
+    ViewData["Title"] = "Vehicle-Inventory";
+}
+
+<div class="inventory-page">
+    <div class="page-header">
+        <h1>Vehicle Inventory</h1>
+        <p>Browse our selection of quality vehicles</p>
+    </div>
+
+    <!-- Combined Filter Form -->
+    <form method="get" class="mb-4">
+        <div class="row g-3 align-items-center justify-content-center">
+            <!-- Brand Selection -->
+            <div class="col-auto">
+                <select name="brand" class="form-select">
+                    <option value="">All Brands</option>
+                    @foreach (var brand in Model.Brands)
+                    {
+                        <option value="@brand" selected="@(Model.SelectedBrand == brand)">@brand</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Price Range -->
+            <div class="col-auto">
+                <select name="priceRange" class="form-select">
+                    <option value="">All Prices</option>
+                    <option value="0-20000" selected="@(Model.SelectedPriceRange == "0-20000")">$0 - $20,000</option>
+                    <option value="20001-30000" selected="@(Model.SelectedPriceRange == "20001-30000")">$20,001 - $30,000</option>
+                    <option value="30001-40000" selected="@(Model.SelectedPriceRange == "30001-40000")">$30,001 - $40,000</option>
+                    <option value="40001-50000" selected="@(Model.SelectedPriceRange == "40001-50000")">$40,001 - $50,000</option>
+                    <option value="50001-55000" selected="@(Model.SelectedPriceRange == "50001-55000")">$50,001 - $55,000</option>
+                </select>
+            </div>
+
+            <!-- Fuel Type -->
+            <div class="col-auto">
+                <select name="fuelType" class="form-select">
+                    <option value="">All Fuel Types</option>
+                    @foreach (var fuel in Model.FuelTypes)
+                    {
+                        <option value="@fuel" selected="@(Model.SelectedFuelType == fuel)">@fuel</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Filter Button -->
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Vehicle Grid -->
+    <div class="inventory-grid">
+        @foreach (var car in Model.Cars)
+        {
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="@(!string.IsNullOrEmpty(car.ImageUrl) ? car.ImageUrl : "https://via.placeholder.com/300x200?text=No+Image")" alt="@car.Make @car.Model" />
+                    @if (car.StockQuantity <= 0)
+                    {
+                        <div class="out-of-stock-overlay">Out of Stock</div>
+                    }
+                </div>
+
+                <div class="vehicle-info bg-opacity-75 bg-black">
+                    <h3 class="text-white">@car.Make @car.Model</h3>
+                    @if (!string.IsNullOrEmpty(car.Year))
+                    {
+                        <p class="vehicle-year">@car.Year</p>
+                    }
+
+                    <div class="vehicle-details">
+                        @if (!string.IsNullOrEmpty(car.FuelType))
+                        {
+                            <span class="detail-item">@car.FuelType</span>
+                        }
+                        @if (!string.IsNullOrEmpty(car.Transmission))
+                        {
+                            <span class="detail-item">@car.Transmission</span>
+                        }
+                        @if (car.Mileage.HasValue)
+                        {
+                            <span class="detail-item">@car.Mileage.Value.ToString("N0") miles</span>
+                        }
+                    </div>
+
+                    <div class="vehicle-price">
+                        <span class="price">$@car.Price.ToString("N0")</span>
+                        <span class="stock">Stock: @car.StockQuantity</span>
+                    </div>
+
+                    <div class="vehicle-actions">
+                        <a href="/Home/VehicleDetail/@car.CarId" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (!Model.Cars.Any())
+    {
+        <div class="no-vehicles">
+            <h3>No vehicles available</h3>
+            <p>Please check back later for new inventory.</p>
+        </div>
+    }
+
+    <!-- Pagination -->
+    @if (Model.TotalPages > 1)
+    {
+        <nav aria-label="Inventory pagination" class="mt-4">
+            <ul class="pagination justify-content-end">
+                <!-- Previous Button -->
+                <li class="page-item @(Model.CurrentPage <= 1 ? "disabled" : "")">
+                    <a class="page-link"
+                       href="@Url.Action("Inventory", new { brand = Model.SelectedBrand, priceRange = Model.SelectedPriceRange,fuelType = Model.SelectedFuelType,page = Model.CurrentPage - 1 })"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <!-- Page Numbers -->
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link"
+                           href="@Url.Action("Inventory", new { brand = Model.SelectedBrand, priceRange = Model.SelectedPriceRange, fuelType = Model.SelectedFuelType, page = i })">
+                            @i
+                        </a>
+                    </li>
+                }
+
+                <!-- Next Button -->
+                <li class="page-item @(Model.CurrentPage >= Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link"
+                       href="@Url.Action("Inventory", new { brand = Model.SelectedBrand, priceRange = Model.SelectedPriceRange, fuelType = Model.SelectedFuelType, page = Model.CurrentPage + 1 })"
+                       aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Pagination Info -->
+        <div class="text-center text-muted mt-2">
+            <small>
+                Showing @((Model.CurrentPage - 1) * Model.PageSize + 1) to
+                @(Math.Min(Model.CurrentPage * Model.PageSize, Model.TotalCars))
+                of @Model.TotalCars vehicles
+            </small>
+        </div>
+    }
+</div>
+
+<style>
+    /* Page Wrapper */
+    .inventory-page {
+        padding: 40px 20px;
+        background: #f4f6f9;
+        min-height: 100vh;
+        font-family: "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* Page Header */
+    .page-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+        }
+
+    /* Brand Filter */
+    .brand-filter {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .brand-item {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 25px;
+        border: 1px solid #3498db;
+        color: #3498db;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin: 5px;
+    }
+
+        .brand-item:hover,
+        .brand-item.active {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+    /* Vehicle Grid */
+    .inventory-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 30px;
+    }
+
+    /* Vehicle Card */
+    .vehicle-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .vehicle-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+    }
+
+    /* Vehicle Image */
+    .vehicle-image {
+        position: relative;
+        height: 220px;
+        overflow: hidden;
+    }
+
+        .vehicle-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+    .vehicle-card:hover .vehicle-image img {
+        transform: scale(1.05);
+    }
+
+    /* Out of Stock Overlay */
+    .out-of-stock-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.7);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+
+    /* Vehicle Info */
+    .vehicle-info {
+        padding: 20px 22px;
+    }
+
+        .vehicle-info h3 {
+            margin: 0 0 6px 0;
+            color: #2c3e50;
+            font-size: 1.3rem;
+        }
+
+    .vehicle-year {
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        margin-bottom: 12px;
+    }
+
+    /* Vehicle Details */
+    .vehicle-details {
+        margin-bottom: 15px;
+    }
+
+    .detail-item {
+        display: inline-block;
+        background: #ecf0f1;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        margin: 3px 5px 3px 0;
+        color: #34495e;
+    }
+
+    /* Vehicle Price & Stock */
+    .vehicle-price {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .price {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #9de1f2;
+    }
+
+    .stock {
+        font-size: 0.85rem;
+        color: #7f8c8d;
+    }
+
+    /* Vehicle Action Button */
+    .vehicle-actions {
+        text-align: right;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-block;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .btn-primary {
+        background: #33d6ff;
+        color: black;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    /* No Vehicles */
+    .no-vehicles {
+        text-align: center;
+        padding: 80px 20px;
+        font-size: 1.1rem;
+        color: #7f8c8d;
+    }
+    </style>

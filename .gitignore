@@ -1,0 +1,23 @@
+# Build results
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.pdb
+
+# ASP.NET
+App_Data/
+packages/
+
+# Logs
+*.log
+
+# Temporary files
+*~
+*.tmp

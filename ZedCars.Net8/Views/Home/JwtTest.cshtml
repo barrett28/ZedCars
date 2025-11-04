@@ -1,0 +1,94 @@
+@{
+    ViewData["Title"] = "JWT Test";
+}
+
+<div class="container mt-4">
+    <h2>JWT Authentication Test</h2>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Login with JWT</h5>
+                </div>
+                <div class="card-body">
+                    <form id="jwtLoginForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" value="admin">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" value="admin123">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="button" class="btn btn-secondary" onclick="jwtAuth.logoutAndRedirect()">Logout</button>
+                    </form>
+                    <div id="loginResult" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Test JWT API Calls</h5>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-info mb-2" onclick="testInventoryApi()">Test Inventory API</button>
+                    <button class="btn btn-info mb-2" onclick="testVehicleApi()">Test Vehicle API</button>
+                    <button class="btn btn-info mb-2" onclick="testPurchasesApi()">Test Purchases API</button>
+                    <div id="apiResult" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('jwtLoginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    
+    const result = await jwtAuth.login(username, password);
+    
+    const resultDiv = document.getElementById('loginResult');
+    if (result.success) {
+        resultDiv.innerHTML = `<div class="alert alert-success">Login successful! User: ${result.user.fullName}</div>`;
+    } else {
+        resultDiv.innerHTML = `<div class="alert alert-danger">Login failed: ${result.message}</div>`;
+    }
+});
+
+async function testInventoryApi() {
+    try {
+        const response = await jwtAuth.apiRequest('/api/home/inventory');
+        const data = await response.json();
+        document.getElementById('apiResult').innerHTML = `<div class="alert alert-success">Inventory API: ${JSON.stringify(data, null, 2)}</div>`;
+    } catch (error) {
+        document.getElementById('apiResult').innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+    }
+}
+
+async function testVehicleApi() {
+    try {
+        const response = await jwtAuth.apiRequest('/api/home/vehicle/1');
+        const data = await response.json();
+        document.getElementById('apiResult').innerHTML = `<div class="alert alert-success">Vehicle API: ${JSON.stringify(data, null, 2)}</div>`;
+    } catch (error) {
+        document.getElementById('apiResult').innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+    }
+}
+
+async function testPurchasesApi() {
+    try {
+        const response = await jwtAuth.apiRequest('/api/home/purchases');
+        const data = await response.json();
+        document.getElementById('apiResult').innerHTML = `<div class="alert alert-success">Purchases API: ${JSON.stringify(data, null, 2)}</div>`;
+    } catch (error) {
+        document.getElementById('apiResult').innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+    }
+}
+</script>

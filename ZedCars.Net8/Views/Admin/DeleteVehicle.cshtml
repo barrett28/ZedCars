@@ -1,0 +1,57 @@
+﻿@model ZedCars.Net8.Models.Car
+@{
+    ViewData["Title"] = "Delete Vehicle";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Delete Vehicle</h4>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="text-danger mb-3">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        Are you sure you want to delete this vehicle?
+                    </h5>
+                    <p class="mb-4">
+                        This will <strong>soft delete</strong> the vehicle (it won’t show in listings but remains in the database).
+                    </p>
+
+                    <!-- Vehicle preview -->
+                    <div class="d-flex align-items-center mb-4">
+                        <img src="@(!string.IsNullOrEmpty(Model.ImageUrl) ? Model.ImageUrl : "https://via.placeholder.com/120x80?text=No+Image")"
+                             alt="@Model.Brand @Model.Model"
+                             class="img-thumbnail me-3"
+                             style="width: 120px; height: 80px; object-fit: cover;" />
+
+                        <div>
+                            <h5 class="mb-1">@Model.Brand @Model.Model (@Model.Year)</h5>
+                            <p class="text-muted mb-0">@Model.Variant</p>
+                            <small class="text-secondary">Price: $@Model.Price.ToString("N0") | Stock: @Model.StockQuantity</small>
+                        </div>
+                    </div>
+
+                    <!-- Confirmation form -->
+                    <form asp-action="DeleteVehicle" method="post">
+                        <input type="hidden" asp-for="CarId" />
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Yes, Delete
+                            </button>
+                            <a asp-action="Inventory" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer text-muted small">
+                    Deleted by: @User.Identity?.Name ?? "Admin" • @DateTime.Now.ToString("g")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

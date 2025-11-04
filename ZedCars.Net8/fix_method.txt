@@ -1,0 +1,32 @@
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PurchaseAccessory(string buyerName, string buyerEmail, List<string> selectedAccessories)
+        {
+            if (string.IsNullOrEmpty(buyerName) || string.IsNullOrEmpty(buyerEmail))
+            {
+                TempData["ErrorMessage"] = "Please fill in all required fields.";
+                return View();
+            }
+
+            if (selectedAccessories == null || !selectedAccessories.Any())
+            {
+                TempData["ErrorMessage"] = "Please select at least one accessory.";
+                return View();
+            }
+
+            // Create single record with comma-separated accessories
+            var accessoryPurchase = new AccessoryPurchase
+            {
+                BuyerName = buyerName,
+                BuyerEmail = buyerEmail,
+                SelectedAccessories = selectedAccessories,
+                TotalPrice = selectedAccessories.Count * 50,
+                PurchaseDate = DateTime.Now
+            };
+
+            _context.AccessoryPurchases.Add(accessoryPurchase);
+            await _context.SaveChangesAsync();
+            
+            TempData["SuccessMessage"] = "Accessories purchased successfully!";
+            return RedirectToAction("Index");
+        }

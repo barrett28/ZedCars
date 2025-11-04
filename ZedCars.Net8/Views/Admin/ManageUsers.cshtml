@@ -1,0 +1,115 @@
+@model List<ZedCars.Net8.Models.Admin>
+@{
+    ViewData["Title"] = "Manage Users";
+}
+<style>
+    .ManageUser-header{
+        background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+        color: white;
+        /* padding: 30px;
+        margin: -30px -30px 30px -30px;
+        border-radius: 8px 8px 0 0; */
+    }
+    .btn {
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    
+    .btn-primary {
+        background: #3498db;
+        color: white;
+    }
+    
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+    #action{
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
+</style>
+
+<div class="ManageUser-header p-4">
+    <h1>Manage Users</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4" id="action">
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New User
+        </a>
+    </div>
+</div>
+<div class="container-fluid mt-4" style="min-height:70vh;">
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th class="d-none d-md-table-cell">Email</th>
+                    <th>Role</th>
+                    <th class="d-none d-md-table-cell">Status</th>
+                    <th class="d-none d-md-table-cell">Department</th>
+                    <th class="d-none d-lg-table-cell">Permissions</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model?.Any() == true)
+                {
+                    @foreach (var admin in Model)
+                    {
+                        <tr>
+                            <td>
+                                <strong>@admin.FullName</strong>
+                                <div class="d-md-none small text-muted">@admin.Email</div>
+                            </td>
+                            <td>@admin.Username</td>
+                            <td class="d-none d-md-table-cell">@admin.Email</td>
+                            <td>
+                                <span class="badge bg-@(admin.Role == "SuperAdmin" ? "danger" : admin.Role == "Manager" ? "warning" : "secondary")">
+                                    @admin.Role
+                                </span>
+                            </td>
+                            <td class="d-none d-md-table-cell">
+                                <span class="badge bg-@(admin.IsActive ? "success" : "secondary")">
+                                    @(admin.IsActive ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                            <td class="d-none d-md-table-cell">
+                                <span>@admin.Department</span>
+                            </td>
+                            <td class="d-none d-lg-table-cell">
+                                <span class="badge bg-info">@admin.Permissions</span>
+                            </td>
+                            <td>
+                                <div class="btn-group gap-1" role="group">
+                                    <a asp-action="Details" asp-route-id="@admin?.AdminId" class="btn btn-sm btn-info" title="Details">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@admin?.AdminId" class="btn btn-sm btn-warning" title="Edit">
+                                        <i class="bi bi-pen"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@admin?.AdminId" class="btn btn-sm btn-danger" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-4">
+                            <i class="fas fa-users fa-2x mb-2"></i>
+                            <div>No users found</div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
