@@ -60,6 +60,12 @@ namespace ZedCars.Net8.Controllers
                 return View(accessory);
         }
 
+        // GET: Accessory/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         // POST 
         // Accessory/Create
         [HttpPost]

@@ -1,0 +1,249 @@
+ZedCars .NET 8 REST API Documentation
+=====================================
+
+Base URL: http://localhost:5117
+
+AUTHENTICATION
+==============
+
+Login to get JWT Token
+POST /api/auth/login
+Content-Type: application/json
+
+Request Body:
+{
+  "username": "superadmin",
+  "password": "admin1"
+}
+
+Response:
+{
+  "accessToken": "jwt_token_here",
+  "refreshToken": "refresh_token_here",
+  "user": {
+    "adminId": 1,
+    "username": "superadmin",
+    "email": "admin@example.com",
+    "fullName": "Super Admin",
+    "role": "SuperAdmin"
+  }
+}
+
+Refresh Token
+POST /api/auth/refresh
+Content-Type: application/json
+
+Request Body:
+{
+  "refreshToken": "refresh_token_here"
+}
+
+Revoke Token
+POST /api/auth/revoke
+Authorization: Bearer {jwt_token}
+Content-Type: application/json
+
+Request Body:
+{
+  "refreshToken": "refresh_token_here"
+}
+
+HOME CONTROLLER APIs
+===================
+
+PUBLIC ENDPOINTS (No Authentication Required)
+=============================================
+
+Health Check
+GET /api/home/status
+
+Dashboard Data
+GET /api/home
+
+About Information
+GET /api/home/about
+
+Contact Information
+GET /api/home/contact
+
+Direct Test
+GET /api/home/direct
+
+Test Endpoint
+GET /api/home/test
+
+JWT Test
+GET /api/home/jwt-test
+
+Vehicle Details (Public)
+GET /api/home/vehicle/{id}
+Example: GET /api/home/vehicle/1
+
+Accessories List (Public)
+GET /api/home/accessories
+
+PROTECTED ENDPOINTS (JWT Authentication Required)
+===============================================
+
+Vehicle Inventory
+GET /api/home/inventory
+GET /api/home/inventory?brand=Toyota
+GET /api/home/inventory?priceRange=low
+GET /api/home/inventory?fuelType=Petrol
+GET /api/home/inventory?page=2
+GET /api/home/inventory?brand=Toyota&page=1&fuelType=Petrol
+
+User Purchases
+GET /api/home/purchases
+Authorization: Bearer {jwt_token}
+
+User Test Drives
+GET /api/home/testdrives
+Authorization: Bearer {jwt_token}
+
+Test Drive Details
+GET /api/home/testdrive/{id}
+Authorization: Bearer {jwt_token}
+Example: GET /api/home/testdrive/1
+
+Purchase Form Data
+GET /api/home/purchase/{id}
+Authorization: Bearer {jwt_token}
+Example: GET /api/home/purchase/1
+
+POST ENDPOINTS
+==============
+
+Purchase Vehicle
+POST /api/home/purchase
+Authorization: Bearer {jwt_token}
+Content-Type: application/json
+
+Request Body:
+{
+  "purchase": {
+    "carId": 1,
+    "buyerName": "John Doe",
+    "buyerEmail": "john@example.com",
+    "purchaseQuantity": 1
+  },
+  "selectedAccessories": ["GPS", "Sunroof"]
+}
+
+Purchase Accessories Only
+POST /api/home/accessories
+Authorization: Bearer {jwt_token}
+Content-Type: application/json
+
+Request Body:
+{
+  "buyerName": "John Doe",
+  "buyerEmail": "john@example.com",
+  "selectedAccessories": ["GPS", "Sunroof", "Leather Seats"]
+}
+
+Book Test Drive
+POST /api/home/testdrive
+Authorization: Bearer {jwt_token}
+Content-Type: application/json
+
+Request Body:
+{
+  "carId": 1,
+  "customerName": "John Doe",
+  "customerEmail": "john@example.com",
+  "bookingDate": "2024-12-15",
+  "timeSlot": "10:00 AM"
+}
+
+Book Test Drive (Alternative)
+POST /api/home/book-testdrive
+Authorization: Bearer {jwt_token}
+Content-Type: application/json
+
+Request Body:
+{
+  "carId": 1,
+  "customerName": "John Doe",
+  "customerEmail": "john@example.com",
+  "bookingDate": "2024-12-15",
+  "timeSlot": "2:00 PM"
+}
+
+TESTING SEQUENCE
+===============
+
+1. Login to get JWT token:
+   POST /api/auth/login
+
+2. Copy accessToken from response
+
+3. Set Authorization header in Postman:
+   Type: Bearer Token
+   Token: {paste_access_token_here}
+
+4. Test public endpoints (no auth needed):
+   GET /api/home/status
+   GET /api/home/about
+   GET /api/home/vehicle/1
+
+5. Test protected endpoints (with JWT):
+   GET /api/home/inventory
+   GET /api/home/purchases
+   GET /api/home/testdrives
+
+6. Test POST operations (with JWT):
+   POST /api/home/purchase
+   POST /api/home/testdrive
+   POST /api/home/accessories
+
+SAMPLE USERS
+===========
+
+SuperAdmin:
+- Username: admin1
+- Password: password123
+- Role: SuperAdmin
+
+Customer:
+- Username: Customer3
+- Password: password
+- Role: Customer
+
+ERROR RESPONSES
+==============
+
+401 Unauthorized:
+{
+  "message": "Invalid credentials"
+}
+
+404 Not Found:
+{
+  "message": "Resource not found"
+}
+
+400 Bad Request:
+{
+  "message": "Validation error message"
+}
+
+SUCCESS RESPONSES
+================
+
+200 OK:
+{
+  "message": "Operation successful",
+  "data": {...}
+}
+
+NOTES
+=====
+
+- All protected endpoints require JWT token in Authorization header
+- JWT tokens expire after configured time
+- Use refresh token to get new access token
+- Public endpoints can be accessed without authentication
+- Vehicle IDs start from 1
+- Date format: YYYY-MM-DD
+- Time slots: "10:00 AM", "2:00 PM", etc.
