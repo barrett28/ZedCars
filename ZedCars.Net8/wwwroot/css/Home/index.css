@@ -630,3 +630,53 @@ a.btn:hover, .brand-item:hover, .vehicle-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
+
+
+/*hover mousetrail css*/
+.hover-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #111;
+}
+
+/* New: Make heading fill the height and left-align the content */
+.heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align text to the left */
+    justify-content: flex-start; /* Align text to the top-left */
+    width: 100%;
+    height: 100vh;
+    /* Add padding for advertisement-style spacing */
+    padding: 40vh 0 0 5vw;
+    z-index: 2; /* Ensure text is above everything */
+    position: relative;
+}
+
+    .heading h2 {
+        font-family: "Funnel Sans", sans-serif;
+        color: #fff;
+        font-size: clamp(6rem, 8vw, 9rem);
+        font-weight: 800;
+        /* text-shadow: 0 0 15px #00b3ff, 0 0 30px #00b3ff; */
+        text-align: left; /* Ensure alignment */
+        line-height: 1.05; /* Tighten up lines */
+        margin: 0;
+        padding: 0;
+    }
+
+/* Styles for the trailing images: these are largely unchanged,
+           but their Z-index should be low to appear 'behind' the text. */
+.hover-images {
+    position: absolute;
+    inset: 0;
+    width: 200px;
+    height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 0; /* Keep behind the text (which has z-index: 2) */
+}

@@ -162,6 +162,87 @@
             }
         }
 
+        /* textcard */
+
+
+
+
+        #main {
+            gap: 10vh;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 150vh;
+            background-color: #202020;
+        }
+
+
+        .cards {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80vh;
+            background-position: center;
+            background-size: cover;
+        }
+
+
+        #card-one {
+            top: 130%;
+            background-image: url(/images/One.png);
+            /* object-fit: cover; */
+        }
+
+
+        #card-two {
+            top: 230%;
+            background-image: url(/images/two.png);
+        }
+
+
+        #card-three {
+            top: 250%;
+            background-image: url(/images/three.png);
+        }
+
+
+        .text {
+            position: absolute;
+            width: 100%;
+            top: 25%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .text-img {
+            width: 5vw;
+            height: 5vw;
+            /* background-color: #fff; */
+            background-image: url(Blue\ Modern\ G\ Letter\ Technology\ Logo\ Design\ \(4\).png);
+            background-size: cover;
+            background-position: center;
+        }
+
+
+        .text h1 {
+            font-size: 3vw;
+            color: #fff;
+            text-align: center;
+        }
+
+
+        .text p {
+            font-size: 1vw;
+            color: rgb(126, 126, 126);
+            text-align: center;
+        }
+
+
     </style>
 }
 
@@ -251,7 +332,29 @@
     </div>
 </div>
 
-<div class="hero1"></div>
+@* <div class="hero1"></div> *@
+
+<div class="hover-container">
+    <div class="heading">
+        <h2><span style="color:#FFC43A">Command</span> Attention</h2>
+        <h2>with <br /> the <span style="color:#FFC43A">ZedCars</span></h2>
+    </div>
+</div>
+
+@* cards scroll *@
+<div id="main">
+    <div class="text">
+        <div class="text-img"></div>
+        <h1>ZedCars: Precision Engineering<br> with finest cars</h1>
+        <p>
+            Explore the future of automotive design and performance. ZedCars represents the ultimate fusion of power and artistic quality.
+        </p>
+    </div>
+    <div class="cards" id="card-one"></div>
+    <div class="cards" id="card-two"></div>
+    <div class="cards" id="card-three"></div>
+</div>
+
 
 <!--This is Car slider-->
 
@@ -579,4 +682,140 @@
         item.classList.toggle("active");
       });
     });
+
+        // mousetrail
+    const images = [
+        "https://images.unsplash.com/photo-1494905998402-395d579af36f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
+        "https://images.unsplash.com/photo-1638571860775-92317a71208f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
+        "https://images.unsplash.com/photo-1562716190-5c19488ea1fe?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1171",
+        "https://images.unsplash.com/photo-1641430589592-71899ccfb388?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
+        "https://images.unsplash.com/photo-1591567783286-b4ab19455406?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=764",
+        "https://images.unsplash.com/photo-1669676346565-8a7084212256?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
+        "https://images.unsplash.com/photo-1560244813-02a89fe3930f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1245",
+    ]
+
+
+    const container = document.querySelector(".hover-container");
+    const headingElement = document.querySelector(".heading");
+
+    let currentImageIndex = 0;
+    let lastX = 0;
+    let lastY = 0;
+    let distanceThreshold = 120;
+
+
+    window.addEventListener("mousemove", (e) => {
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+
+        if (distance > distanceThreshold) {
+            createTrail(e.clientX, e.clientY);
+            lastX = e.clientX;
+            lastY = e.clientY;
+        }
+    })
+
+
+    function createTrail(x, y) {
+        const img = document.createElement("img");
+        img.classList.add("hover-images");
+        img.src = images[currentImageIndex];
+        container.appendChild(img);
+
+
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+
+        gsap.set(img, {
+            x: x,
+            y: y,
+            scale: 0,
+            opacity: 0,
+            // rotation: gsap.utils.random(-20, 20),
+        });
+        gsap.to(img, {
+            scale: 1,
+            opacity: 1,
+            duration: 0.4,
+            ease: "power2.out",
+        })
+        gsap.to(img, {
+            scale: 0.2,
+            opacity: 0,
+            duration: 1,
+            delay: 0.3,
+            ease: "power2.in",
+            onComplete: () => {
+                img.remove();
+            }
+        })
+
+
+    }
+
+    if (container && headingElement) {
+        window.addEventListener("mousemove", (e) => {
+            const containerRect = container.getBoundingClientRect();
+            const headingRect = headingElement.getBoundingClientRect();
+
+            // 1. Check if mouse is over the main container
+            const isOverContainer = (e.clientX >= containerRect.left && e.clientX <= containerRect.right &&
+                e.clientY >= containerRect.top && e.clientY <= containerRect.bottom);
+
+            // 2. Check if mouse is BELOW the main heading text area
+            const isBelowHeading = e.clientY > headingRect.bottom;
+
+            if (isOverContainer && isBelowHeading) {
+                const dx = e.clientX - lastX;
+                const dy = e.clientY - lastY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance > distanceThreshold) {
+                    createTrail(e.clientX, e.clientY);
+                    lastX = e.clientX;
+                    lastY = e.clientY;
+                }
+            }
+        });
+    }
+
+        // textcard
+    var t2 = gsap.timeline({
+        scrollTrigger: {
+            trigger: "#main",
+            // markers:true,
+            start: "38% 50%",
+            end: "100% 50%",
+            scrub: 2,
+            pin: true
+        }
+    });
+    t2
+        .to(".text", {
+            top: "-7%",
+        }, 'a')
+        .to("#card-one", {
+            top: "35%",
+        }, 'a')
+        .to("#card-two", {
+            top: "130%"
+        }, 'a')
+        .to("#card-two", {
+            top: "42%"
+        }, 'b')
+        .to("#card-one", {
+            width: "65%",
+            height: "65vh"
+        }, 'b')
+        .to("#card-three", {
+            top: "130%"
+        }, 'b')
+        .to("#card-three", {
+            top: "50%"
+        }, 'c')
+        .to("#card-two", {
+            width: "70%",
+            height: "70vh"
+        }, 'c')
 </script>

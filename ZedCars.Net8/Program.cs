@@ -29,6 +29,18 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 // Add Anti-forgery protection
 builder.Services.AddAntiforgery(options =>
 {
@@ -103,6 +115,7 @@ app.UseStaticFiles();
 app.UseCors("AllowReact"); // Enable CORS
 
 app.UseRouting();
+app.UseCors("ReactApp");
 
 app.UseAuthentication();
 app.UseAuthorization();

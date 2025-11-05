@@ -226,34 +226,34 @@ namespace ZedCars.Net8.Controllers
         }
 
         [HttpPost("purchase")]
-        public async Task<IActionResult> Purchase([FromBody] PurchaseRequest request)
+        public async Task<IActionResult> Purchase([FromBody] Purchase purchase)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var car = await _carRepository.GetCarByIdAsync(request.Purchase.CarId);
+            var car = await _carRepository.GetCarByIdAsync(purchase.CarId);
             if (car == null)
             {
                 return NotFound();
             }
 
-            request.Purchase.Car = car;
-            decimal totalPrice = car.Price * request.Purchase.PurchaseQuantity;
+            purchase.Car = car;
+            decimal totalPrice = car.Price * purchase.PurchaseQuantity;
 
-            if (request.SelectedAccessories != null && request.SelectedAccessories.Any())
+            if (purchase.SelectedAccessories != null && purchase.SelectedAccessories.Any())
             {
-                var accessoryPrices = await _accessoryRepository.GetAccessoryPricesByNamesAsync(request.SelectedAccessories);
+                var accessoryPrices = await _accessoryRepository.GetAccessoryPricesByNamesAsync(purchase.SelectedAccessories);
                 totalPrice += accessoryPrices;
             }
 
-            request.Purchase.PurchasePrice = totalPrice;
+            purchase.PurchasePrice = totalPrice;
 
-            await _purchaseRepository.AddPurchaseWithAccessoriesAsync(request.Purchase, request.SelectedAccessories);
+            await _purchaseRepository.AddPurchaseWithAccessoriesAsync(purchase, purchase.SelectedAccessories);
 
             await _userActivityRepository.LogActivityAsync
-                (request.Purchase.BuyerName, "Purchase", $"Purchased {car.Brand} {car.Model} for ${totalPrice:N0}", Request.Headers["User-Agent"]);
+                (purchase.BuyerName, "Purchase", $"Purchased {car.Brand} {car.Model} for ${totalPrice:N0}", Request.Headers["User-Agent"]);
 
             return Ok(new { message = "Purchase completed successfully!" });
         }
