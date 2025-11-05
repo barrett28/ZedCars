@@ -59,8 +59,7 @@ namespace ZedCars.Net8.Controllers
         }
         
         [HttpGet("inventory")]
-        [Authorize(Roles = "SuperAdmin")]
-        public async Task<IActionResult> GetInventory([FromQuery] string brand, [FromQuery] int page = 1)
+        public async Task<IActionResult> GetInventory([FromQuery] string? brand, [FromQuery] int page = 1)
         {
             const int pageSize = 7;
             var (cars, totalCars) = await _carRepository.GetFilteredCarsAsync(brand, null, null, page, pageSize);

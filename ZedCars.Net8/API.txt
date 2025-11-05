@@ -197,6 +197,87 @@ TESTING SEQUENCE
    POST /api/home/testdrive
    POST /api/home/accessories
 
+ADMIN CONTROLLER APIs
+====================
+
+Base URL: http://localhost:5117/api/admin
+
+Dashboard & Analytics
+GET /dashboard
+- Returns admin dashboard data with vehicle counts, sales stats, recent activities
+- Response: JSON with ActiveVehicles, TotalCars, TotalSales, RecentInventory, etc.
+
+GET /sales-data?period=month
+- Returns sales analytics by brand and monthly trends
+- Query params: period (week|month|quarter|year)
+- Response: JSON with SalesByBrand, MonthlySales, InventoryTurnover
+
+GET /stock-data?period=month  
+- Returns stock vs sold data by brand
+- Query params: period (week|month|quarter|year)
+- Response: JSON with StockData (available vs sold by brand)
+
+Vehicle Management
+GET /inventory?brand=Toyota&page=1
+- Returns paginated vehicle inventory with filtering
+- Query params: brand (optional), page (default: 1)
+- Response: JSON with Cars array, Brands, pagination info
+
+GET /vehicles/{id}
+- Returns specific vehicle details by ID
+- Path param: id (vehicle ID)
+- Response: JSON vehicle object or 404 if not found
+
+POST /vehicles
+- Creates new vehicle
+- Body: JSON Car object with Brand, Model, Price, etc.
+- Response: 201 Created with vehicle data
+
+PUT /vehicles/{id}
+- Updates existing vehicle
+- Path param: id, Body: JSON Car object
+- Response: 200 OK with updated vehicle or 404 if not found
+
+DELETE /vehicles/{id}
+- Deletes vehicle by ID
+- Path param: id (vehicle ID)
+- Response: 204 No Content or 404 if not found
+
+User Management
+GET /users
+- Returns all admin users
+- Response: JSON array of Admin objects
+
+GET /users/{id}
+- Returns specific admin user by ID
+- Path param: id (admin ID)
+- Response: JSON Admin object or 404 if not found
+
+POST /users
+- Creates new admin user
+- Body: JSON Admin object with Username, Email, Role, etc.
+- Response: 201 Created with user data
+
+PUT /users/{id}
+- Updates existing admin user
+- Path param: id, Body: JSON Admin object
+- Response: 200 OK with updated user or 404 if not found
+
+DELETE /users/{id}
+- Deletes admin user by ID
+- Path param: id (admin ID)
+- Response: 204 No Content or 404 if not found
+
+Activities & Test Drives
+GET /activities
+- Returns recent user activities
+- Response: JSON array of UserActivity objects
+
+POST /testdrives/{testDriveId}/status
+- Updates test drive status
+- Path param: testDriveId, Body: JSON string status
+- Response: 200 OK with success message
+
 SAMPLE USERS
 ===========
 
