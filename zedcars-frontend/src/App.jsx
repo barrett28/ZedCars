@@ -4,7 +4,6 @@ import Navbar from './components/layout/Navbar'
 import Dashboard from './pages/Admin/HTML/Dashboard'
 
 function App() {
-  
 
   return (
     <>
