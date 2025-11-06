@@ -17,22 +17,31 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    if (!dashboard || !dashboard.stockData || !Array.isArray(dashboard.stockData)) return;
+    if (!dashboard || !dashboard.stockData || !Array.isArray(dashboard.stockData)) {
+      console.log("Chart not rendering - dashboard:", dashboard);
+      console.log("stockData:", dashboard?.stockData);
+      return;
+    }
 
+    console.log("Creating chart with data:", dashboard.stockData);
+    
     const ctx = document.getElementById("stockSoldChart").getContext("2d");
     const chart = new Chart(ctx, {
       type: "bar",
       data: {
-        labels: dashboard.stockData.map((s) => s.brand),
+        labels: dashboard.stockData.map((s) => {
+          console.log("Brand:", s.brand, "Stock:", s.stockAvailable, "Sold:", s.unitsSold);
+          return s.brand;
+        }),
         datasets: [
           {
             label: "Stock Available",
-            data: dashboard.stockData.map((s) => s.stockAvailable),
+            data: dashboard.stockData.map((s) => s.stockAvailable || 0),
             backgroundColor: "#2ecc71",
           },
           {
-            label: "Units Sold",
-            data: dashboard.stockData.map((s) => s.unitsSold),
+            label: "Units Sold", 
+            data: dashboard.stockData.map((s) => s.unitsSold || 0),
             backgroundColor: "#e74c3c",
           },
         ],

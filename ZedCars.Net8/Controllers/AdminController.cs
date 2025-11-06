@@ -55,12 +55,23 @@ namespace ZedCars.Net8.Controllers
                 RecentBookings = (await _testDriveRepository.GetAllTestDrivesAsync()).Take(5).ToList(),
                 stockData = salesByBrand.Select(s => new {
                     Brand = s.Brand,
-                    StockAvailable = s.StockAvailable,                    UnitsSold = s.UnitsSold,
+                    StockAvailable = s.StockAvailable, UnitsSold = s.UnitsSold,
                 }).ToList()
             };
-            
+
             return Ok(dashboardData);
         }
+
+        [HttpGet("test-stock")]
+        public async Task<IActionResult> TestStock()
+        {
+            var salesByBrand = await _purchaseRepository.GetSalesByBrandAsync();
+            return Ok(new { 
+                message = "Stock data test",
+                count = salesByBrand.Count,
+                data = salesByBrand
+            });
+        }        
         
         [HttpGet("inventory")]
         public async Task<IActionResult> GetInventory([FromQuery] string? brand, [FromQuery] int page = 1)

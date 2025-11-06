@@ -1,7 +1,7 @@
 
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Navbar from './components/layout/Navbar'
+import Navbar from './components/layout/HTML/Navbar'
 import Dashboard from './pages/Admin/HTML/Dashboard'
 import Login from './pages/Auth/HTML/Login'
 import HomeIndex from "./pages/Home/HTML/Index"
