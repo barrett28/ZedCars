@@ -3,17 +3,19 @@ ZedCars .NET 8 REST API Documentation
 
 Base URL: http://localhost:5117
 
-AUTHENTICATION
-==============
+AUTHENTICATION CONTROLLER APIs
+==============================
 
-Login to get JWT Token
-POST /api/auth/login
+Base URL: http://localhost:5117/api/auth
+
+Login
+POST /login
 Content-Type: application/json
 
 Request Body:
 {
-  "username": "superadmin",
-  "password": "admin1"
+  "username": "admin",
+  "password": "admin123"
 }
 
 Response:
@@ -22,31 +24,85 @@ Response:
   "refreshToken": "refresh_token_here",
   "user": {
     "adminId": 1,
-    "username": "superadmin",
+    "username": "admin",
     "email": "admin@example.com",
-    "fullName": "Super Admin",
+    "fullName": "Administrator",
     "role": "SuperAdmin"
   }
 }
 
-Refresh Token
-POST /api/auth/refresh
+Register
+POST /register
 Content-Type: application/json
 
 Request Body:
 {
-  "refreshToken": "refresh_token_here"
+  "fullName": "John Doe",
+  "email": "john@example.com",
+  "username": "johndoe",
+  "password": "password123"
 }
 
-Revoke Token
-POST /api/auth/revoke
+Response:
+{
+  "message": "Registration successful"
+}
+
+Refresh Token
+POST /refresh
+Content-Type: application/json
+
+Request Body:
+{
+  "refreshToken": "your_refresh_token_here"
+}
+
+Response:
+{
+  "accessToken": "new_jwt_token_here",
+  "refreshToken": "new_refresh_token_here"
+}
+
+Logout
+POST /logout
 Authorization: Bearer {jwt_token}
 Content-Type: application/json
 
 Request Body:
 {
-  "refreshToken": "refresh_token_here"
+  "refreshToken": "your_refresh_token_here"
 }
+
+Response:
+{
+  "message": "Logged Out Successfully"
+}
+
+Revoke Token
+POST /revoke
+Authorization: Bearer {jwt_token}
+Content-Type: application/json
+
+Request Body:
+{
+  "refreshToken": "your_refresh_token_here"
+}
+
+Response:
+{
+  "message": "Token revoked"
+}
+
+SAMPLE CREDENTIALS
+=================
+
+Admin User:
+- Username: admin
+- Password: admin123
+
+Regular User:
+- Username: user1
+- Password: password1
 
 HOME CONTROLLER APIs
 ===================
