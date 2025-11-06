@@ -1,13 +1,14 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ZedCars.Net8.Data;
 using ZedCars.Net8.Models;
-using ZedCars.Net8.ViewModels.HomeCont;
 
 namespace ZedCars.Net8.Controllers
 {
-    public class AccessoryController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AccessoryController : ControllerBase
     {
         private readonly ZedCarsContext _context;
         public AccessoryController(ZedCarsContext context)
@@ -15,9 +16,8 @@ namespace ZedCars.Net8.Controllers
             _context = context;
         }
 
-        // GET all accessory
-        // Accessory
-        public async Task<IActionResult> Index(string? category,int page=1)
+        [HttpGet]
+        public async Task<IActionResult> GetAccessories([FromQuery] string? category, [FromQuery] int page = 1)
         {
             var accessories = await _context.Accessories
                 .AsNoTracking()
@@ -26,143 +26,98 @@ namespace ZedCars.Net8.Controllers
                 .ToListAsync();
 
             const int pageSize = 6;
-            var Accessories = accessories.Count;
-            var totalPages = (int)Math.Ceiling((double)  Accessories/ pageSize);
+            var totalAccessories = accessories.Count;
+            var totalPages = (int)Math.Ceiling((double)totalAccessories / pageSize);
             var pagedAccessories = accessories.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
-            var viewModel = new AccessoryIndexViewModel
+            var categories = await _context.Accessories
+                .Select(a => a.Category)
+                .Distinct()
+                .ToListAsync();
+
+            var result = new
             {
                 Accessories = pagedAccessories,
-                Categories = new SelectList(
-                    await _context.Accessories
-                        .Select(a => a.Category)
-                        .Distinct()
-                        .ToListAsync(),
-                    category
-                ),
+                Categories = categories,
                 CurrentPage = page,
                 PageSize = pageSize,
                 TotalPages = totalPages,
-                TotalAccessories = Accessories,
+                TotalAccessories = totalAccessories,
                 SelectedCategory = category
             };
 
-            return View(viewModel);
+            return Ok(result);
         }
 
-
-        // GET accessories by id    
-        // Accessory/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAccessory(int id)
         {
-                if (id == null) return NotFound();
-                var accessory = await _context.Accessories.AsNoTracking().FirstOrDefaultAsync(a => a.AccessoryId == id);
-                return View(accessory);
-        }
-
-        // GET: Accessory/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST 
-        // Accessory/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Accessory accessory)
-        {
-            if (ModelState.IsValid)
-            {
-                accessory.CreatedDate = DateTime.Now;
-                accessory.CreatedBy = User.Identity?.Name ?? "SuperAdmin";
-                accessory.ModifiedDate = DateTime.Now;
-                accessory.ModifiedBy = User.Identity?.Name ?? "SuperAdmin";
-
-                _context.Add(accessory);
-                await _context.SaveChangesAsync();
-            }
-            return View(accessory);
-        }
-
-
-        // GET: Accessory/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null) return NotFound();
-
-            var accessory = await _context.Accessories.FindAsync(id);
+            var accessory = await _context.Accessories.AsNoTracking().FirstOrDefaultAsync(a => a.AccessoryId == id);
             if (accessory == null) return NotFound();
-
-            return View(accessory);
+            
+            return Ok(accessory);
         }
 
-
-        // POST 
-        // Accessory/Edit
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Accessory accessory)
+        [Authorize(Roles = "SuperAdmin,Manager")]
+        public async Task<IActionResult> CreateAccessory([FromBody] Accessory accessory)
         {
-            if (id != accessory.AccessoryId) return NotFound();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (ModelState.IsValid)
-            {
-                var existingAccessory = await _context.Accessories.FindAsync(id);
-                if (existingAccessory == null)
-                {
-                    return NotFound();
-                }
+            accessory.CreatedDate = DateTime.Now;
+            accessory.CreatedBy = User.Identity?.Name ?? "SuperAdmin";
+            accessory.ModifiedDate = DateTime.Now;
+            accessory.ModifiedBy = User.Identity?.Name ?? "SuperAdmin";
 
-                // Update fields
-                existingAccessory.Name = accessory.Name;
-                existingAccessory.Category = accessory.Category;
-                existingAccessory.Price = accessory.Price;
-                existingAccessory.StockQuantity = accessory.StockQuantity;
-                existingAccessory.Description = accessory.Description;
-                existingAccessory.PartNumber = accessory.PartNumber;
-                existingAccessory.Manufacturer = accessory.Manufacturer;
-                existingAccessory.IsActive = accessory.IsActive;
+            _context.Add(accessory);
+            await _context.SaveChangesAsync();
 
-                existingAccessory.ModifiedDate = DateTime.Now;
-                existingAccessory.ModifiedBy = User.Identity?.Name ?? "SuperAdmin";
-
-                await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] = $"Accessory {accessory.Name} updated successfully!";
-                return RedirectToAction("Index");
-            }
-
-            return View(accessory);
+            return CreatedAtAction(nameof(GetAccessory), new { id = accessory.AccessoryId }, accessory);
         }
 
-
-        // GET Accessory/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpPut("{id}")]
+        [Authorize(Roles = "SuperAdmin,Manager")]
+        public async Task<IActionResult> UpdateAccessory(int id, [FromBody] Accessory accessory)
         {
-            if (id == null) return NotFound();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            var accessory = await _context.Accessories
-                .AsNoTracking().FirstOrDefaultAsync(m => m.AccessoryId == id);
-            if (accessory == null) return NotFound();
+            var existingAccessory = await _context.Accessories.FindAsync(id);
+            if (existingAccessory == null)
+                return NotFound();
 
-            return View(accessory);
+            existingAccessory.Name = accessory.Name;
+            existingAccessory.Category = accessory.Category;
+            existingAccessory.Price = accessory.Price;
+            existingAccessory.StockQuantity = accessory.StockQuantity;
+            existingAccessory.Description = accessory.Description;
+            existingAccessory.PartNumber = accessory.PartNumber;
+            existingAccessory.Manufacturer = accessory.Manufacturer;
+            existingAccessory.IsActive = accessory.IsActive;
+            existingAccessory.ModifiedDate = DateTime.Now;
+            existingAccessory.ModifiedBy = User.Identity?.Name ?? "SuperAdmin";
+
+            await _context.SaveChangesAsync();
+
+            return Ok(existingAccessory);
         }
 
-        // POST Accessory/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "SuperAdmin,Manager")]
+        public async Task<IActionResult> DeleteAccessory(int id)
         {
             var accessory = await _context.Accessories.FindAsync(id);
-            if (accessory != null)
-            {
-                accessory.IsActive = false;
-                accessory.ModifiedDate = DateTime.Now;
-                accessory.ModifiedBy = User.Identity?.Name;
-                await _context.SaveChangesAsync();
-            }
-            return RedirectToAction("Index");
+            if (accessory == null)
+                return NotFound();
+
+            accessory.IsActive = false;
+            accessory.ModifiedDate = DateTime.Now;
+            accessory.ModifiedBy = User.Identity?.Name ?? "SuperAdmin";
+            
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

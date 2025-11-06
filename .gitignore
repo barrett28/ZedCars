@@ -21,3 +21,4 @@ packages/
 # Temporary files
 *~
 *.tmp
+ZedCars.Net8/appsettings.json

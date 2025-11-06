@@ -215,7 +215,7 @@ namespace ZedCars.Net8.Controllers
                     return NotFound();
 
                 await _adminRepository.DeleteAdminAsync(id);
-                return NoContent();
+                return Ok(new { message = "User deleted successfully" });
             }
             catch (Exception ex)
             {

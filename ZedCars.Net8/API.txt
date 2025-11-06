@@ -233,6 +233,21 @@ POST /vehicles
 - Body: JSON Car object with Brand, Model, Price, etc.
 - Response: 201 Created with vehicle data
 
+        Request Body:
+        {
+          "brand": "Toyota",
+          "model": "Camry",
+          "year": 2024,
+          "price": 25000.00,
+          "fuelType": "Petrol",
+          "transmission": "Automatic",
+          "mileage": 15.5,
+          "color": "White",
+          "description": "Brand new Toyota Camry with excellent features",
+          "imageUrl": "https://example.com/camry.jpg",
+          "isAvailable": true
+        }
+
 PUT /vehicles/{id}
 - Updates existing vehicle
 - Path param: id, Body: JSON Car object
@@ -258,6 +273,16 @@ POST /users
 - Body: JSON Admin object with Username, Email, Role, etc.
 - Response: 201 Created with user data
 
+        Request Body:
+        {
+          "username": "newadmin",
+          "email": "newadmin@example.com",
+          "fullName": "New Admin User",
+          "role": "Admin",
+          "password": "securePassword123"
+        }
+
+
 PUT /users/{id}
 - Updates existing admin user
 - Path param: id, Body: JSON Admin object
@@ -277,6 +302,11 @@ POST /testdrives/{testDriveId}/status
 - Updates test drive status
 - Path param: testDriveId, Body: JSON string status
 - Response: 200 OK with success message
+
+        Request Body:
+        "Confirmed"
+
+        Available status values: "Pending", "Confirmed", "Completed", "Cancelled"
 
 SAMPLE USERS
 ===========
@@ -328,3 +358,72 @@ NOTES
 - Vehicle IDs start from 1
 - Date format: YYYY-MM-DD
 - Time slots: "10:00 AM", "2:00 PM", etc.
+
+ACCESSORY CONTROLLER APIs
+========================
+
+Base URL: http://localhost:5117/api/accessory
+
+Accessory Management
+GET /
+- Returns paginated accessories list with filtering
+- Query params: category (optional), page (default: 1)
+- Response: JSON with Accessories array, Categories, pagination info
+
+        Example: GET /api/accessory?category=Electronics&page=1
+        Response:
+        {
+          "accessories": [...],
+          "categories": ["Electronics", "Interior", "Exterior"],
+          "currentPage": 1,
+          "pageSize": 6,
+          "totalPages": 3,
+          "totalAccessories": 15,
+          "selectedCategory": "Electronics"
+        }
+
+GET /{id}
+- Returns specific accessory details by ID
+- Path param: id (accessory ID)
+- Response: JSON accessory object or 404 if not found
+
+        Example: GET /api/accessory/5
+
+POST /
+- Creates new accessory (SuperAdmin/Manager only)
+- Body: JSON Accessory object
+- Response: 201 Created with accessory data
+
+        Request Body:
+        {
+          "name": "Car Charger",
+          "category": "Electronics",
+          "price": 29.99,
+          "stockQuantity": 50,
+          "description": "USB car charger with dual ports",
+          "partNumber": "CC001",
+          "manufacturer": "TechCorp",
+          "isActive": true
+        }
+
+PUT /{id}
+- Updates existing accessory (SuperAdmin/Manager only)
+- Path param: id, Body: JSON Accessory object
+- Response: 200 OK with updated accessory or 404 if not found
+
+        Request Body:
+        {
+          "name": "Updated Car Charger",
+          "category": "Electronics",
+          "price": 34.99,
+          "stockQuantity": 45,
+          "description": "Updated USB car charger with fast charging",
+          "partNumber": "CC001",
+          "manufacturer": "TechCorp",
+          "isActive": true
+        }
+
+DELETE /{id}
+- Soft deletes accessory by ID (SuperAdmin/Manager only)
+- Path param: id (accessory ID)
+- Response: 204 No Content or 404 if not found
