@@ -30,7 +30,7 @@ namespace ZedCars.Net8.Controllers
             _accessoryRepository = accessoryRepository;
         }
 
-        [HttpGet("")]
+        [HttpGet("index")]
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {

@@ -1,821 +1,821 @@
-﻿@model ZedCars.Net8.ViewModels.HomeCont.HomeIndexViewModel
-@{
-    ViewData["Title"] = "Home";
-}
+﻿    @model ZedCars.Net8.ViewModels.HomeCont.HomeIndexViewModel
+    @{
+        ViewData["Title"] = "Home";
+    }
 
 
 
-@section Styles {
-    <link rel="stylesheet" href="~/css/Home/index.css" />
+    @section Styles {
+        <link rel="stylesheet" href="~/css/Home/index.css" />
     
-    <style>
-        body {
-            min-height: 200vh;
-            background-color: #0A0A0A;
-            font-family: "Noto Sans", sans-serif;
-        }
+        <style>
+            body {
+                min-height: 200vh;
+                background-color: #0A0A0A;
+                font-family: "Noto Sans", sans-serif;
+            }
 
-        /* ===== HERO SECTION ===== */
-        .hero {
-            position: relative;
-            height: 100vh;
-            width: 100%;
-            overflow: hidden;
-        }
+            /* ===== HERO SECTION ===== */
+            .hero {
+                position: relative;
+                height: 100vh;
+                width: 100%;
+                overflow: hidden;
+            }
 
-        .bg-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 0;
-            filter: brightness(70%);
-        }
+            .bg-video {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                z-index: 0;
+                filter: brightness(70%);
+            }
 
-        .video-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
-            z-index: 1;
-        }
+            .video-overlay {
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
+                z-index: 1;
+            }
 
-        .hero h1,
-        .hero h2 {
-            position: absolute;
-            width: 100%;
-            text-align: center;
-            font-weight: 600;
-            opacity: 0;
-            transform: translateY(50px);
-            z-index: 2;
-            letter-spacing: 1px;
-            font-size: 4rem;
-        }
-
-        .hero h1 {
-            top: 32%;
-            color:white;
-        }
-
-        .hero h2 {
-            top: 45%;
-            color: #fc4444;
-            font-weight: 600;
-        }
-
-        /* ===== INFO BOX ===== */
-        .info-box {
-            position: absolute;
-            bottom: -183%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 36%;
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 15px;
-            text-align: center;
-            backdrop-filter: blur(13px);
-            z-index: 2;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-        }
-
-        .info-video video {
-            width: 100%;
-            border-radius: 14px;
-        }
-
-        .info-text {
-            margin-top: 18px;
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #e8e8e8;
-            opacity: 0.9;
-        }
-
-        /* ===== ACCORDION ===== */
-        .accordion {
-            margin-top: 25px;
-            text-align: left;
-        }
-
-        .accordion-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            margin-bottom: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .accordion-header {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-weight: 500;
-            font-size: 1rem;
-            padding: 16px 20px;
-            text-align: left;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .accordion-header:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .accordion-content {
-            display: none;
-            padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.04);
-            font-size: 0.95rem;
-            color: #ddd;
-            line-height: 1.6;
-        }
-
-        .accordion-item.active {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-1px);
-        }
-
-        .accordion-item.active .accordion-content {
-            display: block;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @@media (max-width: 768px) {
-            .info-box
-            {
-                width: 85%;
-                padding: 20px;
+            .hero h1,
+            .hero h2 {
+                position: absolute;
+                width: 100%;
+                text-align: center;
+                font-weight: 600;
+                opacity: 0;
+                transform: translateY(50px);
+                z-index: 2;
+                letter-spacing: 1px;
+                font-size: 4rem;
             }
 
             .hero h1 {
-                font-size: 2rem;
+                top: 32%;
+                color:white;
             }
 
             .hero h2 {
-                font-size: 1.2rem;
+                top: 45%;
+                color: #fc4444;
+                font-weight: 600;
             }
-        }
 
-        /* textcard */
+            /* ===== INFO BOX ===== */
+            .info-box {
+                position: absolute;
+                bottom: -183%;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 36%;
+                background: rgba(255, 255, 255, 0.07);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 24px;
+                padding: 15px;
+                text-align: center;
+                backdrop-filter: blur(13px);
+                z-index: 2;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            }
 
+            .info-video video {
+                width: 100%;
+                border-radius: 14px;
+            }
 
+            .info-text {
+                margin-top: 18px;
+                font-size: 1rem;
+                line-height: 1.6;
+                color: #e8e8e8;
+                opacity: 0.9;
+            }
 
+            /* ===== ACCORDION ===== */
+            .accordion {
+                margin-top: 25px;
+                text-align: left;
+            }
 
-        #main {
-            gap: 10vh;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            min-height: 150vh;
-            background-color: #202020;
-        }
+            .accordion-item {
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 10px;
+                margin-bottom: 12px;
+                overflow: hidden;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: all 0.3s ease;
+            }
 
+            .accordion-header {
+                width: 100%;
+                background: transparent;
+                border: none;
+                color: #fff;
+                font-weight: 500;
+                font-size: 1rem;
+                padding: 16px 20px;
+                text-align: left;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
 
-        .cards {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            height: 80vh;
-            background-position: center;
-            background-size: cover;
-        }
+            .accordion-header:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
 
+            .accordion-content {
+                display: none;
+                padding: 16px 20px;
+                background: rgba(255, 255, 255, 0.04);
+                font-size: 0.95rem;
+                color: #ddd;
+                line-height: 1.6;
+            }
 
-        #card-one {
-            top: 130%;
-            background-image: url(/images/One.png);
-            /* object-fit: cover; */
-        }
+            .accordion-item.active {
+                background: rgba(255, 255, 255, 0.08);
+                transform: translateY(-1px);
+            }
 
+            .accordion-item.active .accordion-content {
+                display: block;
+            }
 
-        #card-two {
-            top: 230%;
-            background-image: url(/images/two.png);
-        }
-
-
-        #card-three {
-            top: 250%;
-            background-image: url(/images/three.png);
-        }
-
-
-        .text {
-            position: absolute;
-            width: 100%;
-            top: 25%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-
-        .text-img {
-            width: 5vw;
-            height: 5vw;
-            /* background-color: #fff; */
-            background-image: url(Blue\ Modern\ G\ Letter\ Technology\ Logo\ Design\ \(4\).png);
-            background-size: cover;
-            background-position: center;
-        }
-
-
-        .text h1 {
-            font-size: 3vw;
-            color: #fff;
-            text-align: center;
-        }
-
-
-        .text p {
-            font-size: 1vw;
-            color: rgb(126, 126, 126);
-            text-align: center;
-        }
-
-
-    </style>
-}
-
-
-<!-- HTML -->
-@* <div class="scroll-section">
-    <!-- Background video -->
-    <video class="bg-video" autoplay muted loop playsinline>
-        <source src="/video/car_video.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
-    <!-- Overlay for better contrast -->
-    <div class="overlay"></div>
-
-    <!-- hero text -->
-    <h1 class="animated-text">
-        <span class="line-top">Discover Your Dream Ride</span>
-        <span class="line-bottom">Only at ZedCars</span>
-    </h1>
-
-    <!-- Slide-up section -->
-    <div class="slide-up-box">
-        <h2>Experience the Future of Driving</h2>
-        <p>Explore premium collections, electric vehicles, and exclusive ZedCars deals curated just for you.</p>
-        <a href="/Cars" class="explore-btn">Explore Now</a>
-    </div>
-</div> *@
-
-<div class="hero">
-    <!-- Background Video -->
-    <video class="bg-video" autoplay muted loop playsinline>
-        <source src="/video/car_video.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-    </video>
-
-    <!-- Overlay -->
-    <div class="video-overlay"></div>
-
-    <!-- Headings -->
-    <h1>Discover Your Dream</h1>
-    <h2>Ride Only at ZedCars</h2>
-
-    <!-- Info Box -->
-    <div class="info-box">
-        <div class="info-video">
-            <video autoplay muted loop playsinline>
-                <source src="~/video/hero-video.mp4" type="video/mp4" />
-            </video>
-        </div>
-
-        <div class="info-text">
-            ZedCars brings you a curated collection of luxury and performance vehicles.
-            Explore, compare, and drive your dream today — elegance meets power.
-        </div>
-
-        <!-- Accordion -->
-        <div class="accordion">
-            <div class="accordion-item">
-                <button class="accordion-header">Performance Cars</button>
-                <div class="accordion-content">
-                    <p>Unleash precision engineering and thrilling performance on every road.</p>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <button class="accordion-header">Luxury Cars</button>
-                <div class="accordion-content">
-                    <p>Experience elegance and craftsmanship crafted to perfection.</p>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <button class="accordion-header">SUVs & Family</button>
-                <div class="accordion-content">
-                    <p>Space, power, and comfort — designed for every adventure.</p>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <button class="accordion-header">Electric Cars</button>
-                <div class="accordion-content">
-                    <p>Step into the future with advanced electric technology and innovation.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-@* <div class="hero1"></div> *@
-
-<div class="hover-container">
-    <div class="heading">
-        <h2><span style="color:#FFC43A">Command</span> Attention</h2>
-        <h2>with <br /> the <span style="color:#FFC43A">ZedCars</span></h2>
-    </div>
-</div>
-
-@* cards scroll *@
-<div id="main">
-    <div class="text">
-        <div class="text-img"></div>
-        <h1>ZedCars: Precision Engineering<br> with finest cars</h1>
-        <p>
-            Explore the future of automotive design and performance. ZedCars represents the ultimate fusion of power and artistic quality.
-        </p>
-    </div>
-    <div class="cards" id="card-one"></div>
-    <div class="cards" id="card-two"></div>
-    <div class="cards" id="card-three"></div>
-</div>
-
-
-<!--This is Car slider-->
-
-<div class="landing">
-    <div class="left">
-        <div class="slider-controls">
-            <button class="slider-btn prev" title="Previous" aria-label="Previous image">
-                <i class="bi bi-arrow-left"></i>
-            </button>
-            <button class="slider-btn next" title="Next" aria-label="Next image">
-                <i class="bi bi-arrow-right"></i>
-            </button>
-        </div>
-    </div>
-
-    <div class="right">
-        <div class="image-slider">
-            <!-- Each slide (text + image pair) -->
-            <div class="slide active">
-                <div class="slider-text active">
-                    Zed<span>Cars</span>
-                    <img src="/images/sideviewLam.png" class="slider-image active" alt="Car side view" />
-                </div>
-            </div>
-
-            <div class="slide">
-                <div class="slider-text">The Cars You Want
-                    <img src="/images/topviewLam-removebg-preview.png" class="slider-image" alt="Car top view" />
-                </div>
-            </div>
-
-            <div class="slide">
-                <div class="slider-text">Excellence in Every Ride
-                    <img src="/images/frontviewLam-removebg-preview.png" class="slider-image" alt="Car front view" />
-                </div>
-            </div>
-
-            <div class="slide">
-                <div class="slider-text">Dreams We Deliver
-                    <img src="/images/backviewLam-removebg-preview.png" class="slider-image" alt="Car back view" />
-                </div>
-               
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="container">
-    <div class="hero-section">
-        <h1>Welcome to ZedCars</h1>
-        <p class="lead">Discover our premium collection of vehicles and automotive accessories</p>
-
-        <div class="hero-buttons">
-            <a href="/Home/Inventory" class="btn btn-primary text-black">Browse Inventory</a>
-            <a href="/Home/Contact" class="btn btn-light">Contact Us</a>
-            <a href="/Home/PurchaseAccessory" class="btn btn-light">Purchase Accessory</a>
-        </div>
-    </div>
-
-    <div class="inventory-section mt-4">
-        <h2>Our Vehicle Inventory</h2>
-        <p>Browse our carefully selected collection of quality vehicles from trusted manufacturers.</p>
-    
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3>@Model.VehicleCount</h3>
-                <p>Vehicles Available</p>
-            </div>
-            <div class="stat-card">
-                <h3>8</h3>
-                <p>Premium Brands</p>
-            </div>
-            <div class="stat-card">
-                <h3>100%</h3>
-                <p>Quality Guaranteed</p>
-            </div>
-        </div>
-
-        <div class="brands-section">
-            <h3>Featured Brands</h3>
-            <div class="brands-slider">
-                <div class="brands-track">
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/toyota-logo-png/toyota-logos-brands-logotypes-0.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/honda-logo-png/honda-logo-png-mahesh-deviantart-3.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/ford-cars-logo-brands-png-images-15.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/bmw-logo-14.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/mercedes-logo-png/mercedes-logo-outsource-custom-modeling-service-and-rendering-services-24.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/audi-logo-3.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/tesla-logo-png-33.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://mycarquest.com/wp-content/uploads/2019/10/Jeep-logo-3D-2560x1440.png" />
-                    </div>
-
-                    <!-- Duplicate items for continuous loop -->
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/toyota-logo-png/toyota-logos-brands-logotypes-0.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/honda-logo-png/honda-logo-png-mahesh-deviantart-3.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/ford-cars-logo-brands-png-images-15.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/bmw-logo-14.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/mercedes-logo-png/mercedes-logo-outsource-custom-modeling-service-and-rendering-services-24.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/audi-logo-3.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://www.freepnglogos.com/uploads/tesla-logo-png-33.png" />
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://w1.pngwing.com/pngs/427/594/png-transparent-car-logo-jeep-logos-2018-jeep-grand-cherokee-jeep-cherokee-text-number-thumbnail.png" />
-                    </div>
-                </div>
-            </div>
-        </div>
-   
-        <div class="featured-vehicles">
-            <h3>Featured Vehicles</h3>
-            <div class="vehicle-grid">
-                @if (Model?.FeaturedCars != null && Model.FeaturedCars.Any())
+            /* ===== RESPONSIVE ===== */
+            @@media (max-width: 768px) {
+                .info-box
                 {
-                    foreach (var car in Model.FeaturedCars)
-                    {
-                        <div class="vehicle-card">
-                            <div class="vehicle-image">
-                                <img src="@(string.IsNullOrWhiteSpace(car.ImageUrl) ? "/images/placeholder-car.png" : car.ImageUrl)"
-                                     alt="@(car.Brand + " " + car.Model)" />
-                            </div>
-                            <div class="vehicle-details bg-dark bg-opacity-75">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h4 class="text-white">@car.Brand @car.Model</h4>
-                                    <p class="vehicle-desc text-light font-monospace">
-                                        @(string.IsNullOrWhiteSpace(car.FuelType) ? "No Fueltype" : car.FuelType)
-                                    </p>
-                                </div>
-                                <p class="vehicle-price text-light">$ @car.Price.ToString()</p>
-                                <p class="vehicle-desc text-light">
-                                    @(string.IsNullOrWhiteSpace(car.Description) ? "No description" : car.Description)
-                                </p>
-                                <a href="@Url.Action("VehicleDetail", "Home", new { id = car.CarId })" class="btn btn-sm btn-primary">
-                                    View Details
-                                </a>
-                            </div>
+                    width: 85%;
+                    padding: 20px;
+                }
+
+                .hero h1 {
+                    font-size: 2rem;
+                }
+
+                .hero h2 {
+                    font-size: 1.2rem;
+                }
+            }
+
+            /* textcard */
+
+
+
+
+            #main {
+                gap: 10vh;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                min-height: 150vh;
+                background-color: #202020;
+            }
+
+
+            .cards {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 80%;
+                height: 80vh;
+                background-position: center;
+                background-size: cover;
+            }
+
+
+            #card-one {
+                top: 130%;
+                background-image: url(/images/One.png);
+                /* object-fit: cover; */
+            }
+
+
+            #card-two {
+                top: 230%;
+                background-image: url(/images/two.png);
+            }
+
+
+            #card-three {
+                top: 250%;
+                background-image: url(/images/three.png);
+            }
+
+
+            .text {
+                position: absolute;
+                width: 100%;
+                top: 25%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+
+            .text-img {
+                width: 5vw;
+                height: 5vw;
+                /* background-color: #fff; */
+                background-image: url(Blue\ Modern\ G\ Letter\ Technology\ Logo\ Design\ \(4\).png);
+                background-size: cover;
+                background-position: center;
+            }
+
+
+            .text h1 {
+                font-size: 3vw;
+                color: #fff;
+                text-align: center;
+            }
+
+
+            .text p {
+                font-size: 1vw;
+                color: rgb(126, 126, 126);
+                text-align: center;
+            }
+
+
+        </style>
+    }
+
+
+    <!-- HTML -->
+    @* <div class="scroll-section">
+        <!-- Background video -->
+        <video class="bg-video" autoplay muted loop playsinline>
+            <source src="/video/car_video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- Overlay for better contrast -->
+        <div class="overlay"></div>
+
+        <!-- hero text -->
+        <h1 class="animated-text">
+            <span class="line-top">Discover Your Dream Ride</span>
+            <span class="line-bottom">Only at ZedCars</span>
+        </h1>
+
+        <!-- Slide-up section -->
+        <div class="slide-up-box">
+            <h2>Experience the Future of Driving</h2>
+            <p>Explore premium collections, electric vehicles, and exclusive ZedCars deals curated just for you.</p>
+            <a href="/Cars" class="explore-btn">Explore Now</a>
+        </div>
+    </div> *@
+
+    <div class="hero">
+        <!-- Background Video -->
+        <video class="bg-video" autoplay muted loop playsinline>
+            <source src="/video/car_video.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- Overlay -->
+        <div class="video-overlay"></div>
+
+        <!-- Headings -->
+        <h1>Discover Your Dream</h1>
+        <h2>Ride Only at ZedCars</h2>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <div class="info-video">
+                <video autoplay muted loop playsinline>
+                    <source src="~/video/hero-video.mp4" type="video/mp4" />
+                </video>
+            </div>
+
+            <div class="info-text">
+                ZedCars brings you a curated collection of luxury and performance vehicles.
+                Explore, compare, and drive your dream today — elegance meets power.
+            </div>
+
+            <!-- Accordion -->
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Performance Cars</button>
+                    <div class="accordion-content">
+                        <p>Unleash precision engineering and thrilling performance on every road.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">Luxury Cars</button>
+                    <div class="accordion-content">
+                        <p>Experience elegance and craftsmanship crafted to perfection.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">SUVs & Family</button>
+                    <div class="accordion-content">
+                        <p>Space, power, and comfort — designed for every adventure.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">Electric Cars</button>
+                    <div class="accordion-content">
+                        <p>Step into the future with advanced electric technology and innovation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* <div class="hero1"></div> *@
+
+    <div class="hover-container">
+        <div class="heading">
+            <h2><span style="color:#FFC43A">Command</span> Attention</h2>
+            <h2>with <br /> the <span style="color:#FFC43A">ZedCars</span></h2>
+        </div>
+    </div>
+
+    @* cards scroll *@
+    <div id="main">
+        <div class="text">
+            <div class="text-img"></div>
+            <h1>ZedCars: Precision Engineering<br> with finest cars</h1>
+            <p>
+                Explore the future of automotive design and performance. ZedCars represents the ultimate fusion of power and artistic quality.
+            </p>
+        </div>
+        <div class="cards" id="card-one"></div>
+        <div class="cards" id="card-two"></div>
+        <div class="cards" id="card-three"></div>
+    </div>
+
+
+    <!--This is Car slider-->
+
+    <div class="landing">
+        <div class="left">
+            <div class="slider-controls">
+                <button class="slider-btn prev" title="Previous" aria-label="Previous image">
+                    <i class="bi bi-arrow-left"></i>
+                </button>
+                <button class="slider-btn next" title="Next" aria-label="Next image">
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="right">
+            <div class="image-slider">
+                <!-- Each slide (text + image pair) -->
+                <div class="slide active">
+                    <div class="slider-text active">
+                        Zed<span>Cars</span>
+                        <img src="/images/sideviewLam.png" class="slider-image active" alt="Car side view" />
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="slider-text">The Cars You Want
+                        <img src="/images/topviewLam-removebg-preview.png" class="slider-image" alt="Car top view" />
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="slider-text">Excellence in Every Ride
+                        <img src="/images/frontviewLam-removebg-preview.png" class="slider-image" alt="Car front view" />
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="slider-text">Dreams We Deliver
+                        <img src="/images/backviewLam-removebg-preview.png" class="slider-image" alt="Car back view" />
+                    </div>
+               
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container">
+        <div class="hero-section">
+            <h1>Welcome to ZedCars</h1>
+            <p class="lead">Discover our premium collection of vehicles and automotive accessories</p>
+
+            <div class="hero-buttons">
+                <a href="/Home/Inventory" class="btn btn-primary text-black">Browse Inventory</a>
+                <a href="/Home/Contact" class="btn btn-light">Contact Us</a>
+                <a href="/Home/PurchaseAccessory" class="btn btn-light">Purchase Accessory</a>
+            </div>
+        </div>
+
+        <div class="inventory-section mt-4">
+            <h2>Our Vehicle Inventory</h2>
+            <p>Browse our carefully selected collection of quality vehicles from trusted manufacturers.</p>
+    
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>@Model.VehicleCount</h3>
+                    <p>Vehicles Available</p>
+                </div>
+                <div class="stat-card">
+                    <h3>8</h3>
+                    <p>Premium Brands</p>
+                </div>
+                <div class="stat-card">
+                    <h3>100%</h3>
+                    <p>Quality Guaranteed</p>
+                </div>
+            </div>
+
+            <div class="brands-section">
+                <h3>Featured Brands</h3>
+                <div class="brands-slider">
+                    <div class="brands-track">
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/toyota-logo-png/toyota-logos-brands-logotypes-0.png" />
                         </div>
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/honda-logo-png/honda-logo-png-mahesh-deviantart-3.png" />
+                        </div>
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/ford-cars-logo-brands-png-images-15.png" />
+                        </div>
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/bmw-logo-14.png" />
+                        </div>
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/mercedes-logo-png/mercedes-logo-outsource-custom-modeling-service-and-rendering-services-24.png" />
+                        </div>
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/audi-logo-3.png" />
+                        </div>
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/tesla-logo-png-33.png" />
+                        </div>
+                        <div class="brand-item">
+                            <img src="https://mycarquest.com/wp-content/uploads/2019/10/Jeep-logo-3D-2560x1440.png" />
+                        </div>
+
+                        <!-- Duplicate items for continuous loop -->
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/toyota-logo-png/toyota-logos-brands-logotypes-0.png" />
+                        </div>
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/honda-logo-png/honda-logo-png-mahesh-deviantart-3.png" />
+                        </div>
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/ford-cars-logo-brands-png-images-15.png" />
+                        </div>
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/bmw-logo-14.png" />
+                        </div>
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/mercedes-logo-png/mercedes-logo-outsource-custom-modeling-service-and-rendering-services-24.png" />
+                        </div>
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/audi-logo-3.png" />
+                        </div>
+                        <div class="brand-item">
+                            <img src="https://www.freepnglogos.com/uploads/tesla-logo-png-33.png" />
+                        </div>
+                        <div class="brand-item">
+                            <img src="https://w1.pngwing.com/pngs/427/594/png-transparent-car-logo-jeep-logos-2018-jeep-grand-cherokee-jeep-cherokee-text-number-thumbnail.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+   
+            <div class="featured-vehicles">
+                <h3>Featured Vehicles</h3>
+                <div class="vehicle-grid">
+                    @if (Model?.FeaturedCars != null && Model.FeaturedCars.Any())
+                    {
+                        foreach (var car in Model.FeaturedCars)
+                        {
+                            <div class="vehicle-card">
+                                <div class="vehicle-image">
+                                    <img src="@(string.IsNullOrWhiteSpace(car.ImageUrl) ? "/images/placeholder-car.png" : car.ImageUrl)"
+                                         alt="@(car.Brand + " " + car.Model)" />
+                                </div>
+                                <div class="vehicle-details bg-dark bg-opacity-75">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h4 class="text-white">@car.Brand @car.Model</h4>
+                                        <p class="vehicle-desc text-light font-monospace">
+                                            @(string.IsNullOrWhiteSpace(car.FuelType) ? "No Fueltype" : car.FuelType)
+                                        </p>
+                                    </div>
+                                    <p class="vehicle-price text-light">$ @car.Price.ToString()</p>
+                                    <p class="vehicle-desc text-light">
+                                        @(string.IsNullOrWhiteSpace(car.Description) ? "No description" : car.Description)
+                                    </p>
+                                    <a href="@Url.Action("VehicleDetail", "Home", new { id = car.CarId })" class="btn btn-sm btn-primary">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>No featured vehicles available at the moment.</p>
+                    }
+
+                </div>
+
+                <div class="view-all-link">
+                    <a href="/Home/Inventory" class="btn">View All Vehicles</a>
+                </div>
+            </div>
+        
+            <div class="cta-section mt-5">
+                <div class="cta-content">
+                    <h3><i class="bi bi-car-front"></i> Ready to Drive Your Dream Car?</h3>
+                    <p>Contact our expert team today and explore vehicles that perfectly match your lifestyle.</p>
+                    <div class="cta-buttons">
+                        <a href="/Home/Contact" class="btn btn-primary btn-lg">Contact Us</a>
+                        <a href="/Home/About" class="btn btn-outline-light btn-lg">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="why-choose-us">
+            <h3>Why Choose ZedCars?</h3>
+            <div class="why-grid">
+                <div class="why-card">
+                    <i class="bi bi-shield-check"></i>
+                    <h4>Trusted Quality</h4>
+                    <p>All vehicles go through a 150-point inspection for guaranteed quality.</p>
+                </div>
+                <div class="why-card">
+                    <i class="bi bi-cash-coin"></i>
+                    <h4>Best Prices</h4>
+                    <p>Competitive pricing with transparent deals, no hidden costs.</p>
+                </div>
+                <div class="why-card">
+                    <i class="bi bi-truck"></i>
+                    <h4>Free Delivery</h4>
+                    <p>Enjoy free doorstep delivery within city limits.</p>
+                </div>
+                <div class="why-card">
+                    <i class="bi bi-search"></i>
+                    <h4>Intelligent filtering</h4>
+                    <p>Search and filtration of vehicles by multiple factors.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const slides = Array.from(document.querySelectorAll(".slide"));
+          const prevBtn = document.querySelector(".slider-btn.prev");
+          const nextBtn = document.querySelector(".slider-btn.next");
+          let currentIndex = 0;
+          let isAnimating = false;
+          const DURATION = 700;
+
+          function showSlide(newIndex, direction) {
+            if (isAnimating || newIndex === currentIndex) return;
+            isAnimating = true;
+
+            const currentSlide = slides[currentIndex];
+            const nextSlide = slides[newIndex];
+            const currentImage = currentSlide.querySelector(".slider-image");
+            const nextImage = nextSlide.querySelector(".slider-image");
+            const currentText = currentSlide.querySelector(".slider-text");
+            const nextText = nextSlide.querySelector(".slider-text");
+
+            // Prepare next slide
+            nextSlide.classList.add("active");
+            nextImage.style.transition = "none";
+            nextImage.style.transform = direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+            nextImage.style.opacity = "0";
+            nextText.style.opacity = "0";
+            nextText.style.transition = "none";
+            void nextSlide.getBoundingClientRect();
+
+            // Enable transition
+            currentImage.style.transition = `transform ${DURATION}ms ease, opacity ${DURATION}ms ease`;
+            nextImage.style.transition = `transform ${DURATION}ms ease, opacity ${DURATION}ms ease`;
+
+            // Animate slides
+            currentImage.style.transform = direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+            currentImage.style.opacity = "0";
+            nextImage.style.transform = "translateX(0)";
+            nextImage.style.opacity = "1";
+
+            // Fade texts
+            currentText.style.opacity = "0";
+            setTimeout(() => {
+              nextText.style.transition = "opacity 0.7s ease";
+              nextText.style.opacity = "1";
+            }, DURATION / 2);
+
+            // Cleanup after animation
+            setTimeout(() => {
+              currentSlide.classList.remove("active");
+              currentImage.classList.remove("active");
+              nextImage.classList.add("active");
+              isAnimating = false;
+              currentIndex = newIndex;
+            }, DURATION + 50);
+          }
+
+          // Button click events
+          nextBtn.addEventListener("click", () => {
+            const newIndex = (currentIndex + 1) % slides.length;
+            showSlide(newIndex, "next");
+          });
+
+          prevBtn.addEventListener("click", () => {
+            const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(newIndex, "prev");
+          });
+
+          // Keyboard navigation
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowRight") nextBtn.click();
+            if (e.key === "ArrowLeft") prevBtn.click();
+          });
+        });
+
+    
+
+        // JS (GSAP + ScrollTrigger)
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Initial fade-in
+        gsap.to(".hero h1", { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
+        gsap.to(".hero h2", { opacity: 1, y: 0, duration: 1, delay: 0.3, ease: "power3.out" });
+
+        // Scroll Animation (synced)
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".hero",
+            start: "top top",
+            end: "+=1200",
+            scrub: true,
+            pin: true,
+          },
+        });
+
+        tl.to(".hero h1", { x: "-100vw", ease: "power1.out" }, 0)
+          .to(".hero h2", { x: "100vw", ease: "power1.out" }, 0)
+          .to(".info-box", { bottom: "100%", ease: "power1.out" }, 0);
+
+        // Accordion logic
+        document.querySelectorAll(".accordion-header").forEach(header => {
+          header.addEventListener("click", () => {
+            const item = header.parentElement;
+            document.querySelectorAll(".accordion-item").forEach(i => {
+              if (i !== item) i.classList.remove("active");
+            });
+            item.classList.toggle("active");
+          });
+        });
+
+            // mousetrail
+        const images = [
+            "https://images.unsplash.com/photo-1494905998402-395d579af36f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
+            "https://images.unsplash.com/photo-1638571860775-92317a71208f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
+            "https://images.unsplash.com/photo-1562716190-5c19488ea1fe?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1171",
+            "https://images.unsplash.com/photo-1641430589592-71899ccfb388?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
+            "https://images.unsplash.com/photo-1591567783286-b4ab19455406?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=764",
+            "https://images.unsplash.com/photo-1669676346565-8a7084212256?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
+            "https://images.unsplash.com/photo-1560244813-02a89fe3930f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1245",
+        ]
+
+
+        const container = document.querySelector(".hover-container");
+        const headingElement = document.querySelector(".heading");
+
+        let currentImageIndex = 0;
+        let lastX = 0;
+        let lastY = 0;
+        let distanceThreshold = 120;
+
+
+        window.addEventListener("mousemove", (e) => {
+            const dx = e.clientX - lastX;
+            const dy = e.clientY - lastY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+
+            if (distance > distanceThreshold) {
+                createTrail(e.clientX, e.clientY);
+                lastX = e.clientX;
+                lastY = e.clientY;
+            }
+        })
+
+
+        function createTrail(x, y) {
+            const img = document.createElement("img");
+            img.classList.add("hover-images");
+            img.src = images[currentImageIndex];
+            container.appendChild(img);
+
+
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+
+            gsap.set(img, {
+                x: x,
+                y: y,
+                scale: 0,
+                opacity: 0,
+                // rotation: gsap.utils.random(-20, 20),
+            });
+            gsap.to(img, {
+                scale: 1,
+                opacity: 1,
+                duration: 0.4,
+                ease: "power2.out",
+            })
+            gsap.to(img, {
+                scale: 0.2,
+                opacity: 0,
+                duration: 1,
+                delay: 0.3,
+                ease: "power2.in",
+                onComplete: () => {
+                    img.remove();
+                }
+            })
+
+
+        }
+
+        if (container && headingElement) {
+            window.addEventListener("mousemove", (e) => {
+                const containerRect = container.getBoundingClientRect();
+                const headingRect = headingElement.getBoundingClientRect();
+
+                // 1. Check if mouse is over the main container
+                const isOverContainer = (e.clientX >= containerRect.left && e.clientX <= containerRect.right &&
+                    e.clientY >= containerRect.top && e.clientY <= containerRect.bottom);
+
+                // 2. Check if mouse is BELOW the main heading text area
+                const isBelowHeading = e.clientY > headingRect.bottom;
+
+                if (isOverContainer && isBelowHeading) {
+                    const dx = e.clientX - lastX;
+                    const dy = e.clientY - lastY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance > distanceThreshold) {
+                        createTrail(e.clientX, e.clientY);
+                        lastX = e.clientX;
+                        lastY = e.clientY;
                     }
                 }
-                else
-                {
-                    <p>No featured vehicles available at the moment.</p>
-                }
-
-            </div>
-
-            <div class="view-all-link">
-                <a href="/Home/Inventory" class="btn">View All Vehicles</a>
-            </div>
-        </div>
-        
-        <div class="cta-section mt-5">
-            <div class="cta-content">
-                <h3><i class="bi bi-car-front"></i> Ready to Drive Your Dream Car?</h3>
-                <p>Contact our expert team today and explore vehicles that perfectly match your lifestyle.</p>
-                <div class="cta-buttons">
-                    <a href="/Home/Contact" class="btn btn-primary btn-lg">Contact Us</a>
-                    <a href="/Home/About" class="btn btn-outline-light btn-lg">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="why-choose-us">
-        <h3>Why Choose ZedCars?</h3>
-        <div class="why-grid">
-            <div class="why-card">
-                <i class="bi bi-shield-check"></i>
-                <h4>Trusted Quality</h4>
-                <p>All vehicles go through a 150-point inspection for guaranteed quality.</p>
-            </div>
-            <div class="why-card">
-                <i class="bi bi-cash-coin"></i>
-                <h4>Best Prices</h4>
-                <p>Competitive pricing with transparent deals, no hidden costs.</p>
-            </div>
-            <div class="why-card">
-                <i class="bi bi-truck"></i>
-                <h4>Free Delivery</h4>
-                <p>Enjoy free doorstep delivery within city limits.</p>
-            </div>
-            <div class="why-card">
-                <i class="bi bi-search"></i>
-                <h4>Intelligent filtering</h4>
-                <p>Search and filtration of vehicles by multiple factors.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const slides = Array.from(document.querySelectorAll(".slide"));
-      const prevBtn = document.querySelector(".slider-btn.prev");
-      const nextBtn = document.querySelector(".slider-btn.next");
-      let currentIndex = 0;
-      let isAnimating = false;
-      const DURATION = 700;
-
-      function showSlide(newIndex, direction) {
-        if (isAnimating || newIndex === currentIndex) return;
-        isAnimating = true;
-
-        const currentSlide = slides[currentIndex];
-        const nextSlide = slides[newIndex];
-        const currentImage = currentSlide.querySelector(".slider-image");
-        const nextImage = nextSlide.querySelector(".slider-image");
-        const currentText = currentSlide.querySelector(".slider-text");
-        const nextText = nextSlide.querySelector(".slider-text");
-
-        // Prepare next slide
-        nextSlide.classList.add("active");
-        nextImage.style.transition = "none";
-        nextImage.style.transform = direction === "next" ? "translateX(100%)" : "translateX(-100%)";
-        nextImage.style.opacity = "0";
-        nextText.style.opacity = "0";
-        nextText.style.transition = "none";
-        void nextSlide.getBoundingClientRect();
-
-        // Enable transition
-        currentImage.style.transition = `transform ${DURATION}ms ease, opacity ${DURATION}ms ease`;
-        nextImage.style.transition = `transform ${DURATION}ms ease, opacity ${DURATION}ms ease`;
-
-        // Animate slides
-        currentImage.style.transform = direction === "next" ? "translateX(-100%)" : "translateX(100%)";
-        currentImage.style.opacity = "0";
-        nextImage.style.transform = "translateX(0)";
-        nextImage.style.opacity = "1";
-
-        // Fade texts
-        currentText.style.opacity = "0";
-        setTimeout(() => {
-          nextText.style.transition = "opacity 0.7s ease";
-          nextText.style.opacity = "1";
-        }, DURATION / 2);
-
-        // Cleanup after animation
-        setTimeout(() => {
-          currentSlide.classList.remove("active");
-          currentImage.classList.remove("active");
-          nextImage.classList.add("active");
-          isAnimating = false;
-          currentIndex = newIndex;
-        }, DURATION + 50);
-      }
-
-      // Button click events
-      nextBtn.addEventListener("click", () => {
-        const newIndex = (currentIndex + 1) % slides.length;
-        showSlide(newIndex, "next");
-      });
-
-      prevBtn.addEventListener("click", () => {
-        const newIndex = (currentIndex - 1 + slides.length) % slides.length;
-        showSlide(newIndex, "prev");
-      });
-
-      // Keyboard navigation
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowRight") nextBtn.click();
-        if (e.key === "ArrowLeft") prevBtn.click();
-      });
-    });
-
-    
-
-    // JS (GSAP + ScrollTrigger)
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Initial fade-in
-    gsap.to(".hero h1", { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
-    gsap.to(".hero h2", { opacity: 1, y: 0, duration: 1, delay: 0.3, ease: "power3.out" });
-
-    // Scroll Animation (synced)
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".hero",
-        start: "top top",
-        end: "+=1200",
-        scrub: true,
-        pin: true,
-      },
-    });
-
-    tl.to(".hero h1", { x: "-100vw", ease: "power1.out" }, 0)
-      .to(".hero h2", { x: "100vw", ease: "power1.out" }, 0)
-      .to(".info-box", { bottom: "100%", ease: "power1.out" }, 0);
-
-    // Accordion logic
-    document.querySelectorAll(".accordion-header").forEach(header => {
-      header.addEventListener("click", () => {
-        const item = header.parentElement;
-        document.querySelectorAll(".accordion-item").forEach(i => {
-          if (i !== item) i.classList.remove("active");
-        });
-        item.classList.toggle("active");
-      });
-    });
-
-        // mousetrail
-    const images = [
-        "https://images.unsplash.com/photo-1494905998402-395d579af36f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
-        "https://images.unsplash.com/photo-1638571860775-92317a71208f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
-        "https://images.unsplash.com/photo-1562716190-5c19488ea1fe?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1171",
-        "https://images.unsplash.com/photo-1641430589592-71899ccfb388?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
-        "https://images.unsplash.com/photo-1591567783286-b4ab19455406?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=764",
-        "https://images.unsplash.com/photo-1669676346565-8a7084212256?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
-        "https://images.unsplash.com/photo-1560244813-02a89fe3930f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1245",
-    ]
-
-
-    const container = document.querySelector(".hover-container");
-    const headingElement = document.querySelector(".heading");
-
-    let currentImageIndex = 0;
-    let lastX = 0;
-    let lastY = 0;
-    let distanceThreshold = 120;
-
-
-    window.addEventListener("mousemove", (e) => {
-        const dx = e.clientX - lastX;
-        const dy = e.clientY - lastY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-
-        if (distance > distanceThreshold) {
-            createTrail(e.clientX, e.clientY);
-            lastX = e.clientX;
-            lastY = e.clientY;
+            });
         }
-    })
 
-
-    function createTrail(x, y) {
-        const img = document.createElement("img");
-        img.classList.add("hover-images");
-        img.src = images[currentImageIndex];
-        container.appendChild(img);
-
-
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-
-        gsap.set(img, {
-            x: x,
-            y: y,
-            scale: 0,
-            opacity: 0,
-            // rotation: gsap.utils.random(-20, 20),
-        });
-        gsap.to(img, {
-            scale: 1,
-            opacity: 1,
-            duration: 0.4,
-            ease: "power2.out",
-        })
-        gsap.to(img, {
-            scale: 0.2,
-            opacity: 0,
-            duration: 1,
-            delay: 0.3,
-            ease: "power2.in",
-            onComplete: () => {
-                img.remove();
-            }
-        })
-
-
-    }
-
-    if (container && headingElement) {
-        window.addEventListener("mousemove", (e) => {
-            const containerRect = container.getBoundingClientRect();
-            const headingRect = headingElement.getBoundingClientRect();
-
-            // 1. Check if mouse is over the main container
-            const isOverContainer = (e.clientX >= containerRect.left && e.clientX <= containerRect.right &&
-                e.clientY >= containerRect.top && e.clientY <= containerRect.bottom);
-
-            // 2. Check if mouse is BELOW the main heading text area
-            const isBelowHeading = e.clientY > headingRect.bottom;
-
-            if (isOverContainer && isBelowHeading) {
-                const dx = e.clientX - lastX;
-                const dy = e.clientY - lastY;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-
-                if (distance > distanceThreshold) {
-                    createTrail(e.clientX, e.clientY);
-                    lastX = e.clientX;
-                    lastY = e.clientY;
-                }
+            // textcard
+        var t2 = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#main",
+                // markers:true,
+                start: "38% 50%",
+                end: "100% 50%",
+                scrub: 2,
+                pin: true
             }
         });
-    }
-
-        // textcard
-    var t2 = gsap.timeline({
-        scrollTrigger: {
-            trigger: "#main",
-            // markers:true,
-            start: "38% 50%",
-            end: "100% 50%",
-            scrub: 2,
-            pin: true
-        }
-    });
-    t2
-        .to(".text", {
-            top: "-7%",
-        }, 'a')
-        .to("#card-one", {
-            top: "35%",
-        }, 'a')
-        .to("#card-two", {
-            top: "130%"
-        }, 'a')
-        .to("#card-two", {
-            top: "42%"
-        }, 'b')
-        .to("#card-one", {
-            width: "65%",
-            height: "65vh"
-        }, 'b')
-        .to("#card-three", {
-            top: "130%"
-        }, 'b')
-        .to("#card-three", {
-            top: "50%"
-        }, 'c')
-        .to("#card-two", {
-            width: "70%",
-            height: "70vh"
-        }, 'c')
-</script>
+        t2
+            .to(".text", {
+                top: "-7%",
+            }, 'a')
+            .to("#card-one", {
+                top: "35%",
+            }, 'a')
+            .to("#card-two", {
+                top: "130%"
+            }, 'a')
+            .to("#card-two", {
+                top: "42%"
+            }, 'b')
+            .to("#card-one", {
+                width: "65%",
+                height: "65vh"
+            }, 'b')
+            .to("#card-three", {
+                top: "130%"
+            }, 'b')
+            .to("#card-three", {
+                top: "50%"
+            }, 'c')
+            .to("#card-two", {
+                width: "70%",
+                height: "70vh"
+            }, 'c')
+    </script>
