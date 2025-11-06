@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glassmorphic Dual Navbar</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+  <!-- 🔹 Background Video (fixed, behind all) -->
+  <video autoplay muted loop playsinline class="bg-video">
+    <source src="https://videos.pexels.com/video-files/5309381/5309381-hd_1920_1080_25fps.mp4" type="video/mp4" />
+  </video>
+
+  <!-- 🔹 Dark overlay for contrast -->
+  <div class="video-overlay"></div>
+
+  <!-- 🔹 Main Content Container -->
+  <div class="parent">
+
+    <!-- LEFT GLASS BOX -->
+    <div class="glass-box left">
+      <button id="menuBtn" class="menu-btn">
+        <span>Menu</span>
+        <span class="close-icon">Close ✕</span>
+      </button>
+
+      <div id="dropdownMenu" class="dropdown-menu">
+        <div class="menu-section">
+          <h4>PROJECTS</h4>
+          <a href="#">World</a>
+          <a href="#">World app</a>
+          <a href="#">Jellybean</a>
+          <a href="#">Nolla</a>
+          <a href="#">Final Offer</a>
+          <a href="#">Oteria</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔹 Script -->
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const menu = document.getElementById('dropdownMenu');
+    let isOpen = false;
+
+    gsap.set(menu, { y: -50, opacity: 0, display: "none" });
+
+    menuBtn.addEventListener('click', () => {
+      if (!isOpen) {
+        gsap.to(menu, {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power4.out",
+          display: "block"
+        });
+      } else {
+        gsap.to(menu, {
+          y: -50,
+          opacity: 0,
+          duration: 0.5,
+          ease: "power4.in",
+          onComplete: () => (menu.style.display = "none")
+        });
+      }
+      isOpen = !isOpen;
+      menuBtn.classList.toggle("active");
+    });
+  </script>
+
+</body>
+</html>
+
+
+/* --- Basic Body --- */
+body {
+  margin: 0;
+  font-family: "Inter", "Helvetica Neue", sans-serif;
+  background: #000; /* fallback if video fails */
+  color: #fff;
+  overflow: hidden;
+}
+
+/* --- Background Video --- */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+/* --- Dark Overlay --- */
+.video-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+/* --- Layout (All in Parent) --- */
+.parent {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  height: 100vh;
+  padding-top: 5vh;
+  box-sizing: border-box;
+}
+
+/* --- Glass Boxes --- */
+.glass-box {
+  flex: 1;
+  
+  border-radius: 16px;
+  padding: 2rem;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+}
+
+/* --- Left (Menu) --- */
+.left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --- Right (Info) --- */
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.right .info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.right .info p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+}
+
+/* --- Menu Button --- */
+.menu-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  width: 100%;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  transition: all 0.3s ease;
+}
+.menu-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.menu-btn .close-icon {
+  opacity: 0;
+  transition: opacity 0s ease;
+  width: 100%;
+}
+.menu-btn.active .close-icon {
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+}
+.menu-btn.active span:first-child {
+  opacity: 0;
+}
+
+/* --- Dropdown Menu --- */
+.dropdown-menu {
+  margin-top: 1rem;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  /*padding: 1.5rem;*/
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.menu-section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  padding: 3vw;
+}
+.menu-section h4 {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.5rem;
+}
+.menu-section a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  margin: 0.25rem 0;
+  transition: color 0.2s;
+}
+.menu-section a:hover {
+  color: #ccc;
+}
+
+hr {
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 1rem 0;
+}
+
