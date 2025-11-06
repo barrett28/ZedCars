@@ -80,6 +80,18 @@ namespace ZedCars.Net8.Controllers
             var fileName = $"ZedCars_Sales_Report_{DateTime.Now:yyyy-MM-dd_HH-mm}.pdf";
             return File(pdfBytes, "application/pdf", fileName);
         }
+        
+        [HttpGet("sales/pdfExcelJson")]
+        public async Task<IActionResult> GetSalesReportJson()
+        {
+            var model = await GetSalesReportModel();
+
+            if (model == null)
+                return NotFound(new { message = "Sales report data not found." });
+
+            return Ok(model); // returns JSON automatically
+        }
+
 
         [HttpPost("sales/excel")]
         public async Task<IActionResult> DownloadExcel()
