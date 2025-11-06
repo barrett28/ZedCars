@@ -9,6 +9,7 @@ namespace ZedCars.Net8.ViewModels.ReportsCont
         public string Brand { get; set; } = string.Empty;
         public int UnitsSold { get; set; }
         public decimal TotalSales { get; set; }
+        public int StockAvailable { get; set; }
     }
 
     public class MonthlySalesDto

@@ -63,13 +63,14 @@ namespace ZedCars.Net8.Services
             return await _context.Purchases
                 .AsNoTracking()
                 .Include(p => p.Car)
-                .Where(p=>p.Car != null)
+                .Where(p => p.Car != null)
                 .GroupBy(p => p.Car!.Brand)
                 .Select(g => new SalesByBrandDto
                 {
                     Brand = g.Key ?? "Unknown",
                     UnitsSold = g.Sum(x => x.PurchaseQuantity),
-                    TotalSales = g.Sum(x => x.PurchasePrice * x.PurchaseQuantity)
+                    TotalSales = g.Sum(x => x.PurchasePrice * x.PurchaseQuantity),
+                    StockAvailable = g.Sum(x => x.Car.StockQuantity ?? 0)
                 })
                 .OrderByDescending(x => x.TotalSales)
                 .ToListAsync();

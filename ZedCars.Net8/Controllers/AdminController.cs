@@ -52,7 +52,11 @@ namespace ZedCars.Net8.Controllers
                 TopBrandSalesPercent = salesByBrand.Sum(s => s.UnitsSold) > 0
                     ? ((topBrand?.UnitsSold ?? 0) * 100) / salesByBrand.Sum(s => s.UnitsSold)
                     : 0,
-                RecentBookings = (await _testDriveRepository.GetAllTestDrivesAsync()).Take(5).ToList()
+                RecentBookings = (await _testDriveRepository.GetAllTestDrivesAsync()).Take(5).ToList(),
+                stockData = salesByBrand.Select(s => new {
+                    Brand = s.Brand,
+                    StockAvailable = s.StockAvailable,                    UnitsSold = s.UnitsSold,
+                }).ToList()
             };
             
             return Ok(dashboardData);
