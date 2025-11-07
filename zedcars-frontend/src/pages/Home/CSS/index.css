@@ -148,3 +148,39 @@
         font-size: 1.2rem;
     }
 }
+
+/* ===== HOVER CONTAINER ===== */
+.hover-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: #202020;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.heading {
+    text-align: center;
+    z-index: 10;
+    position: relative;
+}
+
+.heading h2 {
+    font-size: 4rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.hover-images {
+    position: absolute;
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    pointer-events: none;
+    z-index: 1;
+}
