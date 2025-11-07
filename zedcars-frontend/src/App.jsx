@@ -5,6 +5,7 @@ import Navbar from './components/layout/HTML/Navbar'
 import Dashboard from './pages/Admin/HTML/Dashboard'
 import Login from './pages/Auth/HTML/Login'
 import HomeIndex from "./pages/Home/HTML/Index"
+import Footer from './components/layout/HTML/Footer'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/Auth/Login" element={<Login />} />
         <Route path="/Admin/Dashboard" element={<Dashboard />} />
       </Routes>
+      <Footer />
     </Router>
   )
 }

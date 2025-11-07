@@ -79,7 +79,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="container my-4">
+      <div className="my-4">
         <div className="dashboard-overview">
           <h2 className="mb-4">📊 Dashboard Overview</h2>
 

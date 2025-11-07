@@ -1,60 +1,62 @@
-import React, { useEffect, useState } from "react";
-import gsap from "gsap";
-import "../../layout/CSS/Navbar.css";
+import React, { useState, useEffect } from "react";
+import "../CSS/Navbar.css";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
-    const menu = document.getElementById("dropdownMenu");
-    if (!menu) return;
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
 
-    gsap.set(menu, { y: -20, opacity: 0, display: "none" });
+      // Show navbar when scrolling up, hide when scrolling down
+      if (currentScrollY < lastScrollY) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY + 10) {
+        setIsVisible(false);
+      }
 
-    if (isOpen) {
-      gsap.to(menu, {
-        y: 0,
-        opacity: 1,
-        duration: 0.5,
-        ease: "power4.out",
-        display: "block",
-      });
-    } else {
-      gsap.to(menu, {
-        y: -20,
-        opacity: 0,
-        duration: 0.4,
-        ease: "power4.in",
-        onComplete: () => (menu.style.display = "none"),
-      });
-    }
-  }, [isOpen]);
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   return (
-    <nav className="navbar">
-      <div className="navbar-left">
-        <button
-          className={`menu-btn ${isOpen ? "active" : ""}`}
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span>Menu</span>
-          <span className="close-icon">Close ✕</span>
-        </button>
-
-        <div id="dropdownMenu" className="dropdown-menu">
-          <div className="menu-section">
-            <h4>PROJECTS</h4>
-            <a href="#">World</a>
-            <a href="#">World App</a>
-            <a href="#">Jellybean</a>
-            <a href="#">Nolla</a>
-            <a href="#">Final Offer</a>
-            <a href="#">Oteria</a>
-          </div>
+    <header className={`navbar ${isVisible ? "visible" : "hidden"}`}>
+      <div className="nav-container">
+        <div className="nav-logo">
+          <span>ZedCars</span>
         </div>
+
+        <nav className="nav-menu">
+          <a href="#home">Home</a>
+          <a href="#inventory">Inventory</a>
+          <a href="#services">Services</a>
+          <a href="#financing">Financing</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <button
+          className={`nav-toggle ${isMenuOpen ? "open" : ""}`}
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
 
-    </nav>
+      <div className={`mobile-nav ${isMenuOpen ? "active" : ""}`}>
+        <a href="#home" onClick={() => setIsMenuOpen(false)}>Home</a>
+        <a href="#inventory" onClick={() => setIsMenuOpen(false)}>Inventory</a>
+        <a href="#services" onClick={() => setIsMenuOpen(false)}>Services</a>
+        <a href="#financing" onClick={() => setIsMenuOpen(false)}>Financing</a>
+        <a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
+      </div>
+    </header>
   );
 };
 
