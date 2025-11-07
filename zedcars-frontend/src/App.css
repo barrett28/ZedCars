@@ -1,5 +1,17 @@
-/* App specific styles - keep minimal */
-.App {
-  width: 100%;
+/* App Layout for Sticky Footer */
+.app-container {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }

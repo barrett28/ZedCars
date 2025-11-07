@@ -1,4 +1,15 @@
 /* ===== GLOBAL RESET & BASE STYLES ===== */
+
+.app-container{
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content{
+  flex: 1;
+  padding-bottom: 30px;
+}
+
 * {
   margin: 0;
   padding: 0;

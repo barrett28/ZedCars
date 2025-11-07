@@ -1,9 +1,13 @@
 .footer {
-  position: relative;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   background: linear-gradient(135deg, #0a0a0a, #121212);
   color: #ccc;
   padding-top: 92px;
   font-family: "Poppins", sans-serif;
+  z-index: 100;
 }
 
 /* Wave curve using clip-path */
