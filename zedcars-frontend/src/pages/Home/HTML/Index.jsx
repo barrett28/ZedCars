@@ -147,75 +147,75 @@ const HomeIndex = () => {
     <div className="home-page">
       {/* Hero Section */}
       <div className="hero">
-          {/* Background Video */}
-          <video className="bg-video" autoPlay muted loop playsInline>
-            <source src={carVideo} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+        {/* Background Video */}
+        <video className="bg-video" autoPlay muted loop playsInline>
+          <source src={carVideo} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
 
-          {/* Overlay */}
-          <div className="video-overlay"></div>
+        {/* Overlay */}
+        <div className="video-overlay"></div>
 
-          {/* Headings */}
-          <h1>Discover Your Dream</h1>
-          <h2>Ride Only at ZedCars</h2>
+        {/* Headings */}
+        <h1>Discover Your Dream</h1>
+        <h2>Ride Only at ZedCars</h2>
 
-          {/* Info Box */}
-          <div className="info-box">
-            <div className="info-video">
-              <video autoPlay muted loop playsInline>
-                <source src={heroVideo} type="video/mp4" />
-              </video>
+        {/* Info Box */}
+        <div className="info-box">
+          <div className="info-video">
+            <video autoPlay muted loop playsInline>
+              <source src={heroVideo} type="video/mp4" />
+            </video>
+          </div>
+
+          <div className="info-text">
+            ZedCars brings you a curated collection of luxury and performance vehicles.
+            Explore, compare, and drive your dream today — elegance meets power.
+          </div>
+
+          {/* Accordion */}
+          <div className="accordion">
+            <div className="accordion-item">
+              <button className="accordion-header">Performance Cars</button>
+              <div className="accordion-content">
+                <p>Unleash precision engineering and thrilling performance on every road.</p>
+              </div>
             </div>
 
-            <div className="info-text">
-              ZedCars brings you a curated collection of luxury and performance vehicles.
-              Explore, compare, and drive your dream today — elegance meets power.
+            <div className="accordion-item">
+              <button className="accordion-header">Luxury Cars</button>
+              <div className="accordion-content">
+                <p>Experience elegance and craftsmanship crafted to perfection.</p>
+              </div>
             </div>
 
-            {/* Accordion */}
-            <div className="accordion">
-              <div className="accordion-item">
-                <button className="accordion-header">Performance Cars</button>
-                <div className="accordion-content">
-                  <p>Unleash precision engineering and thrilling performance on every road.</p>
-                </div>
+            <div className="accordion-item">
+              <button className="accordion-header">SUVs & Family</button>
+              <div className="accordion-content">
+                <p>Space, power, and comfort — designed for every adventure.</p>
               </div>
+            </div>
 
-              <div className="accordion-item">
-                <button className="accordion-header">Luxury Cars</button>
-                <div className="accordion-content">
-                  <p>Experience elegance and craftsmanship crafted to perfection.</p>
-                </div>
-              </div>
-
-              <div className="accordion-item">
-                <button className="accordion-header">SUVs & Family</button>
-                <div className="accordion-content">
-                  <p>Space, power, and comfort — designed for every adventure.</p>
-                </div>
-              </div>
-
-              <div className="accordion-item">
-                <button className="accordion-header">Electric Cars</button>
-                <div className="accordion-content">
-                  <p>Step into the future with advanced electric technology and innovation.</p>
-                </div>
+            <div className="accordion-item">
+              <button className="accordion-header">Electric Cars</button>
+              <div className="accordion-content">
+                <p>Step into the future with advanced electric technology and innovation.</p>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Hover Container */}
-        <div className="hover-container">
-          <div className="heading">
-            <h2><span style={{color:'#FFC43A'}}>Command</span> Attention</h2>
-            <h2>with <br /> the <span style={{color:'#FFC43A'}}>ZedCars</span></h2>
-          </div>
+      {/* Hover Container */}
+      <div className="hover-container">
+        <div className="heading">
+          <h2><span style={{color:'#FFC43A'}}>Command</span> Attention</h2>
+          <h2>with <br /> the <span style={{color:'#FFC43A'}}>ZedCars</span></h2>
         </div>
+      </div>
 
         {/* Scroll Content */}
-        <div style={{height: '100vh', backgroundColor: '#202020', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <div style={{height: '300px', backgroundColor: '#202020', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
           <h2 style={{color: 'white', fontSize: '3rem'}}>Scroll Content Area</h2>
           <button className='btn'>hello</button>
         </div>

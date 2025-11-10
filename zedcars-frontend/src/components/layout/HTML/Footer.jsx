@@ -41,7 +41,11 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
+
+      {/* <div className="footer-bottom">
+        <p>© 2025 ZedCars. All rights reserved.</p>
+      </div> */}
+    </footer> 
   );
 };
 

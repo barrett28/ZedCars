@@ -1,14 +1,5 @@
 /* ===== GLOBAL RESET & BASE STYLES ===== */
 
-.app-container{
-  display: flex;
-  flex-direction: column;
-}
-
-.main-content{
-  flex: 1;
-  padding-bottom: 30px;
-}
 
 * {
   margin: 0;
@@ -32,6 +23,8 @@ body {
 
 #root {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ===== TYPOGRAPHY ===== */

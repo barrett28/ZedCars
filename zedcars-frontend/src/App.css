@@ -1,17 +1,18 @@
-/* App Layout for Sticky Footer */
-.app-container {
+/* .App {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+}
+
+main {
+  flex: 1;
+} */
+
+.App {
   display: flex;
   flex-direction: column;
 }
 
 .main-content {
   flex: 1;
-}
-
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
