@@ -29,7 +29,7 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401) {
       console.warn("⚠️ Unauthorized! Token may have expired.");
       localStorage.removeItem("jwtToken");
-      window.location.href = "/login"; // redirect to login
+      window.location.href = "/auth/login"; // redirect to login
     }
     return Promise.reject(error);
   }

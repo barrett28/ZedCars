@@ -29,7 +29,7 @@ const Login = () => {
         localStorage.setItem("jwtToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
         if (form.remember) localStorage.setItem("rememberMe", "true");
-        navigate("/Admin/Dashboard");
+        navigate("/");
       } else {
         setError("Invalid response from server.");
       }

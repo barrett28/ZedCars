@@ -24,11 +24,14 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
+
   return (
     <header className={`navbar ${isVisible ? "visible" : "hidden"}`}>
       <div className="nav-container">
         <div className="nav-logo">
-          <a href="/home">ZedCars</a>
+          <a href="/">ZedCars</a>
         </div>
 
         <nav className="nav-menu">
@@ -40,7 +43,8 @@ const Navbar = () => {
 
         <button
           className={`nav-toggle ${isMenuOpen ? "open" : ""}`}
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
         >
           <span></span>
           <span></span>
@@ -49,11 +53,11 @@ const Navbar = () => {
       </div>
 
       <div className={`mobile-nav ${isMenuOpen ? "active" : ""}`}>
-        <a href="#home" onClick={() => setIsMenuOpen(false)}>Home</a>
-        <a href="#inventory" onClick={() => setIsMenuOpen(false)}>Inventory</a>
-        <a href="#services" onClick={() => setIsMenuOpen(false)}>Services</a>
-        <a href="#financing" onClick={() => setIsMenuOpen(false)}>Financing</a>
-        <a href="/contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
+        <a href="/home" onClick={closeMenu}>Home</a>
+        <a href="/inventory" onClick={closeMenu}>Inventory</a>
+        <a href="/services" onClick={closeMenu}>Services</a>
+        <a href="/financing" onClick={closeMenu}>Financing</a>
+        <a href="/contact" onClick={closeMenu}>Contact</a>
       </div>
     </header>
   );

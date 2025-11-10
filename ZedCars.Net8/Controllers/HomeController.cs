@@ -59,9 +59,8 @@ namespace ZedCars.Net8.Controllers
 
         [HttpGet("inventory")]
         [Authorize(Roles = "SuperAdmin,Customer,Manager")]
-        public async Task<IActionResult> Inventory(string? brand, string? priceRange, string? fuelType, int page = 1)
+        public async Task<IActionResult> Inventory(string? brand, string? priceRange, string? fuelType, int page = 1, int pageSize = 10)
         {
-            const int pageSize = 6;
             var (cars, totalCars) = await _carRepository.GetFilteredCarsAsync(brand, priceRange, fuelType, page, pageSize);
             var brands = await _carRepository.GetDistinctBrandsAsync();
             var fuelTypes = await _carRepository.GetDistinctFuelTypesAsync();
