@@ -28,15 +28,14 @@ const Navbar = () => {
     <header className={`navbar ${isVisible ? "visible" : "hidden"}`}>
       <div className="nav-container">
         <div className="nav-logo">
-          <span>ZedCars</span>
+          <a href="/home">ZedCars</a>
         </div>
 
         <nav className="nav-menu">
-          <a href="#home">Home</a>
-          <a href="#inventory">Inventory</a>
-          <a href="#services">Services</a>
-          <a href="#financing">Financing</a>
-          <a href="#contact">Contact</a>
+          <a href="/inventory">Inventory</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/auth/login">Login</a>
         </nav>
 
         <button
@@ -54,7 +53,7 @@ const Navbar = () => {
         <a href="#inventory" onClick={() => setIsMenuOpen(false)}>Inventory</a>
         <a href="#services" onClick={() => setIsMenuOpen(false)}>Services</a>
         <a href="#financing" onClick={() => setIsMenuOpen(false)}>Financing</a>
-        <a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
+        <a href="/contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
       </div>
     </header>
   );

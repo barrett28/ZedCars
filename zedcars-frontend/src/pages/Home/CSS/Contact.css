@@ -1,0 +1,120 @@
+.contact-page {
+  background-color: #0f0f0f;
+  min-height: 100vh;
+  color: #fff;
+}
+
+/* Header */
+.contact-page h1 {
+  color: #e63939;
+  letter-spacing: 1px;
+}
+
+/* Info Cards */
+.info-card {
+  background: rgba(25, 25, 25, 0.85);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(229, 9, 20, 0.05);
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  box-shadow: 0 0 25px rgba(229, 9, 20, 0.15);
+}
+
+.icon-wrapper {
+  width: 75px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 1rem;
+  font-size: 2rem;
+  color: #fff;
+}
+
+.info-card h5 {
+  margin-bottom: 0.75rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+.info-card p {
+  margin-bottom: 0.5rem;
+  color: #ccc;
+}
+
+.info-card .link {
+  color: #e63939;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.info-card .link:hover {
+  color: #ff3838;
+}
+
+/* Contact Form */
+.contact-form {
+  /* background: rgba(25, 25, 25, 0.9); */
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 0 25px rgba(229, 9, 20, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  background-color: #202020;
+  border: 2px solid #333;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-color: #e63939;
+  outline: none;
+  background: black;
+  box-shadow: 1px 2px 8px rgba(229, 9, 20, 0.3);
+}
+
+.contact-form ::placeholder{
+    color: rgba(255, 255, 255, 0.411);
+}
+
+/* Submit Button */
+.btn-submit {
+  background-color: #e63939;
+  color: #fff;
+  border: none;
+  padding: 0.9rem 2.5rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: #c92626;
+  transform: scale(1.01);
+  /* box-shadow: 0 0 15px rgba(229, 9, 20, 0.4); */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .info-card {
+    padding: 1.5rem;
+  }
+
+  .contact-form {
+    padding: 1.5rem;
+  }
+}

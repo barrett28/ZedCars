@@ -40,7 +40,7 @@ body {
 }
 
 /* Logo */
-.nav-logo span {
+.nav-logo a {
   font-size: 28px;
   font-weight: 700;
   color: #ffffff;
@@ -50,7 +50,7 @@ body {
   transition: color 0.3s ease;
 }
 
-.nav-logo span:hover {
+.nav-logo a:hover {
   color: #ff4655;
 }
 
