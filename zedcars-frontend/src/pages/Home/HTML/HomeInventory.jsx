@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import apiClient from "../../../api/apiClient";
 import "../CSS/HomeInventory.css";
+import { useNavigate } from "react-router-dom";
 
 const HomeInventory = () => {
   const [data, setData] = useState({
@@ -17,6 +18,7 @@ const HomeInventory = () => {
   });
 
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const {
     cars,
@@ -147,7 +149,7 @@ const HomeInventory = () => {
       <div className="inventory-grid">
         {cars.length > 0 ? (
           cars.map((car) => (
-            <div className="vehicle-card" key={car.id}>
+            <div className="vehicle-card" key={car.id} onClick={() => navigate(`/vehicle/${car.carId || car.id}`)} style={{cursor: 'pointer'}}>
               <div className="vehicle-image">
                 <img
                   src={car.imageUrl || "https://via.placeholder.com/300x200?text=No+Image"}
@@ -179,9 +181,9 @@ const HomeInventory = () => {
                 </div>
 
                 <div className="vehicle-actions">
-                  <a href={`/vehicle/${car.id}`} className="btn btn-primary">
+                  <button onClick={() => navigate(`/vehicle/${car.carId || car.id}`)} className="btn btn-primary">
                     View Details
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

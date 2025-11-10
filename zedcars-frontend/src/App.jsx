@@ -10,6 +10,7 @@ import About from './pages/Home/HTML/About'
 import Register from './pages/Auth/HTML/Register'
 import HomeInventory from './pages/Home/HTML/HomeInventory'
 import { AuthProvider } from './context/AuthContext'
+import VehicleDetail from "./pages/Home/HTML/VehicleDetail"
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomeIndex />} />
               <Route path="/home" element={<HomeIndex />} />
+              <Route path="/vehicle/:id" element={<VehicleDetail />} />
               {/* For User Login */}
               <Route path="/Auth/Login" element={<Login />} />
               <Route path="/Auth/Register" element={<Register />} />
