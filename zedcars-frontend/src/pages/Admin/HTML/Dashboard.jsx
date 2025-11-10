@@ -71,7 +71,7 @@ const Dashboard = () => {
         <p className="lead">Manage your ZedCars inventory and users</p>
 
         <div className="admin-actions d-flex justify-content-start align-items-center">
-          <a href="/Admin/AddVehicle" className="btn btn-primary">Add New Vehicle</a>
+          <a href="/Admin/AddVehicle" className="btn btn-secondary bg-primary">Add New Vehicle</a> 
           <a href="/Admin/Inventory" className="btn btn-secondary">Manage Vehicles</a>
           <a href="/Accessory/Index" className="btn btn-secondary">Manage Accessories</a>
           <a href="/Admin/ManageUsers" className="btn btn-secondary">Manage Users</a>

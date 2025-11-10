@@ -261,14 +261,19 @@ namespace ZedCars.Net8.Controllers
         [Authorize(Roles ="Customer")]
         public async Task<IActionResult> MyTestDrives()
         {
-            var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrEmpty(userEmail))
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
             {
-                return Unauthorized();
+                var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+                if (!string.IsNullOrEmpty(userEmail))
+                {
+                    var userTestDrives = await _testDriveRepository.GetTestDrivesByCustomerAsync(userEmail);
+                    return Ok(userTestDrives);
+                }                return Unauthorized();
             }
 
-            var testDrives = await _testDriveRepository.GetTestDrivesByCustomerAsync(userEmail);
+            var testDrives = await _testDriveRepository.GetTestDrivesByUserIdAsync(userId);
             return Ok(testDrives);
         }
 

@@ -73,7 +73,15 @@ namespace ZedCars.Net8.Services
                 .OrderByDescending(td => td.CreatedAt)
                 .ToListAsync();
         }
-        public async Task<TestDrive?> GetTestDriveByCarAndEmailAsync(int carId, string email)
+        public async Task<List<TestDrive>> GetTestDrivesByUserIdAsync(int userId)
+        {
+            return await _context.TestDrives
+                .AsNoTracking()
+                .Include(td => td.Car)
+                .Where(td => _context.Admins.Any(a => a.AdminId == userId && a.Email == td.CustomerEmail))
+                .OrderByDescending(td => td.CreatedAt)
+                .ToListAsync();
+        }        public async Task<TestDrive?> GetTestDriveByCarAndEmailAsync(int carId, string email)
         {
             return await _context.TestDrives
                 .FirstOrDefaultAsync(t => t.CarId == carId && t.CustomerEmail == email);
