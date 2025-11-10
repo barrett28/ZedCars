@@ -1,10 +1,14 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
+import { decodeJWT } from "../../../utils/jwtUtils";
 import apiClient from "../../../api/apiClient";
 import "../CSS/Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [form, setForm] = useState({ username: "", password: "", remember: false });
   const [error, setError] = useState("");
 
@@ -26,10 +30,25 @@ const Login = () => {
       const { accessToken, refreshToken } = response.data;
 
       if (accessToken) {
-        localStorage.setItem("jwtToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
         if (form.remember) localStorage.setItem("rememberMe", "true");
-        navigate("/");
+        
+        // Use the login function from AuthContext
+        login(accessToken);
+        
+        // Debug: Check what's in the JWT
+        const decoded = decodeJWT(accessToken);
+        console.log('Full JWT payload:', decoded);
+        
+        const userRole = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+        console.log('Extracted role:', userRole);
+        
+        // Role-based redirection
+        if (userRole === 'Customer') {
+          navigate("/");
+        } else {
+          navigate("/Admin/Dashboard");
+        }
       } else {
         setError("Invalid response from server.");
       }
@@ -93,7 +112,7 @@ const Login = () => {
 
           <div className="form-footer">
             <p>
-              Don’t have an account?{" "}
+              Don't have an account?{" "}
               <a href="/Auth/Register">Register</a>
             </p>
           </div>

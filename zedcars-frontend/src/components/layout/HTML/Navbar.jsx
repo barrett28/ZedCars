@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "../CSS/Navbar.css";
+import { useAuth } from "../../../context/AuthContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,27 +26,40 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false);
+  const handleLogout = () => {
+    logout();
+    window.location.href = '/';
+  };
 
   return (
     <header className={`navbar ${isVisible ? "visible" : "hidden"}`}>
       <div className="nav-container">
         <div className="nav-logo">
-          <a href="/">ZedCars</a>
+          <a href="/home">ZedCars</a>
         </div>
 
         <nav className="nav-menu">
           <a href="/inventory">Inventory</a>
           <a href="/about">About</a>
           <a href="/contact">Contact</a>
-          <a href="/auth/login">Login</a>
+
+          {!user.isAuthenticated ? (
+            <a href="/auth/login">Login</a>
+          ) : (
+            <>
+              {user.role === 'Customer' && (
+                <a href="/testdrives">Test Drives</a>
+              )}
+              <button onClick={handleLogout} className="logout-btn">
+                Logout
+              </button>
+            </>
+          )}
         </nav>
 
         <button
           className={`nav-toggle ${isMenuOpen ? "open" : ""}`}
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <span></span>
           <span></span>
@@ -53,11 +68,14 @@ const Navbar = () => {
       </div>
 
       <div className={`mobile-nav ${isMenuOpen ? "active" : ""}`}>
-        <a href="/home" onClick={closeMenu}>Home</a>
-        <a href="/inventory" onClick={closeMenu}>Inventory</a>
-        <a href="/services" onClick={closeMenu}>Services</a>
-        <a href="/financing" onClick={closeMenu}>Financing</a>
-        <a href="/contact" onClick={closeMenu}>Contact</a>
+        <a href="#home" onClick={() => setIsMenuOpen(false)}>Home</a>
+        <a href="#inventory" onClick={() => setIsMenuOpen(false)}>Inventory</a>
+        <a href="#services" onClick={() => setIsMenuOpen(false)}>Services</a>
+        <a href="#financing" onClick={() => setIsMenuOpen(false)}>Financing</a>
+        <a href="/contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
+        {user.isAuthenticated && user.role === "Customer" && (
+          <a href="/testdrives" onClick={() => setIsMenuOpen(false)}>Test Drives</a>
+        )}
       </div>
     </header>
   );
