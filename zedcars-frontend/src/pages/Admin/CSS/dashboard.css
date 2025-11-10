@@ -1,3 +1,7 @@
+.admin-dashboard{
+    margin-top : 7vh;
+}
+
 .admin-header {
     background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
     color: white;
@@ -6,9 +10,8 @@
 
 .admin-actions {
     margin-top: 20px;
-    display: flex;
+    /* display: flex; */
     gap: 10px;
-    flex-direction: row;
 }
 
 .btn {
