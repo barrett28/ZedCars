@@ -10,6 +10,8 @@
   flex: 1;
   max-width: 600px;
   margin: auto;
+  margin-top: 5vw;
+  margin-bottom: 5vw;
   padding: 2.5rem;
   background: #141414; /* slightly lighter black for contrast */
   border-radius: 12px;
