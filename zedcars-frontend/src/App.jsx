@@ -11,6 +11,10 @@ import Register from './pages/Auth/HTML/Register'
 import HomeInventory from './pages/Home/HTML/HomeInventory'
 import { AuthProvider } from './context/AuthContext'
 import VehicleDetail from "./pages/Home/HTML/VehicleDetail"
+import AdminInventory from './pages/Admin/HTML/AdminInventory'
+import AddVehicle from './pages/Admin/HTML/AddVehicle'
+import EditVehicle from './pages/Admin/HTML/EditVehicle'
+import DeleteVehicle from './pages/Admin/HTML/DeleteVehicle'
 
 function App() {
   return (
@@ -31,8 +35,12 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/inventory" element={<HomeInventory />} />
               
-
+              {/* Routes are for Admin  */}
               <Route path="/Admin/Dashboard" element={<Dashboard />} />
+              <Route path="/Admin/AdminInventory" element={<AdminInventory />} />
+              <Route path="/Admin/AddVehicle" element={<AddVehicle />} />
+              <Route path="/Admin/EditVehicle/:id" element={<EditVehicle />} />
+              <Route path="/Admin/DeleteVehicle/:id" element={<DeleteVehicle />} />
             </Routes>
           </div>
           <Footer />

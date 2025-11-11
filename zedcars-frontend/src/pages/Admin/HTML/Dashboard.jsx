@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Chart from "chart.js/auto";
 import apiClient from "../../../api/apiClient";
-import "../CSS/dashboard.css";
+import "../CSS/Dashboard.css";
 
 const Dashboard = () => {
   const [dashboard, setDashboard] = useState(null);
@@ -72,13 +72,13 @@ const Dashboard = () => {
 
         <div className="admin-actions d-flex justify-content-start align-items-center">
           <a href="/Admin/AddVehicle" className="btn btn-secondary bg-primary">Add New Vehicle</a> 
-          <a href="/Admin/Inventory" className="btn btn-secondary">Manage Vehicles</a>
+          <a href="/Admin/AdminInventory" className="btn btn-secondary">Manage Vehicles</a>
           <a href="/Accessory/Index" className="btn btn-secondary">Manage Accessories</a>
-          <a href="/Admin/ManageUsers" className="btn btn-secondary">Manage Users</a>
+          <a href="/Admin/EditUser" className="btn btn-secondary">Manage Users</a>
           <a href="/Reports/SalesReport" className="btn btn-secondary">View Reports</a>
         </div>
       </div>
-
+    
       <div className="my-4">
         <div className="dashboard-overview">
           <h2 className="mb-4">📊 Dashboard Overview</h2>
@@ -276,7 +276,7 @@ const Dashboard = () => {
 
         <div className="user-activity-section">
           <div className="section-header d-flex justify-content-between align-items-center border-bottom">
-            <h2 className="fw-bold text-primary mb-0">
+            <h2 className="fw-bold  mb-0">
               <i className="bi bi-activity me-2"></i> User Activity
             </h2>
             <a href="/Admin/UserActivity" className="view-all">View All</a>
