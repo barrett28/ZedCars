@@ -88,22 +88,22 @@ const AdminInventory = () => {
   };
 
   if (loading) {
-    return <div className="loading">Loading inventory...</div>;
+    return <div className="admin-loading">Loading inventory...</div>;
   }
 
   return (
-    <div className="inventory-page">
+    <div className="admin-inventory-page">
       {/* Header */}
-      <div className="page-header">
+      <div className="admin-page-header">
         <h1>Vehicle Inventory Management</h1>
         <p>Manage your vehicle inventory</p>
       </div>
 
       {/* Brand Filter + Add Vehicle */}
-      <div className="filter-form">
-        <div className="filter-grid">
+      <div className="admin-filter-form">
+        <div className="admin-filter-grid">
           <select
-            className="form-select"
+            className="admin-form-select"
             value={selectedBrand}
             onChange={handleBrandChange}
           >
@@ -116,7 +116,7 @@ const AdminInventory = () => {
           </select>
           <button
             onClick={() => navigate("/Admin/AddVehicle")}
-            className="btn btn-success"
+            className="admin-btn admin-btn-success"
           >
             Add New Vehicle
           </button>
@@ -125,8 +125,8 @@ const AdminInventory = () => {
 
       {/* Inventory Table */}
       {cars.length > 0 ? (
-        <div className="inventory-table">
-          <table className="table">
+        <div className="admin-inventory-table">
+          <table className="admin-table">
             <thead>
               <tr>
                 <th>Image</th>
@@ -148,7 +148,7 @@ const AdminInventory = () => {
                         "https://via.placeholder.com/80x60?text=No+Image"
                       }
                       alt={`${car.make} ${car.model}`}
-                      className="vehicle-thumbnail"
+                      className="admin-vehicle-thumbnail"
                     />
                   </td>
                   <td>{car.make}</td>
@@ -157,7 +157,7 @@ const AdminInventory = () => {
                   <td>${car.price?.toLocaleString()}</td>
                   <td>
                     <span
-                      className={`stock-badge ${
+                      className={`admin-stock-badge ${
                         car.stockQuantity > 0 ? "in-stock" : "out-of-stock"
                       }`}
                     >
@@ -165,19 +165,19 @@ const AdminInventory = () => {
                     </span>
                   </td>
                   <td>
-                    <div className="action-buttons">
+                    <div className="admin-action-buttons">
                       <button
                         onClick={() =>
                           navigate(`/Admin/EditVehicle/${car.carId || car.id}`)
                         }
-                        className="btn btn-primary btn-sm"
+                        className="admin-btn admin-btn-primary admin-btn-sm"
                       >
                         Edit
                         </button>
 
                       <button
                         onClick={() => handleDelete(car.carId || car.id)}
-                        className="btn btn-danger btn-sm"
+                        className="admin-btn admin-btn-danger admin-btn-sm"
                       >
                         Delete
                       </button>
@@ -189,7 +189,7 @@ const AdminInventory = () => {
           </table>
         </div>
       ) : (
-        <div className="no-vehicles">
+        <div className="admin-no-vehicles">
           <h3>No vehicles available</h3>
           <p>Please add some vehicles to your inventory.</p>
         </div>
@@ -198,10 +198,10 @@ const AdminInventory = () => {
       {/* Pagination */}
       {totalPages > 1 && (
         <>
-          <nav className="pagination-nav">
-            <ul className="pagination">
+          <nav className="admin-pagination-nav">
+            <ul className="admin-pagination">
               <li
-                className={`page-item ${currentPage <= 1 ? "disabled" : ""}`}
+                className={`admin-page-item ${currentPage <= 1 ? "disabled" : ""}`}
               >
                 <button
                   onClick={(e) => handlePageChange(e, currentPage - 1)}
@@ -214,7 +214,7 @@ const AdminInventory = () => {
               {Array.from({ length: totalPages }, (_, i) => (
                 <li
                   key={i + 1}
-                  className={`page-item ${
+                  className={`admin-page-item ${
                     i + 1 === currentPage ? "active" : ""
                   }`}
                 >
@@ -225,7 +225,7 @@ const AdminInventory = () => {
               ))}
 
               <li
-                className={`page-item ${
+                className={`admin-page-item ${
                   currentPage >= totalPages ? "disabled" : ""
                 }`}
               >
@@ -239,7 +239,7 @@ const AdminInventory = () => {
             </ul>
           </nav>
 
-          <div className="pagination-info">
+          <div className="admin-pagination-info">
             Showing {(currentPage - 1) * pageSize + 1}–
             {Math.min(currentPage * pageSize, totalCars)} of {totalCars} vehicles
           </div>

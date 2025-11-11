@@ -1,7 +1,7 @@
 /* =============================
    GLOBAL LAYOUT
 ============================= */
-.inventory-page {
+.admin-inventory-page {
   padding: 50px 30px;
   background: radial-gradient(circle at top left, #f8fbff 0%, #eaf1ff 50%, #f0f4ff 100%);
   min-height: 100vh;
@@ -20,7 +20,7 @@
 /* =============================
    HEADER
 ============================= */
-.page-header {
+.admin-page-header {
   text-align: center;
   margin-bottom: 60px;
   padding: 40px 25px;
@@ -32,7 +32,7 @@
   overflow: hidden;
 }
 
-.page-header::after {
+.admin-page-header::after {
   content: "";
   position: absolute;
   top: -40%;
@@ -44,13 +44,13 @@
   filter: blur(50px);
 }
 
-.page-header h1 {
+.admin-page-header h1 {
   font-size: 2.7rem;
   font-weight: 800;
   letter-spacing: -0.5px;
 }
 
-.page-header p {
+.admin-page-header p {
   color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
   margin-top: 10px;
@@ -60,7 +60,7 @@
 /* =============================
    FILTER SECTION
 ============================= */
-.filter-form {
+.admin-filter-form {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
   border-radius: 14px;
@@ -70,7 +70,7 @@
   border: 1px solid rgba(220, 230, 255, 0.6);
 }
 
-.filter-grid {
+.admin-filter-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -78,7 +78,7 @@
   gap: 20px;
 }
 
-.form-select {
+.admin-form-select {
   padding: 14px 18px;
   font-size: 15px;
   border: 2px solid #cfd8e7;
@@ -90,12 +90,12 @@
   transition: all 0.25s ease;
 }
 
-.form-select:hover {
+.admin-form-select:hover {
   border-color: #0a56e8;
   box-shadow: 0 0 0 3px rgba(10, 86, 232, 0.1);
 }
 
-.form-select:focus {
+.admin-form-select:focus {
   outline: none;
   border-color: #0a56e8;
   box-shadow: 0 0 0 3px rgba(10, 86, 232, 0.2);
@@ -104,7 +104,7 @@
 /* =============================
    BUTTONS
 ============================= */
-.btn {
+.admin-btn {
   padding: 12px 26px;
   border-radius: 10px;
   font-weight: 600;
@@ -114,37 +114,37 @@
   letter-spacing: 0.3px;
 }
 
-.btn-success {
+.admin-btn-success {
   background: linear-gradient(135deg, #16c47f, #0a9f5d);
   color: #fff;
 }
-.btn-success:hover {
+.admin-btn-success:hover {
   background: linear-gradient(135deg, #12ad6f, #0b8e54);
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(22, 196, 127, 0.35);
 }
 
-.btn-primary {
+.admin-btn-primary {
   background: linear-gradient(135deg, #0a56e8, #4f9bff);
   color: #fff;
 }
-.btn-primary:hover {
+.admin-btn-primary:hover {
   background: linear-gradient(135deg, #0849c4, #3d8bff);
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(10, 86, 232, 0.35);
 }
 
-.btn-danger {
+.admin-btn-danger {
   background: linear-gradient(135deg, #f73347, #d32434);
   color: #fff;
 }
-.btn-danger:hover {
+.admin-btn-danger:hover {
   background: linear-gradient(135deg, #d32434, #b51e2a);
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(247, 51, 71, 0.35);
 }
 
-.btn-sm {
+.admin-btn-sm {
   padding: 9px 18px;
   font-size: 0.85rem;
 }
@@ -152,7 +152,7 @@
 /* =============================
    TABLE SECTION
 ============================= */
-.inventory-table {
+.admin-inventory-table {
   background: #fff;
   border-radius: 16px;
   overflow: hidden;
@@ -160,43 +160,43 @@
   margin-bottom: 40px;
 }
 
-.table {
+.admin-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
 }
 
-.table thead {
+.admin-table thead {
   background: linear-gradient(135deg, #0a56e8, #3f8fff);
   color: #fff;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-.table th,
-.table td {
+.admin-table th,
+.admin-table td {
   padding: 16px 14px;
   border-bottom: 1px solid #e5e9f5;
   text-align: center;
   vertical-align: middle;
 }
 
-.table th {
+.admin-table th {
   font-weight: 600;
   font-size: 0.85rem;
 }
 
-.table tbody tr {
+.admin-table tbody tr {
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.table tbody tr:hover {
+.admin-table tbody tr:hover {
   background: #f5f9ff;
   transform: scale(1.01);
 }
 
 /* Vehicle Image */
-.vehicle-thumbnail {
+.admin-vehicle-thumbnail {
   width: 85px;
   height: 65px;
   object-fit: cover;
@@ -206,7 +206,7 @@
 }
 
 /* Stock badge */
-.stock-badge {
+.admin-stock-badge {
   padding: 6px 12px;
   border-radius: 50px;
   font-weight: 600;
@@ -215,17 +215,17 @@
   min-width: 50px;
   text-align: center;
 }
-.stock-badge.in-stock {
+.admin-stock-badge.in-stock {
   background: rgba(16, 185, 129, 0.15);
   color: #059669;
 }
-.stock-badge.out-of-stock {
+.admin-stock-badge.out-of-stock {
   background: rgba(239, 68, 68, 0.15);
   color: #dc2626;
 }
 
 /* Action buttons */
-.action-buttons {
+.admin-action-buttons {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -236,20 +236,20 @@
 /* =============================
    PAGINATION
 ============================= */
-.pagination-nav {
+.admin-pagination-nav {
   display: flex;
   justify-content: center;
   margin-top: 30px;
 }
 
-.pagination {
+.admin-pagination {
   display: flex;
   list-style: none;
   gap: 0.4rem;
   padding: 0;
 }
 
-.page-item button {
+.admin-page-item button {
   padding: 8px 14px;
   border: 2px solid #0a56e8;
   border-radius: 8px;
@@ -260,19 +260,19 @@
   transition: all 0.25s ease;
 }
 
-.page-item button:hover:not(:disabled),
-.page-item.active button {
+.admin-page-item button:hover:not(:disabled),
+.admin-page-item.active button {
   background: #0a56e8;
   color: #fff;
   box-shadow: 0 4px 12px rgba(10, 86, 232, 0.25);
 }
 
-.page-item.disabled button {
+.admin-page-item.disabled button {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
-.pagination-info {
+.admin-pagination-info {
   text-align: center;
   margin-top: 15px;
   color: #5f5f5f;
@@ -283,7 +283,7 @@
 /* =============================
    NO VEHICLES + LOADING
 ============================= */
-.no-vehicles {
+.admin-no-vehicles {
   text-align: center;
   padding: 100px 30px;
   color: #666;
@@ -293,13 +293,13 @@
   backdrop-filter: blur(8px);
 }
 
-.no-vehicles h3 {
+.admin-no-vehicles h3 {
   font-size: 1.8rem;
   color: #0a56e8;
   margin-bottom: 10px;
 }
 
-.loading {
+.admin-loading {
   text-align: center;
   padding: 100px 20px;
   font-size: 1.2rem;
@@ -311,28 +311,28 @@
    RESPONSIVE DESIGN
 ============================= */
 @media (max-width: 992px) {
-  .filter-grid {
+  .admin-filter-grid {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .form-select {
+  .admin-form-select {
     width: 100%;
   }
 
-  .inventory-table {
+  .admin-inventory-table {
     overflow-x: auto;
   }
 
-  .table {
+  .admin-table {
     min-width: 800px;
   }
 
-  .action-buttons {
+  .admin-action-buttons {
     flex-direction: column;
   }
 
-  .btn-sm {
+  .admin-btn-sm {
     width: 100%;
   }
 }

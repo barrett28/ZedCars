@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import apiClient from "../../../api/apiClient";
-import "../CSS/HomeInventory.css";
+import "../../Home/CSS/HomeInventory.css";
 import { useNavigate } from "react-router-dom";
 
 const HomeInventory = () => {
