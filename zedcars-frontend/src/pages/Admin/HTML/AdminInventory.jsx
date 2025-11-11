@@ -16,6 +16,8 @@ const AdminInventory = () => {
 
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [selectedCarId, setSelectedCarId] = useState(null);
 
   const {
     cars,
@@ -68,22 +70,35 @@ const AdminInventory = () => {
     fetchInventoryData(1, filters);
   };
 
-  // ✅ Handle page change
+  // Pagination
   const handlePageChange = (e, page) => {
     e.preventDefault();
-    const filters = { brand: selectedBrand };
-    fetchInventoryData(page, filters);
+    if (page >= 1 && page <= totalPages) {
+      fetchInventoryData(page, { brand: selectedBrand });
+    }
+  };
+ const openDeleteModal = (carId) => {
+    setSelectedCarId(carId);
+    setShowModal(true);
   };
 
-  // ✅ Delete Vehicle
-  const handleDelete = async (carId) => {
-    if (!window.confirm("Are you sure you want to delete this vehicle?")) return;
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedCarId(null);
+  };
+
+  const confirmDelete = async () => {
+    if (!selectedCarId) return;
+    setLoading(true);
     try {
-      await apiClient.delete(`/admin/vehicles/${carId}`);
+      await apiClient.delete(`/admin/vehicles/${selectedCarId}`);
+      closeModal();
       fetchInventoryData(currentPage, { brand: selectedBrand });
     } catch (error) {
       console.error("Error deleting vehicle:", error);
       alert("Failed to delete vehicle");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -176,7 +191,7 @@ const AdminInventory = () => {
                         </button>
 
                       <button
-                        onClick={() => handleDelete(car.carId || car.id)}
+                        onClick={() => openDeleteModal(car.carId || car.id)}
                         className="admin-btn admin-btn-danger admin-btn-sm"
                       >
                         Delete
@@ -192,6 +207,35 @@ const AdminInventory = () => {
         <div className="admin-no-vehicles">
           <h3>No vehicles available</h3>
           <p>Please add some vehicles to your inventory.</p>
+        </div>
+      )}
+
+      {/* Modal */}
+      {showModal && (
+        <div className="modal fade show" style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content shadow">
+              <div className="modal-header bg-danger text-white">
+                <h5 className="modal-title">Confirm Delete</h5>
+                <button type="button" className="btn-close btn-close-white" onClick={closeModal}></button>
+              </div>
+              <div className="modal-body">
+                <p>Are you sure you want to delete this vehicle? This action cannot be undone.</p>
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-secondary closeModalbtn" onClick={closeModal}>
+                  Cancel
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={confirmDelete}
+                  disabled={loading}
+                >
+                  {loading ? "Deleting..." : "Yes, Delete"}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
