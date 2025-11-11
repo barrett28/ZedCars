@@ -1,6 +1,7 @@
           .admin-add-vehicle-page {
-          padding: 40px;
+          /* padding: 40px; */
           background: #f8fafc;
+          margin-top: 7vh;
           min-height: 100vh;
                     color:black;
           font-family: "Inter", sans-serif;
@@ -10,7 +11,7 @@
           background: linear-gradient(135deg, #1f2937, #111827);
           color: white;
           padding: 40px;
-          border-radius: 12px;
+          /* border-radius: 12px; */
           margin-bottom: 30px;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
         }

@@ -8,7 +8,7 @@
   font-family: "Inter", "Segoe UI", Roboto, sans-serif;
   color: #1a1a1a;
   letter-spacing: 0.2px;
-  margin-top: 9vh;
+  margin-top: 6vh;
   animation: fadeIn 0.6s ease-out;
 }
 
@@ -205,6 +205,10 @@
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
+img{
+  display: grid !important;
+}
+
 /* Stock badge */
 .admin-stock-badge {
   padding: 6px 12px;
@@ -232,6 +236,26 @@
   gap: 10px;
   flex-wrap: wrap;
 }
+
+.modal-body p{
+  color: black;
+}
+
+.modal-footer .closeModalbtn {
+  /* border: 2px solid black; */
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+  color: black;
+  background-color: #3333334b;
+}
+
+.modal-footer .closeModalbtn:hover {
+  background-color: #333333ad;
+  color: black;
+}
+
 
 /* =============================
    PAGINATION

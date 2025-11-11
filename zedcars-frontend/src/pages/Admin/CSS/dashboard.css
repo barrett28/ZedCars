@@ -6,6 +6,7 @@
     background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
     color: white;
     padding: 30px;
+    /* border-radius: 0 ; */
 }
 
 .admin-actions {
@@ -125,7 +126,8 @@
 }
 
 .admin-table {
-    overflow-x: auto;
+    overflow-x: hidden;
+    /* scrollbar-width:none; */
 }
 
 table {
