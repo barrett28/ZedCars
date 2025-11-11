@@ -15,6 +15,7 @@ import AdminInventory from './pages/Admin/HTML/AdminInventory'
 import AddVehicle from './pages/Admin/HTML/AddVehicle'
 import EditVehicle from './pages/Admin/HTML/EditVehicle'
 import DeleteVehicle from './pages/Admin/HTML/DeleteVehicle'
+import Purchase from './pages/Home/HTML/Purchase'
 
 function App() {
   return (
@@ -35,6 +36,9 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/inventory" element={<HomeInventory />} />
               
+              {/* Routes accessible to Home */}
+              <Route path="/purchase/:id" element={<Purchase />} />
+
               {/* Routes are for Admin  */}
               <Route path="/Admin/Dashboard" element={<Dashboard />} />
               <Route path="/Admin/AdminInventory" element={<AdminInventory />} />

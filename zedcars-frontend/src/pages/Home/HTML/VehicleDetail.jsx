@@ -80,8 +80,8 @@ const VehicleDetail = () => {
             </div>
             {user.isAuthenticated && user.role === 'Customer' && (
               <div className="action-section">
-                <button className="purchase-btn">
-                  🚗 Purchase Now
+                <button className="purchase-btn" onClick={() => navigate(`/purchase/${car.carId}`)}>
+                  Purchase Now
                 </button>
               </div>
             )}
@@ -179,7 +179,7 @@ const VehicleDetail = () => {
           <div className="action-card">
             <h3>Interested in this vehicle?</h3>
             <div className="action-buttons">
-              <button className="contact-btn">Contact Us</button>
+              <button className="contact-btn btn btn-primary">Contact Us</button>
               {user.isAuthenticated && user.role === 'Customer' && (
                 <button className="test-drive-btn">Schedule Test Drive</button>
               )}

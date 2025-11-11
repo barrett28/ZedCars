@@ -1,8 +1,8 @@
 .vehicle-detail-container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 10vh 2vw;
   padding: 20px;
-  color: white;
+  color: black;
 }
 
 .breadcrumb-nav {
@@ -11,7 +11,7 @@
 }
 
 .breadcrumb-nav span {
-  color: #ccc;
+  color: black;
   cursor: pointer;
   margin: 0 5px;
 }
@@ -21,7 +21,7 @@
 }
 
 .breadcrumb-nav .active {
-  color: white;
+  color: black;
   cursor: default;
 }
 
@@ -42,7 +42,7 @@
 }
 
 .vehicle-id {
-  color: #ccc;
+  color: black;
 }
 
 .stock-badge {
@@ -80,7 +80,7 @@
 }
 
 .price-card {
-  background: linear-gradient(135deg, #fc4444, #e63939);
+  background: linear-gradient(135deg, #221f1f, #e63939);
   padding: 25px;
   border-radius: 12px;
   margin-bottom: 30px;
@@ -102,7 +102,8 @@
 
 .purchase-btn {
   background: white;
-  color: #fc4444;
+  /* color: #fc4444; */
+  color: black;
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -122,8 +123,8 @@
 
 .specs-section h2, .features-section h2 {
   font-size: 1.5rem;
-  margin-bottom: 20px;
-  color: white;
+  /* margin-bottom: 20px; */
+  color: black;
 }
 
 .specs-grid {
@@ -135,18 +136,19 @@
 .spec-item {
   background: rgba(255, 255, 255, 0.1);
   padding: 15px;
+  border: 1px solid #221f1f;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* border: 1px solid rgba(255, 255, 255, 0.2); */
 }
 
 .spec-label {
-  color: #ccc;
+  color: black;
   font-size: 12px;
   margin-bottom: 5px;
 }
 
 .spec-value {
-  color: white;
+  color: black;
   font-weight: 600;
 }
 
@@ -164,7 +166,7 @@
 }
 
 .feature-category h3 {
-  color: white;
+  color: black;
   font-size: 1.1rem;
   margin-bottom: 15px;
 }
@@ -176,7 +178,7 @@
 }
 
 .feature-category li {
-  color: #ccc;
+  color: black;
   padding: 5px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -189,20 +191,28 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  color: black;
 }
 
 .action-card, .info-card {
   background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* border: 1px solid rgba(255, 5, 5, 0.4); */
+  border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
 .action-card h3, .info-card h3 {
-  color: white;
+  color: black;
   font-size: 1.2rem;
   margin-bottom: 15px;
 }
+
+.info-card p{
+  color: black;
+}
+
+
 
 .action-buttons {
   display: flex;
@@ -246,11 +256,11 @@
 }
 
 .fact-item span:first-child {
-  color: #ccc;
+  color: black;
 }
 
 .fact-item span:last-child {
-  color: white;
+  color: black;
   font-weight: 500;
 }
 
