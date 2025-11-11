@@ -48,7 +48,10 @@ const Navbar = () => {
           ) : (
             <>
               {user.role === 'Customer' && (
-                <a href="/testdrives">Test Drives</a>
+                <>
+                  <a href="/my-testdrives">My Test Drives</a>
+                  <a href="/my-purchases">My Purchases</a>
+                </>
               )}
               <button onClick={handleLogout} className="logout-btn">
                 Logout
@@ -74,7 +77,7 @@ const Navbar = () => {
         <a href="#financing" onClick={() => setIsMenuOpen(false)}>Financing</a>
         <a href="/contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
         {user.isAuthenticated && user.role === "Customer" && (
-          <a href="/testdrives" onClick={() => setIsMenuOpen(false)}>Test Drives</a>
+          <a href="/my-testdrives" onClick={() => setIsMenuOpen(false)}>My Test Drives</a>
         )}
       </div>
     </header>

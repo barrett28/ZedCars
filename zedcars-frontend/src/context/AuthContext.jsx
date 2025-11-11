@@ -13,7 +13,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({
-    isAuthenticated: false,
+    isAuthenticated: null,
     role: null
   });
 

@@ -123,53 +123,86 @@
   color: white;
 }
 
+/* === Modal Overlay === */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  backdrop-filter: blur(4px); /* subtle glass effect */
 }
 
+/* === Modal Container === */
 .modal-content {
-  background: white;
-  border-radius: 8px;
-  max-width: 800px;
+  background: #ffffff;
+  border-radius: 12px;
+  max-width: 750px;
+  width: 90%;
   max-height: 80vh;
   overflow-y: auto;
-  width: 90%;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  animation: fadeInScale 0.3s ease;
 }
 
+/* === Header === */
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  border-bottom: 1px solid #ddd;
+  padding: 18px 24px;
+  border-bottom: 1px solid #e5e5e5;
+  background: #f8f9fa;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
+.modal-header h5 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.modal-header button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.modal-header button:hover {
+  color: #e73939;
+}
+
+/* === Modal Body === */
 .modal-body {
-  padding: 20px;
+  padding: 24px;
 }
 
 .accessory-category {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .accessory-category h6 {
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 12px;
   border-bottom: 1px solid #eee;
-  padding-bottom: 5px;
+  padding-bottom: 6px;
 }
 
+/* === Accessory Item (Improved Checkbox UI) === */
 .accessory-item {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .accessory-item label {
@@ -177,20 +210,114 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  padding: 5px 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+.accessory-item label .price {
+    color:black;
+    font-size: large;
 }
 
+.accessory-item label:hover {
+  background: #f9f9f9;
+}
+
+/* Custom checkbox */
+/* === Modern Animated Checkbox === */
+.accessory-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #bbb;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s ease;
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+}
+
+.accessory-item input[type="checkbox"]:hover {
+  border-color: #e73939;
+  box-shadow: 0 0 6px rgba(40, 167, 69, 0.3);
+}
+
+.accessory-item input[type="checkbox"]:checked {
+  background: linear-gradient(135deg, #ce2c2c, #e41414);
+  border-color: #e73939;
+  /* box-shadow: 0 0 8px rgba(40, 167, 69, 0.4); */
+  transform: scale(1.05);
+}
+
+.accessory-item input[type="checkbox"]::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 12px;
+  border-right: 3px solid white;
+  border-bottom: 3px solid white;
+  top: 5px;
+  left: 10px;
+  transform: rotate(45deg) scale(0);
+  opacity: 0;
+  transition: all 0.25s ease;
+}
+
+.accessory-item input[type="checkbox"]:checked::after {
+  transform: rotate(45deg) scale(1);
+  opacity: 1;
+}
+
+/* === Modal Footer === */
 .modal-footer {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  padding: 20px;
-  border-top: 1px solid #ddd;
+  padding: 16px 24px;
+  border-top: 1px solid #e5e5e5;
+  background: #f8f9fa;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .modal-footer button {
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.modal-footer .cancel-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.modal-footer .cancel-btn:hover {
+  background: #5a6268;
+}
+
+.modal-footer .purchase-btn {
+  background: #28a745;
+  color: white;
+}
+
+.modal-footer .purchase-btn:hover {
+  background: #218838;
+}
+
+/* === Animations === */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

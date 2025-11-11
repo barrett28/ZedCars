@@ -11,11 +11,13 @@ import Register from './pages/Auth/HTML/Register'
 import HomeInventory from './pages/Home/HTML/HomeInventory'
 import { AuthProvider } from './context/AuthContext'
 import VehicleDetail from "./pages/Home/HTML/VehicleDetail"
+import MyTestDrives from './pages/Home/HTML/MyTestDrives'
 import AdminInventory from './pages/Admin/HTML/AdminInventory'
 import AddVehicle from './pages/Admin/HTML/AddVehicle'
 import EditVehicle from './pages/Admin/HTML/EditVehicle'
 import DeleteVehicle from './pages/Admin/HTML/DeleteVehicle'
 import Purchase from './pages/Home/HTML/Purchase'
+import MyPurchases from './pages/Home/HTML/MyPurchases'
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
               <Route path="/" element={<HomeIndex />} />
               <Route path="/home" element={<HomeIndex />} />
               <Route path="/vehicle/:id" element={<VehicleDetail />} />
+              <Route path="/my-testdrives" element={<MyTestDrives />} />
               {/* For User Login */}
               <Route path="/Auth/Login" element={<Login />} />
               <Route path="/Auth/Register" element={<Register />} />
@@ -38,6 +41,7 @@ function App() {
               
               {/* Routes accessible to Home */}
               <Route path="/purchase/:id" element={<Purchase />} />
+              <Route path='/my-purchases' element={<MyPurchases />} />
 
               {/* Routes are for Admin  */}
               <Route path="/Admin/Dashboard" element={<Dashboard />} />
