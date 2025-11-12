@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
@@ -33,17 +32,11 @@ const Login = () => {
         localStorage.setItem("refreshToken", refreshToken);
         if (form.remember) localStorage.setItem("rememberMe", "true");
         
-        // Use the login function from AuthContext
         login(accessToken);
         
-        // Debug: Check what's in the JWT
         const decoded = decodeJWT(accessToken);
-        console.log('Full JWT payload:', decoded);
-        
         const userRole = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-        console.log('Extracted role:', userRole);
         
-        // Role-based redirection
         if (userRole === 'Customer') {
           navigate("/");
         } else {
@@ -59,19 +52,18 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      {/* Centered Login Box */}
       <div className="login-form">
         <h1>Sign In</h1>
         <p className="subtitle">Access your ZedCars account</p>
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className="login-form-group">
             <label htmlFor="username">Username</label>
             <input
               type="text"
               id="username"
               name="username"
-              className="form-control"
+              className="login-input"
               value={form.username}
               onChange={handleChange}
               required
@@ -79,13 +71,13 @@ const Login = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="login-form-group">
             <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
               name="password"
-              className="form-control"
+              className="login-input"
               value={form.password}
               onChange={handleChange}
               required
@@ -93,7 +85,7 @@ const Login = () => {
             />
           </div>
 
-          <div className="form-group remember-me">
+          <div className="login-form-group remember-me">
             <input
               type="checkbox"
               id="remember"
@@ -106,7 +98,7 @@ const Login = () => {
 
           {error && <div className="error-message">{error}</div>}
 
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="login-btn">
             Sign In
           </button>
 

@@ -39,9 +39,9 @@ const Navbar = () => {
         </div>
 
         <nav className="nav-menu">
-          <a href="/inventory">Inventory</a>
           <a href="/about">About</a>
           <a href="/contact">Contact</a>
+          <a href="/inventory">Inventory</a>
 
           {!user.isAuthenticated ? (
             <a href="/auth/login">Login</a>
@@ -49,6 +49,7 @@ const Navbar = () => {
             <>
               {user.role === 'Customer' && (
                 <>
+                  <a href="/purchaseaccessories">Accessories</a>
                   <a href="/my-testdrives">My Test Drives</a>
                   <a href="/my-purchases">My Purchases</a>
                 </>

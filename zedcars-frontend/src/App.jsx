@@ -18,6 +18,8 @@ import EditVehicle from './pages/Admin/HTML/EditVehicle'
 import DeleteVehicle from './pages/Admin/HTML/DeleteVehicle'
 import Purchase from './pages/Home/HTML/Purchase'
 import MyPurchases from './pages/Home/HTML/MyPurchases'
+import PurchaseAccessories from './pages/Home/HTML/PurchaseAccessories'
+import ManageAccessories from './pages/Admin/HTML/ManageAccessories'
 
 function App() {
   return (
@@ -43,6 +45,7 @@ function App() {
               <Route path='/my-purchases' element={<MyPurchases />} />
               <Route path="/vehicle/:id" element={<VehicleDetail />} />
               <Route path="/my-testdrives" element={<MyTestDrives />} />
+              <Route path="/purchaseaccessories" element={<PurchaseAccessories />} />
 
               {/* Routes are for Admin  */}
               <Route path="/Admin/Dashboard" element={<Dashboard />} />
@@ -50,6 +53,7 @@ function App() {
               <Route path="/Admin/AddVehicle" element={<AddVehicle />} />
               <Route path="/Admin/EditVehicle/:id" element={<EditVehicle />} />
               <Route path="/Admin/DeleteVehicle/:id" element={<DeleteVehicle />} />
+              <Route path="/Admin/ManageAccessories" element={<ManageAccessories />} />
             </Routes>
           </div>
           <Footer />

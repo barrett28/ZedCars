@@ -73,7 +73,7 @@ const Dashboard = () => {
         <div className="admin-actions d-flex justify-content-start align-items-center">
           <a href="/Admin/AddVehicle" className="btn btn-secondary bg-primary">Add New Vehicle</a> 
           <a href="/Admin/AdminInventory" className="btn btn-secondary">Manage Vehicles</a>
-          <a href="/Accessory/Index" className="btn btn-secondary">Manage Accessories</a>
+          <a href="/Admin/ManageAccessories" className="btn btn-secondary">Manage Accessories</a>
           <a href="/Admin/EditUser" className="btn btn-secondary">Manage Users</a>
           <a href="/Reports/SalesReport" className="btn btn-secondary">View Reports</a>
         </div>

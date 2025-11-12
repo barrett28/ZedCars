@@ -1,7 +1,7 @@
 .login-container {
   display: flex;
   min-height: 100vh;
-  background-color: #0d0d0d; /* deep black background */
+  background-color: #0d0d0d;
   color: #f5f5f5;
   font-family: 'Inter', sans-serif;
 }
@@ -13,7 +13,7 @@
   margin-top: 5vw;
   margin-bottom: 5vw;
   padding: 2.5rem;
-  background: #141414; /* slightly lighter black for contrast */
+  background: #141414;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(255, 0, 0, 0.05);
 }
@@ -30,18 +30,17 @@
   font-size: 0.95rem;
 }
 
-.form-group {
+.login-form-group {
   margin-bottom: 1.2rem;
 }
 
-.form-group label {
+.login-form-group label {
   display: block;
-  /* margin-bottom: 0.5rem; */
   font-weight: 500;
   color: #f0f0f0;
 }
 
-.form-control {
+.login-input {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #2a2a2a;
@@ -53,8 +52,8 @@
   transition: border-color 0.2s ease;
 }
 
-.form-control:focus {
-  border-color: #e50914; /* red accent */
+.login-input:focus {
+  border-color: #e50914;
   box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
 }
 
@@ -66,7 +65,7 @@
   font-size: 0.9rem;
 }
 
-.btn {
+.login-btn {
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 6px;
@@ -74,15 +73,12 @@
   font-size: 1rem;
   font-weight: 500;
   transition: all 0.2s ease;
-}
-
-.btn-primary {
   background-color: #e50914;
   color: #fff;
   width: 100%;
 }
 
-.btn-primary:hover {
+.login-btn:hover {
   background-color: #ff1a1a;
   transform: translateY(-1px);
 }
@@ -113,66 +109,7 @@
   text-decoration: underline;
 }
 
-.login-info {
-  flex: 1;
-  padding: 3rem;
-  background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.login-info h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #ffffff;
-}
-
-.login-info p {
-  color: #b3b3b3;
-  line-height: 1.6;
-}
-
-.benefit-list {
-  margin-top: 2rem;
-}
-
-.benefit-item {
-  display: flex;
-  margin-bottom: 1.5rem;
-  align-items: center;
-  gap: 1rem;
-}
-
-.benefit-icon {
-  font-size: 1.5rem;
-  color: #e50914;
-  width: 2rem;
-  text-align: center;
-}
-
-.benefit-text h4 {
-  color: #fff;
-  margin: 0;
-  font-size: 1rem;
-}
-
-.benefit-text p {
-  color: #b3b3b3;
-  font-size: 0.9rem;
-  margin-top: 0.3rem;
-}
-
-/* Responsive tweaks */
 @media (max-width: 900px) {
-  .login-container {
-    flex-direction: column;
-  }
-
-  .login-info {
-    display: none; /* keep mobile simple */
-  }
-
   .login-form {
     box-shadow: none;
     border-radius: 0;
