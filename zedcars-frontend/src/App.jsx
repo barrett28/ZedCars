@@ -27,21 +27,22 @@ function App() {
           <Navbar />
           <div className="main-content">
             <Routes>
+              {/* Routes accessible to all */}
               <Route path="/" element={<HomeIndex />} />
               <Route path="/home" element={<HomeIndex />} />
-              <Route path="/vehicle/:id" element={<VehicleDetail />} />
-              <Route path="/my-testdrives" element={<MyTestDrives />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+
               {/* For User Login */}
               <Route path="/Auth/Login" element={<Login />} />
               <Route path="/Auth/Register" element={<Register />} />
-              {/* Routes accessible to all */}
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/inventory" element={<HomeInventory />} />
               
               {/* Routes accessible to Home */}
+              <Route path="/inventory" element={<HomeInventory />} />
               <Route path="/purchase/:id" element={<Purchase />} />
               <Route path='/my-purchases' element={<MyPurchases />} />
+              <Route path="/vehicle/:id" element={<VehicleDetail />} />
+              <Route path="/my-testdrives" element={<MyTestDrives />} />
 
               {/* Routes are for Admin  */}
               <Route path="/Admin/Dashboard" element={<Dashboard />} />

@@ -11,6 +11,15 @@ const VehicleDetail = () => {
   const [car, setCar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [testDriveData, setTestDriveData] = useState({
+    customerName: '',
+    customerEmail: '',
+    customerPhone: '',
+    bookingDate: '',
+    timeSlot: ''
+  });
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     console.log('URL ID parameter:', id); // Debug log
@@ -21,6 +30,16 @@ const VehicleDetail = () => {
       setLoading(false);
     }
   }, [id]);
+
+  useEffect(() => {
+    if (user.isAuthenticated) {
+      setTestDriveData(prev => ({
+        ...prev,
+        customerName: user.fullName || '',
+        customerEmail: user.email || ''
+      }));
+    }
+  }, [user]);
 
   const fetchCarDetails = async () => {
     try {
@@ -33,6 +52,42 @@ const VehicleDetail = () => {
       setLoading(false);
     }
   };
+
+  const handleTestDriveSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    
+    try {
+      const payload = {
+        ...testDriveData,
+        carId: parseInt(id)
+      };
+      
+      await apiClient.post('/home/book-testdrive', payload);
+      alert('Test drive booked successfully!');
+      setShowModal(false);
+      setTestDriveData({
+        customerName: user.fullName || '',
+        customerEmail: user.email || '',
+        customerPhone: '',
+        bookingDate: '',
+        timeSlot: ''
+      });
+    } catch (err) {
+      alert(err.response?.data || 'Failed to book test drive');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setTestDriveData({
+      ...testDriveData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const timeSlots = ['09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'];
 
   if (loading) return <div className="loading">Loading vehicle details...</div>;
   if (error) return <div className="error">{error}</div>;
@@ -73,14 +128,14 @@ const VehicleDetail = () => {
           </div>
 
           {/* Price & Purchase Card */}
-          <div className="price-card">
-            <div className="price-section">
-              <div className="price">${car.price?.toLocaleString()}</div>
+          <div className="vehicledetail-price-card">
+            <div className="vehicledetail-price-section">
+              <div className="vehicledetails-price">${car.price?.toLocaleString()}</div>
               <div className="stock-info">Stock: {car.stockQuantity} available</div>
             </div>
             {user.isAuthenticated && user.role === 'Customer' && (
               <div className="action-section">
-                <button className="purchase-btn" onClick={() => navigate(`/purchase/${car.carId}`)}>
+                <button className="vehicledetail-purchase-btn" onClick={() => navigate(`/purchase/${car.carId}`)}>
                   Purchase Now
                 </button>
               </div>
@@ -178,10 +233,15 @@ const VehicleDetail = () => {
           {/* Action Card */}
           <div className="action-card">
             <h3>Interested in this vehicle?</h3>
-            <div className="action-buttons">
-              <button className="contact-btn btn btn-primary">Contact Us</button>
+            <div className="vehicledetail-action-buttons">
+              <button className="vehicledetail-contact-btn ">Contact Us</button>
               {user.isAuthenticated && user.role === 'Customer' && (
-                <button className="test-drive-btn">Schedule Test Drive</button>
+                <button 
+                  className="vehicledetail-test-drive-btn"
+                  onClick={() => setShowModal(true)}
+                >
+                  Schedule Test Drive
+                </button>
               )}
             </div>
           </div>
@@ -216,6 +276,95 @@ const VehicleDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Test Drive Modal */}
+      {showModal && (
+        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Book Your Test Drive</h2>
+              <button className="modal-close" onClick={() => setShowModal(false)}>×</button>
+            </div>
+            
+            <form onSubmit={handleTestDriveSubmit} className="test-drive-form">
+              <div className="form-section">
+                <h3>Customer Information</h3>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Full Name *</label>
+                    <input
+                      type="text"
+                      name="customerName"
+                      value={testDriveData.customerName}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Email Address *</label>
+                    <input
+                      type="email"
+                      name="customerEmail"
+                      value={testDriveData.customerEmail}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Phone Number *</label>
+                    <input
+                      type="tel"
+                      name="customerPhone"
+                      value={testDriveData.customerPhone}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Preferred Date *</label>
+                    <input
+                      type="date"
+                      name="bookingDate"
+                      value={testDriveData.bookingDate}
+                      onChange={handleInputChange}
+                      min={new Date().toISOString().split('T')[0]}
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-section">
+                <h3>Select Time Slot *</h3>
+                <div className="time-slots">
+                  {timeSlots.map((time) => (
+                    <label key={time} className="time-slot">
+                      <input
+                        type="radio"
+                        name="timeSlot"
+                        value={time}
+                        checked={testDriveData.timeSlot === time}
+                        onChange={handleInputChange}
+                        required
+                      />
+                      <span>{time}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="modal-actions">
+                <button type="button" onClick={() => setShowModal(false)}>Cancel</button>
+                <button type="submit" disabled={submitting}>
+                  {submitting ? 'Booking...' : 'Book Test Drive'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

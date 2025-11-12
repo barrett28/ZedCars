@@ -79,7 +79,7 @@
   border-radius: 12px;
 }
 
-.price-card {
+.vehicledetail-price-card {
   background: linear-gradient(135deg, #221f1f, #e63939);
   padding: 25px;
   border-radius: 12px;
@@ -89,7 +89,7 @@
   align-items: center;
 }
 
-.price {
+.vehicledetails-price {
   font-size: 1.5rem;
   font-weight: bold;
   color: white;
@@ -100,7 +100,7 @@
   font-size: 14px;
 }
 
-.purchase-btn {
+.vehicledetail-purchase-btn {
   background: white;
   /* color: #fc4444; */
   color: black;
@@ -214,13 +214,15 @@
 
 
 
-.action-buttons {
+.vehicledetail-action-buttons {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 10px;
+  /* background-color: #dc3545; */
 }
 
-.contact-btn, .test-drive-btn {
+.vehicledetail-contact-btn, .vehicledetail-test-drive-btn {
   padding: 12px;
   border: none;
   border-radius: 8px;
@@ -229,18 +231,18 @@
   transition: all 0.3s ease;
 }
 
-.contact-btn {
+.vehicledetail-contact-btn {
   background: #fc4444;
   color: white;
 }
 
-.test-drive-btn {
+.vehicledetail-test-drive-btn {
   background: transparent;
   color: #fc4444;
   border: 2px solid #fc4444;
 }
 
-.contact-btn:hover, .test-drive-btn:hover {
+.vehicledetail-contact-btn:hover, .vehicledetail-test-drive-btn:hover {
   transform: translateY(-2px);
 }
 
@@ -296,5 +298,179 @@
   
   .features-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Test Drive Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #333;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.test-drive-form {
+  padding: 20px;
+}
+
+.form-section {
+  margin-bottom: 25px;
+}
+
+.form-section h3 {
+  color: #fc4444;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #fc4444;
+}
+
+.form-group input[readonly] {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.time-slots {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.time-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.time-slot input {
+  display: none;
+}
+
+.time-slot:hover {
+  border-color: #fc4444;
+}
+
+.time-slot input:checked + span {
+  color: white;
+}
+
+.time-slot:has(input:checked) {
+  background: #fc4444;
+  border-color: #fc4444;
+  color: white;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.modal-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.modal-actions button[type="button"] {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.modal-actions button[type="submit"] {
+  background: #fc4444;
+  color: white;
+}
+
+.modal-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .time-slots {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin: 10px;
   }
 }

@@ -104,7 +104,7 @@ const Purchase = () => {
         <div className="car-info-section">
           <div className="car-details">
             <h4>{car.brand} - {car.model}</h4>
-            <p className="price">Price: ${car.price?.toLocaleString()}</p>
+            <p className="purchase-price">Price: ${car.price?.toLocaleString()}</p>
             <p className="stock">Stock: {car.stockQuantity} available</p>
             <div className="car-specs">
               <span>{car.fuelType}</span>

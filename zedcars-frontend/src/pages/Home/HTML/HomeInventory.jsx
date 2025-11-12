@@ -176,7 +176,7 @@ const HomeInventory = () => {
                 </div>
 
                 <div className="vehicle-price">
-                  <span className="price">${car.price?.toLocaleString()}</span>
+                  <span className="inventory-price">${car.price?.toLocaleString()}</span>
                   <span className="stock">Stock: {car.stockQuantity}</span>
                 </div>
 

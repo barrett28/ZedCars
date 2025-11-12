@@ -26,10 +26,11 @@
   color: black;
 }
 
-.car-details .price {
+.car-details .purchase-price {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #28a745;
+  /* color: #28a745; */
+  color:#222;
 }
 
 .car-image img {
