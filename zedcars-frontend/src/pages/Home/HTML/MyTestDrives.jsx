@@ -61,12 +61,22 @@ const MyTestDrives = () => {
           {testDrives.map((testDrive) => (
             <div key={testDrive.testDriveId} className="testdrive-card">
               <div className="testdrive-content">
+                <div className="top-section">
+                  <div className="basic-info">
+                    <h3>{testDrive.customerName}</h3>
+                    <p className="phone">{testDrive.customerPhone}</p>
+                    <p className="booking-date">
+                      <strong>Booking Date:</strong> {new Date(testDrive.bookingDate).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <div className="car-image">
+                    <img 
+                      src={testDrive.car?.imageUrl} 
+                      alt={testDrive.car?.model}
+                    />
+                  </div>
+                </div>
                 <div className="testdrive-info">
-                  <h3>{testDrive.customerName}</h3>
-                  <p className="phone">{testDrive.customerPhone}</p>
-                  <p className="booking-date">
-                    <strong>Booking Date:</strong> {new Date(testDrive.bookingDate).toLocaleDateString()}
-                  </p>
                   <p className="time-slot">
                     <strong>Time Slot:</strong> {testDrive.timeSlot}
                   </p>
@@ -99,13 +109,6 @@ const MyTestDrives = () => {
                   >
                     View Car Details
                   </button>
-                </div>
-
-                <div className="car-image">
-                  <img 
-                    src={testDrive.car?.imageUrl} 
-                    alt={testDrive.car?.model}
-                  />
                 </div>
               </div>
             </div>
