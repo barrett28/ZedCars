@@ -11,6 +11,8 @@ const ManageAccessories = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize] = useState(10);
   const [totalAccessories, setTotalAccessories] = useState(0);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedAccessoryId, setSelectedAccessoryId] = useState(null);
 
   useEffect(() => {
     fetchAccessories(1);
@@ -47,17 +49,26 @@ const ManageAccessories = () => {
     navigate(`/Admin/EditAccessories/${accessory.accessoryId}`, { state: { accessory } });
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this accessory?")) {
-      try {
-        const token = localStorage.getItem("jwtToken");
-        await apiClient.delete(`/accessory/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        fetchAccessories(currentPage);
-      } catch (error) {
-        console.error("Error deleting accessory:", error);
-      }
+  const openDeleteModal = (id) => {
+    setSelectedAccessoryId(id);
+    setShowDeleteModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+    setSelectedAccessoryId(null);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      const token = localStorage.getItem("jwtToken");
+      await apiClient.delete(`/accessory/${selectedAccessoryId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      closeDeleteModal();
+      fetchAccessories(currentPage);
+    } catch (error) {
+      console.error("Error deleting accessory:", error);
     }
   };
 
@@ -102,7 +113,7 @@ const ManageAccessories = () => {
                   <button className="btn btn-edit" onClick={() => handleEdit(accessory)}>
                     Edit
                   </button>
-                  <button className="btn btn-delete" onClick={() => handleDelete(accessory.accessoryId)}>
+                  <button className="btn btn-delete" onClick={() => openDeleteModal(accessory.accessoryId)}>
                     Delete
                   </button>
                 </td>
@@ -153,6 +164,38 @@ const ManageAccessories = () => {
             {Math.min(currentPage * pageSize, totalAccessories)} of {totalAccessories} accessories
           </div>
         </>
+      )}
+
+      {/* Delete Modal */}
+      {showDeleteModal && (
+        <div className="delete-modal-overlay" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999
+        }}>
+          <div className="delete-modal-content" style={{
+            backgroundColor: 'white',
+            padding: '25px',
+            borderRadius: '12px',
+            width: '400px',
+            maxWidth: '90%',
+            boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
+          }}>
+            <h3>Confirm Delete</h3>
+            <p>Are you sure you want to delete this accessory? This action cannot be undone.</p>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '20px' }}>
+              <button className="btn btn-cancel" onClick={closeDeleteModal}>Cancel</button>
+              <button className="btn btn-delete" onClick={confirmDelete}>Delete</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

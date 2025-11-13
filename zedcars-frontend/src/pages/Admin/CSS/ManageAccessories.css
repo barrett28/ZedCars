@@ -116,17 +116,14 @@
 
 .modal {
   background: white;
-  border-radius: 8px;
   padding: 30px;
-  width: 90%;
-  max-width: 600px;
-  max-height: 90vh;
+  width: 100%;
+  max-height: 100vh;
   overflow-y: auto;
 }
 
 .modal h2 {
   margin-top: 0;
-  margin-bottom: 20px;
   color: #2c3e50;
 }
 
@@ -216,9 +213,32 @@
   .accessories-table {
     overflow-x: auto;
   }
-  
-  .modal {
-    width: 95%;
-    padding: 20px;
-  }
+
+}
+/* Delete Modal Styles */
+.delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.delete-modal-content {
+  background: #fff;
+  padding: 25px;
+  color: black;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.delete-modal-content p{
+  color: black;
 }
