@@ -10,7 +10,7 @@ const Dashboard = () => {
     apiClient
       .get("/admin/dashboard")
       .then((res) => {
-        console.log("Dashboard data received:", res.data);
+        // console.log("Dashboard data received:", res.data);
         setDashboard(res.data);
       })
       .catch((err) => console.error("Error loading dashboard:", err));
@@ -18,19 +18,19 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!dashboard || !dashboard.stockData || !Array.isArray(dashboard.stockData)) {
-      console.log("Chart not rendering - dashboard:", dashboard);
-      console.log("stockData:", dashboard?.stockData);
+      // console.log("Chart not rendering - dashboard:", dashboard);
+      // console.log("stockData:", dashboard?.stockData);
       return;
     }
 
-    console.log("Creating chart with data:", dashboard.stockData);
+    // console.log("Creating chart with data:", dashboard.stockData);
     
     const ctx = document.getElementById("stockSoldChart").getContext("2d");
     const chart = new Chart(ctx, {
       type: "bar",
       data: {
         labels: dashboard.stockData.map((s) => {
-          console.log("Brand:", s.brand, "Stock:", s.stockAvailable, "Sold:", s.unitsSold);
+          // console.log("Brand:", s.brand, "Stock:", s.stockAvailable, "Sold:", s.unitsSold);
           return s.brand;
         }),
         datasets: [

@@ -1,34 +1,33 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import apiClient from "../../../api/apiClient";
 import "../CSS/ManageAccessories.css";
 
 const ManageAccessories = () => {
+  const navigate = useNavigate();
   const [accessories, setAccessories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [editingAccessory, setEditingAccessory] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    category: "",
-    price: "",
-    stockQuantity: "",
-    description: "",
-    partNumber: "",
-    manufacturer: "",
-    isActive: true
-  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize] = useState(10);
+  const [totalAccessories, setTotalAccessories] = useState(0);
 
   useEffect(() => {
-    fetchAccessories();
+    fetchAccessories(1);
   }, []);
 
-  const fetchAccessories = async () => {
+  const fetchAccessories = async (page = 1) => {
     try {
       const token = localStorage.getItem("jwtToken");
-      const response = await apiClient.get("/accessory", {
+      const response = await apiClient.get(`/accessory?page=${page}&limit=${pageSize}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setAccessories(response.data.accessories || response.data || []);
+      
+      const data = response.data;
+      setAccessories(data.accessories || data.data || data || []);
+      setCurrentPage(data.currentPage || page);
+      setTotalPages(data.totalPages || 1);
+      setTotalAccessories(data.total || data.totalCount || (data.accessories?.length || 0));
     } catch (error) {
       console.error("Error fetching accessories:", error);
     } finally {
@@ -36,65 +35,16 @@ const ManageAccessories = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value
-    }));
-  };
-
-  const handleSubmit = async (e) => {
+  const handlePageChange = (e, page) => {
     e.preventDefault();
-    try {
-      const token = localStorage.getItem("jwtToken");
-      const payload = {
-        ...formData,
-        price: parseFloat(formData.price),
-        stockQuantity: parseInt(formData.stockQuantity)
-      };
-
-      if (editingAccessory) {
-        await apiClient.put(`/accessory/${editingAccessory.accessoryId}`, payload, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-      } else {
-        await apiClient.post("/accessory", payload, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-      }
-
-      setShowModal(false);
-      setEditingAccessory(null);
-      setFormData({
-        name: "",
-        category: "",
-        price: "",
-        stockQuantity: "",
-        description: "",
-        partNumber: "",
-        manufacturer: "",
-        isActive: true
-      });
-      fetchAccessories();
-    } catch (error) {
-      console.error("Error saving accessory:", error);
+    if (page >= 1 && page <= totalPages) {
+      setLoading(true);
+      fetchAccessories(page);
     }
   };
 
   const handleEdit = (accessory) => {
-    setEditingAccessory(accessory);
-    setFormData({
-      name: accessory.name || "",
-      category: accessory.category || "",
-      price: accessory.price || "",
-      stockQuantity: accessory.stockQuantity || "",
-      description: accessory.description || "",
-      partNumber: accessory.partNumber || "",
-      manufacturer: accessory.manufacturer || "",
-      isActive: accessory.isActive !== false
-    });
-    setShowModal(true);
+    navigate(`/Admin/EditAccessories/${accessory.accessoryId}`, { state: { accessory } });
   };
 
   const handleDelete = async (id) => {
@@ -104,7 +54,7 @@ const ManageAccessories = () => {
         await apiClient.delete(`/accessory/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        fetchAccessories();
+        fetchAccessories(currentPage);
       } catch (error) {
         console.error("Error deleting accessory:", error);
       }
@@ -115,9 +65,11 @@ const ManageAccessories = () => {
 
   return (
     <div className="manage-accessories">
+          <i className="fa-solid fa-car-side" style={{ transform: "rotate(-10deg)" }}></i>
+
       <div className="page-header">
         <h1>Manage Accessories</h1>
-        <button className="btn btn-primary" onClick={() => setShowModal(true)}>
+        <button className="btn btn-primary" onClick={() => navigate('/admin/add-accessory')}>
           Add New Accessory
         </button>
       </div>
@@ -160,107 +112,47 @@ const ManageAccessories = () => {
         </table>
       </div>
 
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>{editingAccessory ? 'Edit Accessory' : 'Add New Accessory'}</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Category</label>
-                  <input
-                    type="text"
-                    name="category"
-                    value={formData.category}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Price</label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Stock Quantity</label>
-                  <input
-                    type="number"
-                    name="stockQuantity"
-                    value={formData.stockQuantity}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Part Number</label>
-                  <input
-                    type="text"
-                    name="partNumber"
-                    value={formData.partNumber}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Manufacturer</label>
-                  <input
-                    type="text"
-                    name="manufacturer"
-                    value={formData.manufacturer}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-              <div className="form-group">
-                <label>Description</label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  rows="3"
-                />
-              </div>
-              <div className="form-group">
-                <label>
-                  <input
-                    type="checkbox"
-                    name="isActive"
-                    checked={formData.isActive}
-                    onChange={handleInputChange}
-                  />
-                  Active
-                </label>
-              </div>
-              <div className="modal-actions">
-                <button type="button" className="btn btn-cancel" onClick={() => setShowModal(false)}>
-                  Cancel
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <>
+          <nav className="admin-pagination-nav">
+            <ul className="admin-pagination">
+              <li className={`admin-page-item ${currentPage <= 1 ? "disabled" : ""}`}>
+                <button
+                  onClick={(e) => handlePageChange(e, currentPage - 1)}
+                  disabled={currentPage <= 1}
+                >
+                  &laquo;
                 </button>
-                <button type="submit" className="btn btn-save">
-                  {editingAccessory ? 'Update' : 'Create'}
+              </li>
+
+              {Array.from({ length: totalPages }, (_, i) => (
+                <li
+                  key={i + 1}
+                  className={`admin-page-item ${i + 1 === currentPage ? "active" : ""}`}
+                >
+                  <button onClick={(e) => handlePageChange(e, i + 1)}>
+                    {i + 1}
+                  </button>
+                </li>
+              ))}
+
+              <li className={`admin-page-item ${currentPage >= totalPages ? "disabled" : ""}`}>
+                <button
+                  onClick={(e) => handlePageChange(e, currentPage + 1)}
+                  disabled={currentPage >= totalPages}
+                >
+                  &raquo;
                 </button>
-              </div>
-            </form>
+              </li>
+            </ul>
+          </nav>
+
+          <div className="admin-pagination-info">
+            Showing {(currentPage - 1) * pageSize + 1}–
+            {Math.min(currentPage * pageSize, totalAccessories)} of {totalAccessories} accessories
           </div>
-        </div>
+        </>
       )}
     </div>
   );

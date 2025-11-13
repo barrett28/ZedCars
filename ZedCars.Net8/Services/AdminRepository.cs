@@ -16,7 +16,7 @@ namespace ZedCars.Net8.Services
         // Get all admins
         public async Task<List<Admin>> GetAllAdminsAsync()
         {
-            return await _context.Admins.OrderBy(a => a.FullName).ToListAsync();
+            return await _context.Admins.OrderBy(a => a.AdminId).ToListAsync();
         }
 
         // Get total number of users (Active/ Inactive)

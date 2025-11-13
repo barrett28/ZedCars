@@ -20,8 +20,10 @@ import Purchase from './pages/Home/HTML/Purchase'
 import MyPurchases from './pages/Home/HTML/MyPurchases'
 import PurchaseAccessories from './pages/Home/HTML/PurchaseAccessories'
 import ManageAccessories from './pages/Admin/HTML/ManageAccessories'
-import ManageUsers from './pages/Admin/HTML/Users/ManageUsers'
+import EditAccessories from './pages/Admin/HTML/EditAccessories'
+import AddAccessory from './pages/Admin/HTML/AddAccessory'
 import AddUser from './pages/Admin/HTML/Users/AddUser'
+import ManageUsers from './pages/Admin/HTML/Users/ManageUsers'
 import EditUser from './pages/Admin/HTML/Users/EditUser'
 
 function App() {
@@ -49,7 +51,7 @@ function App() {
               <Route path="/vehicle/:id" element={<VehicleDetail />} />
               <Route path="/my-testdrives" element={<MyTestDrives />} />
               <Route path="/purchaseaccessories" element={<PurchaseAccessories />} />
-
+              
               {/* Routes are for Admin  */}
               <Route path="/Admin/Dashboard" element={<Dashboard />} />
               <Route path="/Admin/AdminInventory" element={<AdminInventory />} />
@@ -57,9 +59,12 @@ function App() {
               <Route path="/Admin/EditVehicle/:id" element={<EditVehicle />} />
               <Route path="/Admin/DeleteVehicle/:id" element={<DeleteVehicle />} />
               <Route path="/Admin/ManageAccessories" element={<ManageAccessories />} />
+              <Route path="/Admin/EditAccessories/:id" element={<EditAccessories />} />
+              <Route path="/Admin/AddAccessory" element={<AddAccessory />} />
               <Route path="/Admin/Users" element={<ManageUsers />} />
               <Route path="/Admin/Users/Add" element={<AddUser />} />
               <Route path="/Admin/Users/Edit/:id" element={<EditUser />} />
+
             </Routes>
           </div>
           <Footer />
