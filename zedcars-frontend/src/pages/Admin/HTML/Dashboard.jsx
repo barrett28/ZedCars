@@ -75,7 +75,7 @@ const Dashboard = () => {
           <a href="/Admin/AdminInventory" className="btn btn-secondary">Manage Vehicles</a>
           <a href="/Admin/ManageAccessories" className="btn btn-secondary">Manage Accessories</a>
           <a href="/Admin/Users" className="btn btn-secondary">Manage Users</a>
-          <a href="/Reports/SalesReport" className="btn btn-secondary">View Reports</a>
+          <a href="/Admin/Reports" className="btn btn-secondary">View Reports</a>
         </div>
       </div>
     

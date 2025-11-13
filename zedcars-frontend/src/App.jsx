@@ -25,6 +25,7 @@ import AddAccessory from './pages/Admin/HTML/AddAccessory'
 import AddUser from './pages/Admin/HTML/Users/AddUser'
 import ManageUsers from './pages/Admin/HTML/Users/ManageUsers'
 import EditUser from './pages/Admin/HTML/Users/EditUser'
+import Reports from './pages/Admin/HTML/Reports'
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
               <Route path="/Admin/Users" element={<ManageUsers />} />
               <Route path="/Admin/Users/Add" element={<AddUser />} />
               <Route path="/Admin/Users/Edit/:id" element={<EditUser />} />
+              <Route path="/Admin/Reports" element={<Reports />} />
 
             </Routes>
           </div>
