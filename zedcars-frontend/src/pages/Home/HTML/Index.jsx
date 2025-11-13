@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import '../CSS/index.css';
 import carVideo from "../../../assets/video/car_video.mp4"
 import heroVideo from "../../../assets/video/hero-video.mp4"
+import { color } from 'chart.js/helpers';
 
 const HomeIndex = () => {
   

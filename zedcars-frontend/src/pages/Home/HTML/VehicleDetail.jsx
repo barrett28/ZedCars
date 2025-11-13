@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import apiClient from '../../../api/apiClient';
+// import { useNavigate } from 'react-router-dom';
 import '../CSS/VehicleDetail.css';
 
 const VehicleDetail = () => {
@@ -234,7 +235,7 @@ const VehicleDetail = () => {
           <div className="action-card">
             <h3>Interested in this vehicle?</h3>
             <div className="vehicledetail-action-buttons">
-              <button className="vehicledetail-contact-btn ">Contact Us</button>
+              <button className="vehicledetail-contact-btn" onClick={()=> navigate("/contact")}>Contact Us</button>
               {user.isAuthenticated && user.role === 'Customer' && (
                 <button 
                   className="vehicledetail-test-drive-btn"

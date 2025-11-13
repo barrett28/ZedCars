@@ -20,6 +20,9 @@ import Purchase from './pages/Home/HTML/Purchase'
 import MyPurchases from './pages/Home/HTML/MyPurchases'
 import PurchaseAccessories from './pages/Home/HTML/PurchaseAccessories'
 import ManageAccessories from './pages/Admin/HTML/ManageAccessories'
+import ManageUsers from './pages/Admin/HTML/Users/ManageUsers'
+import AddUser from './pages/Admin/HTML/Users/AddUser'
+import EditUser from './pages/Admin/HTML/Users/EditUser'
 
 function App() {
   return (
@@ -54,6 +57,9 @@ function App() {
               <Route path="/Admin/EditVehicle/:id" element={<EditVehicle />} />
               <Route path="/Admin/DeleteVehicle/:id" element={<DeleteVehicle />} />
               <Route path="/Admin/ManageAccessories" element={<ManageAccessories />} />
+              <Route path="/Admin/Users" element={<ManageUsers />} />
+              <Route path="/Admin/Users/Add" element={<AddUser />} />
+              <Route path="/Admin/Users/Edit/:id" element={<EditUser />} />
             </Routes>
           </div>
           <Footer />

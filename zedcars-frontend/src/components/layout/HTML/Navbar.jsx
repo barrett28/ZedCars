@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../CSS/Navbar.css";
 import { useAuth } from "../../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -53,6 +55,9 @@ const Navbar = () => {
                   <a href="/my-testdrives">My Test Drives</a>
                   <a href="/my-purchases">My Purchases</a>
                 </>
+              )}
+              {user.role === 'SuperAdmin' && (
+                <a href="/Admin/Dashboard">Dashboard</a>
               )}
               <button onClick={handleLogout} className="logout-btn">
                 Logout
