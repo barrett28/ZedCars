@@ -300,7 +300,7 @@ const slides = [
         <div className="cards" id="card-three"></div>
       </div>
 
-      <div className="landing">
+      {/* <div className="landing">
         <div className="left">
           <div className="slider-controls">
             <button className="slider-btn prev" title="Previous">
@@ -336,7 +336,7 @@ const slides = [
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       
       <div className="featured-brands">
         <h2 className="text-center mt-4">Featured Cars</h2>
