@@ -266,71 +266,83 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="user-activity-section modern">
-          <div className="section-header d-flex justify-content-between align-items-center">
-            <h2 className="fw-bold mb-0">
-              <i className="bi bi-activity me-2"></i> Latest Activity by Category
-            </h2>
-            <a href="/Admin/UserActivity" className="view-all">View All</a>
-          </div>
+       <div className="user-activity-section refined">
+  <div className="ua-header">
+    <h2><i className="bi bi-activity me-2"></i> Latest Activity</h2>
+    <a href="/Admin/UserActivity" className="ua-view-all">View All</a>
+  </div>
 
-          <div className="activity-grid mt-3">
-            {dashboard.recentActivities?.length > 0 ? (
-              dashboard.recentActivities.map((activity, i) => {
-                const getActivityIcon = (type) => {
-                  switch(type) {
-                    case "Registration": return { icon: "bi-person-plus", color: "success", bg: "success-subtle" };
-                    case "Test Drive": return { icon: "bi-car-front", color: "primary", bg: "primary-subtle" };
-                    case "Purchase": return { icon: "bi-cart-check", color: "warning", bg: "warning-subtle" };
-                    case "Accessory Purchase": return { icon: "bi-tools", color: "info", bg: "info-subtle" };
-                    default: return { icon: "bi-activity", color: "secondary", bg: "secondary-subtle" };
-                  }
-                };
+  <div className="ua-grid">
+    {dashboard.recentActivities?.length > 0 ? (
 
-                const activityStyle = getActivityIcon(activity.activityType);
-                
-                return (
-                  <div key={i} className="activity-category-card">
-                    <div className={`activity-icon bg-${activityStyle.bg} text-${activityStyle.color}`}>
-                      <i className={`bi ${activityStyle.icon}`}></i>
-                    </div>
-                    
-                    <div className="activity-content">
-                      <div className="activity-header">
-                        <h6 className="activity-type mb-1">{activity.activityType}</h6>
-                        <small className="text-muted">
-                          <i className="bi bi-clock me-1"></i>
-                          {new Date(activity.activityDate).toLocaleDateString('en-US', { 
-                            month: 'short', 
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })}
-                        </small>
-                      </div>
-                      
-                      <div className="activity-user">
-                        <i className="bi bi-person me-1"></i>
-                        <strong>{activity.username}</strong>
-                      </div>
-                      
-                      <p className="activity-desc mb-2">{activity.description}</p>
-                      
-                      <span className={`badge bg-${activity.status.toLowerCase() === 'success' ? 'success' : 'danger'}`}>
-                        {activity.status}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="no-activity text-center py-4">
-                <i className="bi bi-inbox display-4 text-muted"></i>
-                <p className="text-muted mt-2">No recent activities found.</p>
+      dashboard.recentActivities.map((activity, i) => {
+        const mapIcon = (type) => {
+          switch (type) {
+            case "Registration":
+              return { icon: "bi-person-plus", color: "success" };
+            case "Test Drive":
+              return { icon: "bi-car-front", color: "primary" };
+            case "Purchase":
+              return { icon: "bi-cart-check", color: "warning" };
+            case "Accessory Purchase":
+              return { icon: "bi-tools", color: "info" };
+            default:
+              return { icon: "bi-activity", color: "secondary" };
+          }
+        };
+
+        const icon = mapIcon(activity.activityType);
+
+        return (
+          <div key={i} className="ua-card">
+            <div className={`ua-icon text-${icon.color}`}>
+              <i className={`bi ${icon.icon}`}></i>
+            </div>
+
+            <div className="ua-body">
+              <div className="ua-title-row">
+                <h6 className="ua-title">{activity.activityType}</h6>
+                <small className="ua-time">
+                  <i className="bi bi-clock me-1"></i>
+                  {new Date(activity.activityDate).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </small>
               </div>
-            )}
+
+              <div className="ua-user">
+                <i className="bi bi-person me-1"></i>
+                {activity.username}
+              </div>
+
+              <p className="ua-desc">{activity.description}</p>
+
+              <span
+                className={`badge bg-${
+                  activity.status.toLowerCase() === "success"
+                    ? "success"
+                    : "danger"
+                }`}
+              >
+                {activity.status}
+              </span>
+            </div>
           </div>
-        </div>
+        );
+      })
+
+    ) : (
+      <div className="ua-empty">
+        <i className="bi bi-inbox display-4 text-muted"></i>
+        <p className="text-muted mt-2">No recent activities found.</p>
+      </div>
+    )}
+  </div>
+</div>
+
       </div>
     </div>
   );

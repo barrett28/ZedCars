@@ -126,14 +126,14 @@
 }
 
 .admin-table {
-    overflow-x: hidden;
+    overflow-x: auto;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 0 !important;
-    /* scrollbar-width:auto; */
+    /* scrollbar-width: thin; */
 }
 
 th, td {
@@ -153,119 +153,144 @@ tr:hover {
 }
 
 /* USER ACTIVITY CONTAINER ---------------------------------------------------- */
-.user-activity-section.modern {
+/* MAIN WRAPPER ------------------------------------------------------ */
+.user-activity-section.refined {
   background: #ffffff;
   border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(0,0,0,0.06);
-  animation: fadeIn 0.6s ease;
+  padding: 26px;
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.06);
+  border: 1px solid #eee;
+  animation: fadeIn 0.35s ease;
 }
 
 /* HEADER ------------------------------------------------------------- */
-.section-header {
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+.ua-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ececec;
   padding-bottom: 12px;
 }
 
-.section-header h2 {
+.ua-header h2 {
   font-size: 1.3rem;
-  color: #2c3e50;
+  color: #2c2c2c;
+  font-weight: 700;
 }
 
-.view-all {
+.ua-view-all {
+  color: #4a63ff;
   font-weight: 500;
-  color: #4a6cf7;
   text-decoration: none;
-  transition: 0.2s ease;
 }
 
-.view-all:hover {
-  color: #1f3ffa;
+.ua-view-all:hover {
+  text-decoration: underline;
 }
 
-/* GRID --------------------------------------------------------------- */
-.activity-grid {
-  display: grid;
-  gap: 16px;
-  margin-top: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+/* GRID / ROW --------------------------------------------------------- */
+.ua-grid {
+  display: flex;
+  gap: 22px;
+  margin-top: 22px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #e73939;
+}
+
+.ua-grid::-webkit-scrollbar {
+  height: 6px;
+}
+.ua-grid::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
 }
 
 /* CARD --------------------------------------------------------------- */
-.activity-category-card {
+.ua-card {
+  min-width: 300px;
+  padding: 20px;
+  border-radius: 16px;
+  background: #d9ddff;
+  border: 1px solid #e7e9f5;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.05);
   display: flex;
-  gap: 15px;
-  background: #fdfdfd;
-  border-radius: 14px;
-  padding: 16px;
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
-  animation: slideUp 0.4s ease forwards;
-  opacity: 0;
-  transform: translateY(15px);
+  gap: 16px;
+  transition: 0.25s ease;
 }
 
-/* Icon Box ----------------------------------------------------------- */
-.activity-icon {
+.ua-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08);
+}
+
+/* ICON --------------------------------------------------------------- */
+.ua-icon {
   width: 55px;
   height: 55px;
   border-radius: 14px;
+  background: #ffffff;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   font-size: 22px;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.04);
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
-/* Content ------------------------------------------------------------ */
-.activity-content {
+/* CONTENT ------------------------------------------------------------ */
+.ua-body {
   flex: 1;
 }
 
-.activity-type {
+.ua-title-row {
+  align-items: center;
+}
+
+.ua-title {
   font-size: 1rem;
   font-weight: 600;
-  color: #34495e;
+  color: #2f2f2f;
 }
 
-.activity-user {
-  color: #4a6cf7;
-  font-size: 0.9rem;
-  margin-top: -2px;
-}
-
-/* Description --------------------------------------------------------- */
-.activity-desc {
-  margin: 6px 0 8px;
-  color: #555;
-  font-size: 0.9rem;
-  line-height: 1.3;
-}
-
-/* Status Badge -------------------------------------------------------- */
-.badge {
-  padding: 5px 12px;
+.ua-time {
   font-size: 0.75rem;
-  border-radius: 50px;
+  color: #868686;
 }
 
-/* Empty State --------------------------------------------------------- */
-.no-activity {
-  padding: 40px 0;
-  color: #666;
+.ua-user {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: #4a63ff;
+  font-weight: 600;
 }
 
-/* ANIMATIONS ---------------------------------------------------------- */
+.ua-desc {
+  font-size: 0.88rem;
+  color: #555;
+  margin: 8px 0 12px;
+  line-height: 1.4;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 5px 14px;
+  border-radius: 20px !important;
+}
+
+/* EMPTY STATE -------------------------------------------------------- */
+.ua-empty {
+  padding: 40px;
+  text-align: center;
+  color: #888;
+}
+
+/* ANIMATION ---------------------------------------------------------- */
 @keyframes fadeIn {
-  from { opacity:0; transform: translateY(8px); }
-  to   { opacity:1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
-@keyframes slideUp {
-  to { opacity:1; transform: translateY(0); }
-}
-
 
 .loading {
     display: flex;
