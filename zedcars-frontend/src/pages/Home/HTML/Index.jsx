@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import '../CSS/index.css';
 import carVideo from "../../../assets/video/car_video.mp4"
 import heroVideo from "../../../assets/video/hero-video.mp4"
+import Scroller from "../../../components/layout/HTML/Scroller";
 import { color } from 'chart.js/helpers';
 
 const HomeIndex = () => {
@@ -221,6 +222,16 @@ const HomeIndex = () => {
     });
   };
 
+const slides = [
+  { title: "BMW", image: "https://imgs.search.brave.com/zdgNQorMcJlP4cq8vvVTV8Jg5AyWiQadv4wEl7li6Z8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzY1LzU0/LzNkLzY1NTQzZGVh/M2QzZDk1OGE5NzUz/MGMyMjM4YjE4YWE1/LmpwZw" },
+  { title: "Audi", image: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Audi_logo_2016.png" },
+  { title: "Mercedes", image: "https://imgs.search.brave.com/zdgNQorMcJlP4cq8vvVTV8Jg5AyWiQadv4wEl7li6Z8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzY1LzU0/LzNkLzY1NTQzZGVh/M2QzZDk1OGE5NzUz/MGMyMjM4YjE4YWE1/LmpwZw" },
+  { title: "Porsche", image: "https://pngimg.com/uploads/porsche_logo/porsche_logo_PNG12.png" },
+  { title: "Toyota", image: "https://imgs.search.brave.com/zdgNQorMcJlP4cq8vvVTV8Jg5AyWiQadv4wEl7li6Z8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzY1LzU0/LzNkLzY1NTQzZGVh/M2QzZDk1OGE5NzUz/MGMyMjM4YjE4YWE1/LmpwZw" },
+  { title: "Ferrari", image: "https://seeklogo.com/images/F/ferrari-logo-4E85EADFE9-seeklogo.png" }
+];
+
+
   return (
     <div className="home-page">
       <div className="hero">
@@ -325,6 +336,11 @@ const HomeIndex = () => {
             </div>
           </div>
         </div>
+      </div>
+      
+      <div className="featured-brands">
+        <h2 className="text-center mt-4">Featured Cars</h2>
+        <Scroller slides={slides} speed={50} />
       </div>
     </div>
   );

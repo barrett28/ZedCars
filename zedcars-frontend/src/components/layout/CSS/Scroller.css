@@ -1,0 +1,40 @@
+.infinite-wrapper {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.infinite-track {
+  display: flex;
+  gap: 22px;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.infinite-card {
+  width: 240px;
+  height: 260px;
+  background: transparent;
+  border-radius: 16px;
+  overflow: hidden;
+  text-align: center;
+  padding-bottom: 10px;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.infinite-card:hover {
+  transform: translateY(-6px);
+}
+
+.infinite-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.infinite-card p {
+  margin-top: 8px;
+  font-weight: 600;
+  color: #333;
+}
