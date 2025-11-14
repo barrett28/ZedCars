@@ -1,6 +1,7 @@
 .reports-page {
   min-height: 100vh;
   background-color: #f8f9fa;
+  margin-top: 6vh;
 }
 
 .reports-page .admin-header {
@@ -90,6 +91,20 @@
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.reports-page .chart-card canvas.bar-chart{
+  /* height: 90% !important;  */
+  height: 300px !important;
+  width: auto !important;
+  /* padding-top: 20vh; */
+}
+.reports-page .chart-card canvas.doughnut-chart{
+  /* height: 400px !important; */
+  width: auto;
 }
 
 .reports-page .chart-card h5 {

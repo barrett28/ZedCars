@@ -162,11 +162,11 @@ const Reports = () => {
         <div className="charts-section">
           <div className="chart-card">
             <h5>{reportType === 'carSales' ? 'Car Sales by Brand' : 'Accessory Sales by Category'}</h5>
-            <Doughnut data={reportType === 'carSales' ? carChartData.pie : accessoryChartData.pie} />
+            <Doughnut className='doughnut-chart' data={reportType === 'carSales' ? carChartData.pie : accessoryChartData.pie} />
           </div>
           <div className="chart-card">
             <h5>{reportType === 'carSales' ? 'Car Monthly Sales Trend' : 'Accessory Monthly Sales Trend'}</h5>
-            <Bar data={reportType === 'carSales' ? carChartData.bar : accessoryChartData.bar} />
+            <Bar className='bar-chart' data={reportType === 'carSales' ? carChartData.bar : accessoryChartData.bar} />
           </div>
         </div>
 

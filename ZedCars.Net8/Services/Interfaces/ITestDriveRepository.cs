@@ -12,5 +12,6 @@ namespace ZedCars.Net8.Services
         Task<List<TestDrive>> GetTestDrivesByCustomerAsync(string customerEmail);
         Task<List<TestDrive>> GetTestDrivesByUserIdAsync(int userId);
         Task<TestDrive?> GetTestDriveByCarAndEmailAsync(int carId, string email);
+        //Task<List<string>> GetAvailableSlotsAsync(int carId, DateTime date);
     }
 }
