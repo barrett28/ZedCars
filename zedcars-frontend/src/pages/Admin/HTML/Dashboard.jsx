@@ -10,7 +10,6 @@ const Dashboard = () => {
     apiClient
       .get("/admin/dashboard")
       .then((res) => {
-        // console.log("Dashboard data received:", res.data);
         setDashboard(res.data);
       })
       .catch((err) => console.error("Error loading dashboard:", err));
@@ -18,21 +17,14 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!dashboard || !dashboard.stockData || !Array.isArray(dashboard.stockData)) {
-      // console.log("Chart not rendering - dashboard:", dashboard);
-      // console.log("stockData:", dashboard?.stockData);
       return;
     }
-
-    // console.log("Creating chart with data:", dashboard.stockData);
     
     const ctx = document.getElementById("stockSoldChart").getContext("2d");
     const chart = new Chart(ctx, {
       type: "bar",
       data: {
-        labels: dashboard.stockData.map((s) => {
-          // console.log("Brand:", s.brand, "Stock:", s.stockAvailable, "Sold:", s.unitsSold);
-          return s.brand;
-        }),
+        labels: dashboard.stockData.map((s) => s.brand),
         datasets: [
           {
             label: "Stock Available",
@@ -274,46 +266,67 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="user-activity-section">
-          <div className="section-header d-flex justify-content-between align-items-center border-bottom">
-            <h2 className="fw-bold  mb-0">
-              <i className="bi bi-activity me-2"></i> User Activity
+        <div className="user-activity-section modern">
+          <div className="section-header d-flex justify-content-between align-items-center">
+            <h2 className="fw-bold mb-0">
+              <i className="bi bi-activity me-2"></i> Latest Activity by Category
             </h2>
             <a href="/Admin/UserActivity" className="view-all">View All</a>
           </div>
-          <div className="activity-timeline p-3 bg-light">
-            {dashboard.recentActivities && Array.isArray(dashboard.recentActivities) ? dashboard.recentActivities.map((activity, i) => (
-              <div key={i} className="card mb-3 border-0 border-start border-4 border-primary shadow-sm">
-                <div className="card-body d-flex">
-                  <div className="fs-3 me-3">
-                    {activity.activityType === "Registration" && "👤"}
-                    {activity.activityType === "Test Drive" && "🚗"}
-                    {activity.activityType === "Purchase" && "💰"}
-                    {activity.activityType === "Accessory Purchase" && "🔧"}
-                    {!["Registration", "Test Drive", "Purchase", "Accessory Purchase"].includes(activity.activityType) && "📝"}
-                  </div>
-                  <div className="flex-grow-1">
-                    <div className="d-flex justify-content-between align-items-center">
-                      <h5 className="mb-0 text-dark">{activity.activityType}</h5>
-                      <small className="text-muted">
-                        <i className="bi bi-clock me-1"></i>
-                        {new Date(activity.activityDate).toLocaleDateString()}
-                      </small>
+
+          <div className="activity-grid mt-3">
+            {dashboard.recentActivities?.length > 0 ? (
+              dashboard.recentActivities.map((activity, i) => {
+                const getActivityIcon = (type) => {
+                  switch(type) {
+                    case "Registration": return { icon: "bi-person-plus", color: "success", bg: "success-subtle" };
+                    case "Test Drive": return { icon: "bi-car-front", color: "primary", bg: "primary-subtle" };
+                    case "Purchase": return { icon: "bi-cart-check", color: "warning", bg: "warning-subtle" };
+                    case "Accessory Purchase": return { icon: "bi-tools", color: "info", bg: "info-subtle" };
+                    default: return { icon: "bi-activity", color: "secondary", bg: "secondary-subtle" };
+                  }
+                };
+
+                const activityStyle = getActivityIcon(activity.activityType);
+                
+                return (
+                  <div key={i} className="activity-category-card">
+                    <div className={`activity-icon bg-${activityStyle.bg} text-${activityStyle.color}`}>
+                      <i className={`bi ${activityStyle.icon}`}></i>
                     </div>
-                    <div className="mb-1">
-                      <strong className="text-primary">{activity.username}</strong>
+                    
+                    <div className="activity-content">
+                      <div className="activity-header">
+                        <h6 className="activity-type mb-1">{activity.activityType}</h6>
+                        <small className="text-muted">
+                          <i className="bi bi-clock me-1"></i>
+                          {new Date(activity.activityDate).toLocaleDateString('en-US', { 
+                            month: 'short', 
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </small>
+                      </div>
+                      
+                      <div className="activity-user">
+                        <i className="bi bi-person me-1"></i>
+                        <strong>{activity.username}</strong>
+                      </div>
+                      
+                      <p className="activity-desc mb-2">{activity.description}</p>
+                      
+                      <span className={`badge bg-${activity.status.toLowerCase() === 'success' ? 'success' : 'danger'}`}>
+                        {activity.status}
+                      </span>
                     </div>
-                    <p className="mb-2 text-secondary">{activity.description}</p>
-                    <span className={`badge ${activity.status === "Success" ? "bg-success" : activity.status === "Failed" ? "bg-danger" : "bg-warning text-dark"}`}>
-                      {activity.status}
-                    </span>
                   </div>
-                </div>
-              </div>
-            )) : (
-              <div className="text-center text-muted py-5">
-                <i className="bi bi-clock-history display-6 d-block mb-2"></i>
-                <span>No recent activities found.</span>
+                );
+              })
+            ) : (
+              <div className="no-activity text-center py-4">
+                <i className="bi bi-inbox display-4 text-muted"></i>
+                <p className="text-muted mt-2">No recent activities found.</p>
               </div>
             )}
           </div>

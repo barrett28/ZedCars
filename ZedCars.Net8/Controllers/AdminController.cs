@@ -345,10 +345,9 @@ namespace ZedCars.Net8.Controllers
                 _ => 3
             };
         }
-
         private async Task<List<UserActivity>> GetRecentActivitiesAsync()
         {
-            return await _userActivityRepository.GetActivitiesAsync(1, 10);
+            return await _userActivityRepository.GetLatestActivityPerCategoryAsync();
         }
     }
 }

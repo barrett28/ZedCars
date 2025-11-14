@@ -58,7 +58,7 @@
 
 .analytics-chart {
     width: 100%;
-    max-width: 700px;
+    max-width: 682px;
     height: 400px;
     margin: 0 auto;
     background: #f9f9f9;
@@ -127,13 +127,13 @@
 
 .admin-table {
     overflow-x: hidden;
-    /* scrollbar-width:none; */
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 0 !important;
+    /* scrollbar-width:auto; */
 }
 
 th, td {
@@ -152,12 +152,120 @@ tr:hover {
     background: #f8f9fa;
 }
 
-.user-activity-section {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
+/* USER ACTIVITY CONTAINER ---------------------------------------------------- */
+.user-activity-section.modern {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0,0,0,0.06);
+  animation: fadeIn 0.6s ease;
 }
+
+/* HEADER ------------------------------------------------------------- */
+.section-header {
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  padding-bottom: 12px;
+}
+
+.section-header h2 {
+  font-size: 1.3rem;
+  color: #2c3e50;
+}
+
+.view-all {
+  font-weight: 500;
+  color: #4a6cf7;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.view-all:hover {
+  color: #1f3ffa;
+}
+
+/* GRID --------------------------------------------------------------- */
+.activity-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+/* CARD --------------------------------------------------------------- */
+.activity-category-card {
+  display: flex;
+  gap: 15px;
+  background: #fdfdfd;
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+  animation: slideUp 0.4s ease forwards;
+  opacity: 0;
+  transform: translateY(15px);
+}
+
+/* Icon Box ----------------------------------------------------------- */
+.activity-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.04);
+}
+
+/* Content ------------------------------------------------------------ */
+.activity-content {
+  flex: 1;
+}
+
+.activity-type {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #34495e;
+}
+
+.activity-user {
+  color: #4a6cf7;
+  font-size: 0.9rem;
+  margin-top: -2px;
+}
+
+/* Description --------------------------------------------------------- */
+.activity-desc {
+  margin: 6px 0 8px;
+  color: #555;
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+/* Status Badge -------------------------------------------------------- */
+.badge {
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  border-radius: 50px;
+}
+
+/* Empty State --------------------------------------------------------- */
+.no-activity {
+  padding: 40px 0;
+  color: #666;
+}
+
+/* ANIMATIONS ---------------------------------------------------------- */
+@keyframes fadeIn {
+  from { opacity:0; transform: translateY(8px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  to { opacity:1; transform: translateY(0); }
+}
+
 
 .loading {
     display: flex;

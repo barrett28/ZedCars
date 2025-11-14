@@ -40,5 +40,31 @@ namespace ZedCars.Net8.Services
             .OrderByDescending(a => a.ActivityDate)
             .ToListAsync();
         }
+
+        public async Task<List<UserActivity>> GetLatestActivityPerCategoryAsync()
+        {
+            var activityTypes = await _context.UserActivities
+                .Select(a => a.ActivityType)
+                .Distinct()
+                .ToListAsync();
+
+            var result = new List<UserActivity>();
+            
+            foreach (var type in activityTypes)
+            {
+                var latestActivity = await _context.UserActivities
+                    .Where(a => a.ActivityType == type)
+                    .OrderByDescending(a => a.ActivityDate)
+                    .FirstOrDefaultAsync();
+                    
+                if (latestActivity != null)
+                {
+                    result.Add(latestActivity);
+                }
+            }
+            
+            return result.OrderByDescending(a => a.ActivityDate).ToList();
+        }
+
     }
 }
