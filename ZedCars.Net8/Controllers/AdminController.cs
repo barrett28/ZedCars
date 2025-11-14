@@ -313,6 +313,22 @@ namespace ZedCars.Net8.Controllers
             }
         }
 
+        [HttpGet("testdrives")]
+        public async Task<IActionResult> GetAllTestDrives()
+        {
+            try
+            {
+                var testDrives = await _testDriveRepository.GetAllTestDrivesAsync();
+                return Ok(testDrives);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = $"Error fetching test drives: {ex.Message}" });
+            }
+        }
+
+
+
         [HttpPost("testdrives/{testDriveId}/status")]
         public async Task<IActionResult> UpdateTestDriveStatus(int testDriveId, [FromBody] string status)
         {

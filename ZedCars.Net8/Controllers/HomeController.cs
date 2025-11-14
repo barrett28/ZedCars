@@ -270,7 +270,8 @@ namespace ZedCars.Net8.Controllers
                 {
                     var userTestDrives = await _testDriveRepository.GetTestDrivesByCustomerAsync(userEmail);
                     return Ok(userTestDrives);
-                }                return Unauthorized();
+                }               
+                return Unauthorized();
             }
 
             var testDrives = await _testDriveRepository.GetTestDrivesByUserIdAsync(userId);
