@@ -10,6 +10,12 @@
     overflow: hidden;
 }
 
+.hero .char {
+  display: inline-block;
+  transition: font-weight 0.2s;
+}
+
+
 .bg-video {
     position: absolute;
     top: 0;
@@ -33,13 +39,12 @@
     position: absolute;
     width: 100%;
     text-align: center;
-    font-weight: 600;
+    /* font-weight: 500; */
     opacity: 0;
     transform: translateY(50px);
     z-index: 2;
     letter-spacing: 1px;
     font-size: 4rem;
-    font-family: "Funnel Sans", sans-serif;
 }
 
 .hero h1 {
@@ -49,8 +54,8 @@
 
 .hero h2 {
     top: 45%;
-    color: #fc4444;
-    font-weight: 700;
+    color: rgb(252, 68, 68);
+    /* font-weight: 700; */
 }
 
 /* ===== INFO BOX ===== */

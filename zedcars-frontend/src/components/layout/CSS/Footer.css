@@ -12,6 +12,7 @@
   top: 0;
   left: 0;      
   width: 100%;
+  margin-top: -1px;
   height: 155px;
   background: #ffffff;
   clip-path: path("M0,80 C300,20 600,140 902,97 C1411,0 1500,181 2076,80 C2100,20 2400,120 2560,60 L2560,0 L0,0 Z");

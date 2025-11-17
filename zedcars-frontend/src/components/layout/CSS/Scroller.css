@@ -1,40 +1,30 @@
-.infinite-wrapper {
+.featured-brands{
+ margin-bottom: 12px;
+ color: black;
+}
+.marquee-container {
   width: 100%;
   overflow: hidden;
-  padding: 20px 0;
+  padding: 20px 0; 
 }
 
-.infinite-track {
+.marquee-content {
   display: flex;
-  gap: 22px;
-  white-space: nowrap;
-  will-change: transform;
+  gap: 80px;
+  animation: marquee 30s linear infinite;
 }
 
-.infinite-card {
-  width: 240px;
-  height: 260px;
-  background: transparent;
-  border-radius: 16px;
-  overflow: hidden;
-  text-align: center;
-  padding-bottom: 10px;
-  flex-shrink: 0;
-  transition: transform 0.25s ease;
+.marquee-content img {
+  height: 70px;
+  filter: brightness(1) invert(0);
+  transition: 0.3s ease;
 }
 
-.infinite-card:hover {
-  transform: translateY(-6px);
-}
-
-.infinite-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-.infinite-card p {
-  margin-top: 8px;
-  font-weight: 600;
-  color: #333;
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }

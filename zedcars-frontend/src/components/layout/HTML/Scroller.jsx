@@ -1,43 +1,26 @@
 import React, { useEffect, useRef } from "react";
-import gsap from "gsap";
-import '../CSS/Scroller.css'
+import "../CSS/Scroller.css"; // <-- Make sure this file exists
 
-const Scroller = ({ slides, speed = 20 }) => {
-  const wrapperRef = useRef(null);
-
-  useEffect(() => {
-    const wrapper = wrapperRef.current;
-    if (!wrapper || !slides?.length) return;
-
-    const track = wrapper.querySelector('.infinite-track');
-    const cards = wrapper.querySelectorAll('.infinite-card');
-    
-    // Duplicate the content for seamless loop
-    cards.forEach(card => {
-      const clone = card.cloneNode(true);
-      track.appendChild(clone);
-    });
-
-    const totalWidth = track.scrollWidth / 2;
-
-    const animation = gsap.to(track, {
-      x: -totalWidth,
-      duration: speed,
-      ease: "none",
-      repeat: -1,
-    });
-
-    return () => animation.kill();
-  }, [slides, speed]);
-
+const Scroller = () => {
   return (
-    <div className="infinite-wrapper" ref={wrapperRef}>
-      <div className="infinite-track">
-        {slides.map((slide, i) => (
-          <div className="infinite-card" key={i}>
-            <img src={slide.image} alt={slide.title} />
-          </div>
-        ))}
+    <div className="marquee-container">
+      <div className="marquee-content">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg" alt="BMW" />
+        <img src="https://www.freepnglogos.com/uploads/audi-logo-28.png" alt="Audi" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/90/Mercedes-Logo.svg" alt="Mercedes" />
+        <img src="https://e7.pngegg.com/pngimages/317/346/png-clipart-toyota-86-car-logo-toyota-text-trademark-thumbnail.png" alt="Toyota" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Tesla_Motors.svg" alt="Tesla" />
+        <img src="data:image/png;base64,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" alt="Jeep" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrfWfenrbxYGSZSMrH_gcGSzVtklWaOIlFeA&s" alt="Honda" />
+
+        {/* Duplicate for infinite scroll */}
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg" alt="BMW" />
+        <img src="https://www.freepnglogos.com/uploads/audi-logo-28.png" alt="Audi" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/90/Mercedes-Logo.svg" alt="Mercedes" />
+        <img src="https://e7.pngegg.com/pngimages/317/346/png-clipart-toyota-86-car-logo-toyota-text-trademark-thumbnail.png" alt="Toyota" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Tesla_Motors.svg" alt="Tesla" />
+        <img src="data:image/png;base64,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" alt="Jeep" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrfWfenrbxYGSZSMrH_gcGSzVtklWaOIlFeA&s" alt="Honda" />
       </div>
     </div>
   );

@@ -3,7 +3,6 @@ import '../CSS/index.css';
 import carVideo from "../../../assets/video/car_video.mp4"
 import heroVideo from "../../../assets/video/hero-video.mp4"
 import Scroller from "../../../components/layout/HTML/Scroller";
-import { color } from 'chart.js/helpers';
 
 const HomeIndex = () => {
   
@@ -23,11 +22,68 @@ const HomeIndex = () => {
     };
   }, []);
 
+  const splitText = (selector) => {
+  const el = document.querySelector(selector);
+  if (!el) return;
+  const text = el.innerText.trim();
+  el.innerHTML = "";
+
+  text.split("").forEach(char => {
+    const span = document.createElement("span");
+    span.classList.add("char");
+    span.textContent = char === " " ? "\u00A0" : char;
+    el.appendChild(span);
+  });
+};
+
+const initProximityEffect = () => {
+  const chars = document.querySelectorAll(".hero .char");
+  const radius = 50; // radisu size for hover
+
+  window.addEventListener("mousemove", (e) => {
+    chars.forEach((char) => {
+      const rect = char.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+
+      const dist = Math.hypot(e.clientX - x, e.clientY - y);
+
+      if (dist < radius) {
+        const strength = 1 - dist / radius;
+
+        gsap.to(char, {
+          fontWeight: 900,
+          color: `rgba(252, 68, 68,${0.6 + strength * 0.4})`,
+          y: -strength * 8,
+          scale: 1 + strength * 0.09,
+          duration: 0.25,
+          ease: "power2.out",
+        });
+      } else {
+        gsap.to(char, {
+          fontWeight: 700,
+          color: "white",
+          y: 0,
+          scale: 1,
+          duration: 0.4,
+          ease: "power3.out",
+        });
+      }
+    });
+  });
+};
+
+
+
   const initializeGSAP = () => {
     if (typeof window.gsap === 'undefined' || typeof window.ScrollTrigger === 'undefined') {
       console.error('GSAP or ScrollTrigger not loaded');
       return;
     }
+
+    splitText(".hero h1");
+    splitText(".hero h2");
+    initProximityEffect();
 
     const { gsap, ScrollTrigger } = window;
     gsap.registerPlugin(ScrollTrigger);
@@ -339,9 +395,10 @@ const slides = [
       </div> */}
       
       <div className="featured-brands">
-        <h2 className="text-center mt-4">Featured Cars</h2>
-        <Scroller slides={slides} speed={50} />
+        <h2>Featured Brands</h2>
+        <Scroller />
       </div>
+
     </div>
   );
 };

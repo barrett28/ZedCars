@@ -72,8 +72,8 @@ function App() {
               <Route path="/dashboard2" element={<Dashboard2 />} />
 
             </Routes>
-          </div>
           <Footer />
+          </div>
         </Router>
       </div>
     </AuthProvider>
