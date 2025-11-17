@@ -88,6 +88,9 @@
     background-color: #2C5289;
     color: whitesmoke;
 }
+.ana-text{
+    text-align: center;
+}
 
 .ana-div .ana-underline{
     height: 4%;
@@ -114,4 +117,8 @@
     width: 240px;
     padding: 4% 0px;
     border-radius: 15px;
+}
+
+.acc-name{
+    text-align: center;
 }

@@ -267,10 +267,10 @@ const Dashboard = () => {
         </div>
 
        <div className="user-activity-section refined">
-  <div className="ua-header">
-    <h2><i className="bi bi-activity me-2"></i> Latest Activity</h2>
-    <a href="/Admin/UserActivity" className="ua-view-all">View All</a>
-  </div>
+        <div className="ua-header">
+          <h2><i className="bi bi-activity me-2"></i> Latest Activity</h2>
+          <a href="/Admin/UserActivity" className="ua-view-all">View All</a>
+        </div>
 
   <div className="ua-grid">
     {dashboard.recentActivities?.length > 0 ? (
@@ -341,7 +341,7 @@ const Dashboard = () => {
       </div>
     )}
   </div>
-</div>
+        </div>
 
       </div>
     </div>
