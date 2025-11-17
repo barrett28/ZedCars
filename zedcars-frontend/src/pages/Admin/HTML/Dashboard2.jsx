@@ -103,12 +103,12 @@ const Dashboard2 = () => {
                         <h4>{dashboard.totalCars || 0}</h4>
                       </div>
                       <div className="ana-logo">
-                        <h5>logo</h5>
+                        <h5><i class="bi bi-car-front"></i></h5>
                       </div>
                       <div className="ana-underline"></div>
                     </div>
 
-                    <div className="ana-div" style={{backgroundColor:'#A1B39E'}}>
+                    <div className="ana-div" style={{backgroundColor:'#FFF0E7'}}>
                       <div className="ana-text">
                         <h4>Available Vehicles</h4>
                       </div>
@@ -116,20 +116,20 @@ const Dashboard2 = () => {
                         <h4>{dashboard.activeVehicles}</h4>
                       </div>
                       <div className="ana-logo">
-                        <h5>logo</h5>
+                        <h5><i class="bi bi-car-front"></i></h5>
                       </div>
                       <div className="ana-underline"></div>
                     </div>
 
-                    <div className="ana-div" style={{backgroundColor:'#ebdbc1ff', color:'black'}}>
+                    <div className="ana-div" style={{backgroundColor:'#FFE8D8', color:'black'}}>
                       <div className="ana-text">
                         <h4>Inventory Price</h4>
                       </div>
                       <div className="ana-count">
-                        <h4>${dashboard.vehiclePrice || 0}</h4>
+                        <h4><i class="bi bi-currency-dollar"></i>{dashboard.vehiclePrice || 0}</h4>
                       </div>
                       <div className="ana-logo">
-                        <h5>logo</h5>
+                        <h5><i class="bi bi-cash"></i></h5>
                       </div>
                       <div className="ana-underline"></div>
                     </div>
@@ -142,7 +142,7 @@ const Dashboard2 = () => {
                         <h4>{(dashboard.totalSales || 0).toFixed(2)}</h4>
                       </div>
                       <div className="ana-logo">
-                        <h5>logo</h5>
+                        <h5><i class="bi bi-currency-dollar"></i></h5>
                       </div>
                       <div className="ana-underline"></div>
                     </div>
@@ -157,7 +157,7 @@ const Dashboard2 = () => {
                         <h4>8</h4>
                       </div>
                       <div className="acc-name">
-                        <h4>Vehicle Brands</h4>
+                        <h4 className='text-muted'>Vehicle Brands</h4>
                       </div>
                     </div>
 
@@ -166,31 +166,31 @@ const Dashboard2 = () => {
                         <h4>{dashboard.totalUsers || 0}</h4>
                       </div>
                       <div className="acc-name">
-                        <h4>Total Users</h4>
+                        <h4 className='text-muted'>Total Users</h4>
                       </div>
                     </div>
 
                     <div className="acc-ana-count">
                       <div className="acc-count">
-                        <h4>{dashboard.accessoriesTotal || 0}</h4>
+                        <h4><i class="bi bi-currency-dollar"></i>{dashboard.accessoriesTotal || 0}</h4>
                       </div>
                       <div className="acc-name">
-                        <h4>Accessory Inventory</h4>
+                        <h4 className='text-muted'>Acc-Inventory</h4>
                       </div>
                     </div>
 
                     <div className="acc-ana-count">
                       <div className="acc-count">
-                        <h4>{dashboard.accessoriesSales || 0}</h4>
+                        <h4><i class="bi bi-currency-dollar"></i>{dashboard.accessoriesSales || 0}</h4>
                       </div>
                       <div className="acc-name">
-                        <h4>Accessory Sales</h4>
+                        <h4 className='text-muted'>Acc-Sales</h4>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                        <div className="analytics-section mt-4">
+        <div className="analytics-section mt-4">
           <h2>Inventory Analytics</h2>
           <div className="analytics-grid">
             <div className="analytics-chart">
