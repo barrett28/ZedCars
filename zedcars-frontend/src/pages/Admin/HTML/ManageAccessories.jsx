@@ -13,15 +13,21 @@ const ManageAccessories = () => {
   const [totalAccessories, setTotalAccessories] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedAccessoryId, setSelectedAccessoryId] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     fetchAccessories(1);
-  }, []);
+  }, [selectedCategory]);
 
   const fetchAccessories = async (page = 1) => {
     try {
       const token = localStorage.getItem("jwtToken");
-      const response = await apiClient.get(`/accessory?page=${page}&limit=${pageSize}`, {
+      let url = `/accessory?page=${page}&limit=${pageSize}`;
+      if (selectedCategory) {
+        url += `&category=${encodeURIComponent(selectedCategory)}`;
+      }
+      
+      const response = await apiClient.get(url, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -35,6 +41,12 @@ const ManageAccessories = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+    setCurrentPage(1);
+    setLoading(true);
   };
 
   const handlePageChange = (e, page) => {
@@ -80,9 +92,24 @@ const ManageAccessories = () => {
 
       <div className="page-header">
         <h1>Manage Accessories</h1>
-        <button className="btn btn-primary" onClick={() => navigate('/admin/add-accessory')}>
-          Add New Accessory
-        </button>
+        <div className="header-controls">
+          <select 
+            value={selectedCategory} 
+            onChange={handleCategoryChange}
+            className="category-filter"
+          >
+            <option value="">All Categories</option>
+            <option value="Interior">Interior</option>
+            <option value="Exterior">Exterior</option>
+            <option value="Performance">Performance</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Safety">Safety</option>
+            <option value="Maintenance">Maintenance</option>
+          </select>
+          <button className="btn btn-primary" onClick={() => navigate('/admin/add-accessory')}>
+            Add New Accessory
+          </button>
+        </div>
       </div>
 
       <div className="accessories-table">

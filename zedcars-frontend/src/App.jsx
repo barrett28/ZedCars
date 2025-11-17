@@ -28,6 +28,7 @@ import EditUser from './pages/Admin/HTML/Users/EditUser'
 import Reports from './pages/Admin/HTML/Reports'
 import TestDrives from './pages/Admin/HTML/TestDrives'
 import Dashboard2 from './pages/Admin/HTML/Dashboard2'
+import UserActivity from './pages/Admin/HTML/UserActivity'
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
               <Route path="/Admin/Reports" element={<Reports />} />
               <Route path="/Admin/test-drives" element={<TestDrives />} />
               <Route path="/dashboard2" element={<Dashboard2 />} />
+              <Route path="/Admin/UserActivity" element={<UserActivity />} />
 
             </Routes>
           <Footer />

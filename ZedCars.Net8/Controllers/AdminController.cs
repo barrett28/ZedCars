@@ -358,7 +358,12 @@ namespace ZedCars.Net8.Controllers
             var activities = await GetRecentActivitiesAsync();
             return Ok(activities);
         }
-
+        [HttpGet("user-activities")]
+        public async Task<IActionResult> GetAllUserActivities()
+        {
+            var activities = await _userActivityRepository.GetActivitiesAsync(1, 100);
+            return Ok(activities);
+        }
         private int GetMonthsForPeriod(string period)
         {
             return period switch
