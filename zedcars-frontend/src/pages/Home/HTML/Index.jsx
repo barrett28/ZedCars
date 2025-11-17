@@ -38,7 +38,7 @@ const HomeIndex = () => {
 
 const initProximityEffect = () => {
   const chars = document.querySelectorAll(".hero .char");
-  const radius = 50; // radisu size for hover
+  const radius = 30; // radisu size for hover
 
   window.addEventListener("mousemove", (e) => {
     chars.forEach((char) => {
@@ -54,10 +54,10 @@ const initProximityEffect = () => {
         gsap.to(char, {
           fontWeight: 900,
           color: `rgba(252, 68, 68,${0.6 + strength * 0.4})`,
-          y: -strength * 8,
-          scale: 1 + strength * 0.09,
-          duration: 0.25,
-          ease: "power2.out",
+          // y: -strength * 8,
+          // scale: 1 + strength * 0.09,
+          duration: 1,
+          ease: "power3.out",
         });
       } else {
         gsap.to(char, {
@@ -395,7 +395,6 @@ const slides = [
       </div> */}
       
       <div className="featured-brands">
-        <h2>Featured Brands</h2>
         <Scroller />
       </div>
 

@@ -466,3 +466,13 @@
   margin-top: 120px;
   margin-bottom: 120px;
 } */
+
+
+/* marqueee */
+
+.featured-brands{
+    height: 30vh;
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+}
