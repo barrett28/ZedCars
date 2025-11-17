@@ -22,56 +22,56 @@ const HomeIndex = () => {
     };
   }, []);
 
-  const splitText = (selector) => {
-  const el = document.querySelector(selector);
-  if (!el) return;
-  const text = el.innerText.trim();
-  el.innerHTML = "";
+  // const splitText = (selector) => {
+  //   const el = document.querySelector(selector);
+  //   if (!el) return;
+  //   const text = el.innerText.trim();
+  //   el.innerHTML = "";
 
-  text.split("").forEach(char => {
-    const span = document.createElement("span");
-    span.classList.add("char");
-    span.textContent = char === " " ? "\u00A0" : char;
-    el.appendChild(span);
-  });
-};
+  //   text.split("").forEach(char => {
+  //     const span = document.createElement("span");
+  //     span.classList.add("char");
+  //     span.textContent = char === " " ? "\u00A0" : char;
+  //     el.appendChild(span);
+  //   });
+  // };
 
-const initProximityEffect = () => {
-  const chars = document.querySelectorAll(".hero .char");
-  const radius = 30; // radisu size for hover
+// const initProximityEffect = () => {
+//   const chars = document.querySelectorAll(".hero .char");
+//   const radius = 30; // radisu size for hover
 
-  window.addEventListener("mousemove", (e) => {
-    chars.forEach((char) => {
-      const rect = char.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + rect.height / 2;
+//   window.addEventListener("mousemove", (e) => {
+//     chars.forEach((char) => {
+//       const rect = char.getBoundingClientRect();
+//       const x = rect.left + rect.width / 2;
+//       const y = rect.top + rect.height / 2;
 
-      const dist = Math.hypot(e.clientX - x, e.clientY - y);
+//       const dist = Math.hypot(e.clientX - x, e.clientY - y);
 
-      if (dist < radius) {
-        const strength = 1 - dist / radius;
+//       if (dist < radius) {
+//         const strength = 1 - dist / radius;
 
-        gsap.to(char, {
-          fontWeight: 900,
-          color: `rgba(252, 68, 68,${0.6 + strength * 0.4})`,
-          // y: -strength * 8,
-          // scale: 1 + strength * 0.09,
-          duration: 1,
-          ease: "power3.out",
-        });
-      } else {
-        gsap.to(char, {
-          fontWeight: 700,
-          color: "white",
-          y: 0,
-          scale: 1,
-          duration: 0.4,
-          ease: "power3.out",
-        });
-      }
-    });
-  });
-};
+//         gsap.to(char, {
+//           fontWeight: 900,
+//           color: `rgba(252, 68, 68,${0.6 + strength * 0.4})`,
+//           // y: -strength * 8,
+//           // scale: 1 + strength * 0.09,
+//           duration: 1,
+//           ease: "power3.out",
+//         });
+//       } else {
+//         gsap.to(char, {
+//           fontWeight: 700,
+//           color: "white",
+//           y: 0,
+//           scale: 1,
+//           duration: 0.4,
+//           ease: "power3.out",
+//         });
+//       }
+//     });
+//   });
+// };
 
 
 
@@ -81,9 +81,9 @@ const initProximityEffect = () => {
       return;
     }
 
-    splitText(".hero h1");
-    splitText(".hero h2");
-    initProximityEffect();
+    // splitText(".hero h1");
+    // splitText(".hero h2");
+    // initProximityEffect();
 
     const { gsap, ScrollTrigger } = window;
     gsap.registerPlugin(ScrollTrigger);
@@ -111,7 +111,8 @@ const initProximityEffect = () => {
     heroTimeline
       .to(".hero h1", { x: "-100vw", ease: "power1.out" }, 0)
       .to(".hero h2", { x: "100vw", ease: "power1.out" }, 0)
-      .to(".info-box", { bottom: "100%", ease: "power1.out" }, 0);
+      .to(".info-box", { bottom: "50%", ease: "power1.out" }, 0)
+      .to(".video-overlay", {backgroundColor: "black", ease:"power1.out"}, 0);
 
     const cardsTimeline = gsap.timeline({
       scrollTrigger: {

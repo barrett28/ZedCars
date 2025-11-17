@@ -15,6 +15,112 @@
   border-bottom: 2px solid #e9ecef;
 }
 
+.search-filter-section {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  align-items: center;
+}
+
+.search-input input {
+  padding: 10px 15px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 300px;
+  color: black;
+  transition: border-color 0.3s ease;
+}
+
+.search-input input:focus {
+  outline: none;
+  border-color: #fc4444;
+}
+
+.role-filter select {
+  padding: 10px 15px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  color: black;
+  transition: border-color 0.3s ease;
+}
+
+.role-filter select:focus {
+  outline: none;
+  border-color: #fc4444;
+}
+
+.apply-filter-btn {
+  background: #fc4444;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.apply-filter-btn:hover {
+  background: #e63939;
+  transform: translateY(-1px);
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.pagination-info {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pagination-btn {
+  padding: 8px 12px;
+  border: 1px solid #e9ecef;
+  background: white;
+  color: #495057;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #fc4444;
+  color: white;
+  border-color: #fc4444;
+}
+
+.pagination-btn.active {
+  background: #fc4444;
+  color: white;
+  border-color: #fc4444;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .header h2 {
   color: #2c3e50;
   font-size: 2rem;
@@ -221,6 +327,21 @@
     flex-direction: column;
     gap: 1rem;
     align-items: stretch;
+  }
+
+  .search-filter-section {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .search-input input {
+    width: 100%;
+  }
+
+  .pagination-container {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
   }
   
   .users-table-container {

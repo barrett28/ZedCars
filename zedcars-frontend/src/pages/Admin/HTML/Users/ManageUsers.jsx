@@ -10,22 +10,47 @@ const ManageUsers = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const pageSize = 10;
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (searchTerm = "", role = "", page = 1) => {
     try {
       setLoading(true);
-      const response = await apiClient.get("/admin/users");
-      setUsers(response.data);
+      const params = new URLSearchParams();
+      if (searchTerm) params.append('searchTerm', searchTerm);
+      if (role) params.append('role', role);
+      params.append('page', page);
+      params.append('pageSize', pageSize);
+      
+      const response = await apiClient.get(`/admin/users?${params.toString()}`);
+      setUsers(response.data.users);
+      setCurrentPage(response.data.currentPage);
+      setTotalPages(response.data.totalPages);
+      setTotalCount(response.data.totalCount);
     } catch (err) {
       setError("Failed to load users");
       console.error(err);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleApplyFilter = () => {
+    setCurrentPage(1);
+    fetchUsers(searchTerm, selectedRole, 1);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    fetchUsers(searchTerm, selectedRole, page);
   };
 
   const handleDeleteClick = (userId) => {
@@ -57,6 +82,32 @@ const ManageUsers = () => {
           onClick={() => navigate("/admin/users/add")}
         >
           Add New User
+        </button>
+      </div>
+
+      {/* Search and Filter Section */}
+      <div className="search-filter-section">
+        <div className="search-input">
+          <input
+            type="text"
+            placeholder="Search by username or email"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <div className="role-filter">
+          <select
+            value={selectedRole}
+            onChange={(e) => setSelectedRole(e.target.value)}
+          >
+            <option value="">All Roles</option>
+            <option value="SuperAdmin">SuperAdmin</option>
+            <option value="Manager">Manager</option>
+            <option value="Customer">Customer</option>
+          </select>
+        </div>
+        <button className="apply-filter-btn" onClick={handleApplyFilter}>
+          Apply
         </button>
       </div>
 
@@ -112,6 +163,40 @@ const ManageUsers = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Pagination */}
+      <div className="pagination-container">
+        <div className="pagination-info">
+          Showing {((currentPage - 1) * pageSize) + 1} to {Math.min(currentPage * pageSize, totalCount)} of {totalCount} users
+        </div>
+        <div className="pagination">
+          <button 
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="pagination-btn"
+          >
+            Previous
+          </button>
+          
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => handlePageChange(index + 1)}
+              className={`pagination-btn ${currentPage === index + 1 ? 'active' : ''}`}
+            >
+              {index + 1}
+            </button>
+          ))}
+          
+          <button 
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="pagination-btn"
+          >
+            Next
+          </button>
+        </div>
       </div>
 
       {/* Delete Confirmation Modal */}

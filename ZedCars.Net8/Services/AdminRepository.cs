@@ -125,6 +125,45 @@ namespace ZedCars.Net8.Services
             }
         }
 
+        public async Task<List<Admin>> GetFilteredAdminsAsync(string? searchTerm, string? role)
+        {
+            var query = _context.Admins.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(a => a.Username.Contains(searchTerm) || a.Email.Contains(searchTerm));       
+            }
+            if (!string.IsNullOrEmpty(role))
+            {
+                query = query.Where(a => a.Role == role);
+            }
+
+           return await query.OrderBy(a => a.AdminId).ToListAsync();
+        }
+
+        public async Task<(List<Admin> admins, int totalCount)> GetFilteredAdminsAsync(string? searchTerm, string? role, int page, int pageSize)
+        {
+            var query = _context.Admins.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(a => a.Username.Contains(searchTerm) || a.Email.Contains(searchTerm));
+            }
+
+            if (!string.IsNullOrEmpty(role))
+            {
+                query = query.Where(a => a.Role == role);
+            }
+
+            var totalCount = await query.CountAsync();
+            var admins = await query.OrderBy(a => a.AdminId)
+                                  .Skip((page - 1) * pageSize)
+                                  .Take(pageSize)
+                                  .ToListAsync();
+
+            return (admins, totalCount);
+        }
+
         private List<Admin> GetHardcodedAdmins()
         {
             return new List<Admin>

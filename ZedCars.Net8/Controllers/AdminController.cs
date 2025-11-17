@@ -1,8 +1,9 @@
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZedCars.Net8.Models;
-using ZedCars.Net8.Services.Interfaces;
 using ZedCars.Net8.Services;
+using ZedCars.Net8.Services.Interfaces;
 
 namespace ZedCars.Net8.Controllers
 {
@@ -170,10 +171,18 @@ namespace ZedCars.Net8.Controllers
 
         [HttpGet("users")]
         [Authorize(Roles = "SuperAdmin")]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery] string? searchTerm, [FromQuery] string? role, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var users = await _adminRepository.GetAllAdminsAsync();
-            return Ok(users);
+            var (users, totalCount) = await _adminRepository.GetFilteredAdminsAsync(searchTerm, role, page, pageSize);
+            var result = new
+            {
+                Users = users,
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
+            };
+            return Ok(result);
         }
 
         [HttpGet("users/{id}")]

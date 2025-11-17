@@ -14,5 +14,7 @@ namespace ZedCars.Net8.Services
         Task<bool> HasPermissionAsync(int adminId, string permission);
         Admin? ValidateAdmin(string username, string password);
         Task<Admin?> ValidateAdminAsync(string username, string password);
+        Task<List<Admin>> GetFilteredAdminsAsync(string? searchTerm, string? role);
+        Task<(List<Admin> admins, int totalCount)> GetFilteredAdminsAsync(string? searchTerm, string? role, int page, int pageSize);
     }
 }
