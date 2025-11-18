@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import apiClient from "../../../api/apiClient";
 import { useNavigate } from "react-router-dom";
+import '../CSS/PurchaseAccessories.css'
 
 const PurchaseAccessories = () => {
   const [accessories, setAccessories] = useState([]);
@@ -118,97 +119,97 @@ const PurchaseAccessories = () => {
   if (loading) return <div className="text-center p-5">Loading accessories...</div>;
 
   return (
-    <div className="container p-4">
-      <h2 className="mb-4 text-center">Purchase Accessories</h2>
+<div className="accessory-page">
 
+    <div className="accessory-header">
+      <h2>Purchase Accessories</h2>
+    </div>
       {errorMsg && <div className="alert alert-danger">{errorMsg}</div>}
 
-      <div className="card shadow-sm">
-        <div className="card-body">
-          <form onSubmit={handleSubmit}>
-            <div className="row mb-4">
-              <div className="col-md-6">
-                <label className="form-label">Full Name</label>
-                <input
-                  type="text"
-                  name="buyerName"
-                  value={formData.buyerName}
-                  onChange={handleChange}
-                  className="form-control"
-                  placeholder="Enter your name"
-                  required
-                />
-              </div>
-              <div className="col-md-6">
-                <label className="form-label">Email Address</label>
-                <input
-                  type="email"
-                  name="buyerEmail"
-                  value={formData.buyerEmail}
-                  onChange={handleChange}
-                  className="form-control"
-                  placeholder="Enter your email"
-                  required
-                />
-              </div>
-            </div>
-
-            <h5 className="mb-3">Select Accessories</h5>
-            <div className="row">
-              {Object.entries(groupedAccessories).map(([category, items]) => (
-                <div key={category} className="col-md-6 mb-4">
-                  <h6 className="border-bottom pb-1 fw-bold">{category}</h6>
-                  {items.map((accessory) => (
-                    <div key={accessory.accessoryId} className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        checked={formData.selectedAccessories.includes(accessory.name)}
-                        onChange={() => handleAccessorySelect(accessory.name)}
-                        id={`accessory_${accessory.accessoryId}`}
-                      />
-                      <label className="form-check-label" htmlFor={`accessory_${accessory.accessoryId}`}>
-                        {accessory.name}{" "}
-                        <span className="text-success fw-bold">
-                          (${accessory.price?.toFixed(2)})
-                        </span>
-                        {accessory.stockQuantity <= 5 && (
-                          <span className="badge bg-warning text-dark ms-1">Low Stock</span>
-                        )}
-                      </label>
-                      {accessory.description && (
-                        <small className="text-muted d-block">{accessory.description}</small>
-                      )}
-                    </div>
-                  ))}
+      <div className="accessory-card">
+          <div className="card-body">
+            <form onSubmit={handleSubmit}>
+              <div className="row mb-4">
+                <div className="col-md-6">
+                  <label className="form-label">Full Name</label>
+                  <input
+                    type="text"
+                    name="buyerName"
+                    value={formData.buyerName}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Enter your name"
+                    required
+                    />
                 </div>
-              ))}
-            </div>
-
-            {/* Total Price Display */}
-            {formData.selectedAccessories.length > 0 && (
-              <div className="alert alert-info">
-                <h5 className="mb-0">
-                  Total: <span className="text-success fw-bold">${totalPrice.toFixed(2)}</span>
-                  <small className="text-muted ms-2">({formData.selectedAccessories.length} items selected)</small>
-                </h5>
+                <div className="col-md-6">
+                  <label className="form-label">Email Address</label>
+                  <input
+                    type="email"
+                    name="buyerEmail"
+                    value={formData.buyerEmail}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Enter your email"
+                    required
+                    />
+                </div>
               </div>
-            )}
 
-            <div className="d-flex justify-content-between mt-4">
-              <button
-                type="button"
-                className="btn btn-secondary btn-lg"
-                onClick={() => navigate("/")}
-              >
-                Cancel
-              </button>
-              <button type="submit" className="btn btn-success btn-lg">
-                Purchase Accessories
-              </button>
-            </div>
-          </form>
-        </div>
+              <h5 className="mb-3">Select Accessories</h5>
+              <p>Select from premium accessories to enhance your car experience</p>
+<div className="accessory-grid">
+  {Object.entries(groupedAccessories).map(([category, items]) => (
+    <div key={category} className="category-box">
+      <h6 className="category-title">{category}</h6>
+
+      {items.map((item) => (
+        <label key={item.accessoryId} className="accessory-item">
+          <input
+            type="checkbox"
+            className="accessory-checkbox"
+            checked={formData.selectedAccessories.includes(item.name)}
+            onChange={() => handleAccessorySelect(item.name)}
+          />
+
+          <span className="accessory-name">{item.name}</span>
+
+          <span className="accessory-price">${item.price.toFixed(2)}</span>
+
+          {item.stockQuantity <= 5 && (
+            <span className="badge-low-stock">Low Stock</span>
+          )}
+        </label>
+      ))}
+    </div>
+  ))}
+</div>
+
+
+              {/* Total Price Display */}
+              {formData.selectedAccessories.length > 0 && (
+                <div className="alert alert-info">
+                  <h5 className="mb-0">
+                    Total: <span className="text-success fw-bold">${totalPrice.toFixed(2)}</span>
+                    <small className="text-muted ms-2">({formData.selectedAccessories.length} items selected)</small>
+                  </h5>
+                </div>
+              )}
+
+              <div className="d-flex justify-content-between mt-4">
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-lg"
+                  onClick={() => navigate("/")}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-success btn-lg">
+                  Purchase Accessories
+                </button>
+              </div>
+            </form>
+          </div>
       </div>
     </div>
   );

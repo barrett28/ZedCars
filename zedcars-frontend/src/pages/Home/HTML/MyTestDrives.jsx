@@ -10,6 +10,8 @@ const MyTestDrives = () => {
   const [testDrives, setTestDrives] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     if (user.isAuthenticated === null) {
@@ -43,6 +45,11 @@ const MyTestDrives = () => {
   if (loading) return <div className="loading">Loading your test drives...</div>;
   if (error) return <div className="error">{error}</div>;
 
+  // Pagination logic
+  const totalPages = Math.ceil(testDrives.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentTestDrives = testDrives.slice(startIndex, startIndex + itemsPerPage);
+
   return (
     <div className="my-testdrives-container">
       <div className="header">
@@ -58,7 +65,7 @@ const MyTestDrives = () => {
         </div>
       ) : (
         <div className="testdrives-list">
-          {testDrives.map((testDrive) => (
+          {currentTestDrives.map((testDrive) => (
             <div key={testDrive.testDriveId} className="testdrive-card">
               <div className="testdrive-content">
                 <div className="top-section">
@@ -113,6 +120,24 @@ const MyTestDrives = () => {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {testDrives.length > 0 && (
+        <div className="pagination">
+          <button 
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span>Page {currentPage} of {totalPages} ({testDrives.length} items)</span>
+          <button 
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
         </div>
       )}
     </div>

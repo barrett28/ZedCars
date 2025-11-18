@@ -10,6 +10,7 @@ const Reports = () => {
   const [reportData, setReportData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [reportType, setReportType] = useState('carSales');
+  const [selectedReportType, setSelectedReportType] = useState('carSales');
 
   useEffect(() => {
     fetchReportData();
@@ -19,6 +20,7 @@ const Reports = () => {
     try {
       const response = await apiClient.get('/Reports/sales');
       setReportData(response.data);
+      setReportType(selectedReportType);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching report data:', error);
@@ -108,7 +110,7 @@ const Reports = () => {
           <div className="row">
             <div className="col-md-3">
               <label>Report Type</label>
-              <select value={reportType} onChange={(e) => setReportType(e.target.value)} className="form-select">
+              <select value={selectedReportType} onChange={(e) => setSelectedReportType(e.target.value)} className="form-select">
                 <option value="carSales">Car Sales</option>
                 <option value="accessorySales">Accessory Sales</option>
               </select>

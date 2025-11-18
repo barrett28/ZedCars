@@ -108,15 +108,16 @@ const AdminInventory = () => {
 
   return (
     <div className="admin-inventory-page">
-      {/* Header */}
+      {/* Header
       <div className="admin-page-header">
         <h1>Vehicle Inventory Management</h1>
         <p>Manage your vehicle inventory</p>
-      </div>
+      </div> */}
 
       {/* Brand Filter + Add Vehicle */}
       <div className="admin-filter-form">
         <div className="admin-filter-grid">
+          <h1>Manage Vehicles</h1>
           <select
             className="admin-form-select"
             value={selectedBrand}
