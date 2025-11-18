@@ -58,7 +58,7 @@
 
 .analytics-chart {
     width: 100%;
-    max-width: 682px;
+    max-width: 87vw;
     height: 400px;
     margin: 0 auto;
     background: #f9f9f9;
@@ -66,7 +66,11 @@
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
-
+.analytics-chart canvas{
+  padding: 20px;
+  max-width: 70vw;
+  margin-left: 4vw;
+}
 .analytics-metrics {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -125,7 +129,7 @@
     font-size: 0.9em;
 }
 
-.admin-table {
+.e {
     overflow-x: auto;
 }
 
@@ -157,6 +161,7 @@ tr:hover {
 .user-activity-section.refined {
   background: #ffffff;
   border-radius: 18px;
+  margin-top: 3vh;
   padding: 26px;
   box-shadow: 0 6px 28px rgba(0, 0, 0, 0.06);
   border: 1px solid #eee;
@@ -212,7 +217,7 @@ tr:hover {
   min-width: 300px;
   padding: 20px;
   border-radius: 16px;
-  background: #d9ddff;
+  background: #ffc2a5;
   border: 1px solid #e7e9f5;
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.05);
   display: flex;
@@ -221,7 +226,7 @@ tr:hover {
 }
 
 .ua-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4pxs);
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08);
 }
 
@@ -256,19 +261,19 @@ tr:hover {
 
 .ua-time {
   font-size: 0.75rem;
-  color: #868686;
+  color: #7e7e7e;
 }
 
 .ua-user {
   margin-top: 4px;
-  font-size: 0.9rem;
-  color: #4a63ff;
+  font-size: 1rem;
+  color: black;
   font-weight: 600;
 }
 
 .ua-desc {
   font-size: 0.88rem;
-  color: #555;
+  color: #3b3b3b;
   margin: 8px 0 12px;
   line-height: 1.4;
 }

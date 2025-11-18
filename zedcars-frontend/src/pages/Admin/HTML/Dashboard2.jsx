@@ -39,12 +39,12 @@ const Dashboard2 = () => {
           {
             label: "Stock Available",
             data: dashboard.stockData.map((s) => s.stockAvailable || 0),
-            backgroundColor: "#2ecc71",
+            backgroundColor: "#ffc1a0ff",
           },
           {
             label: "Units Sold", 
             data: dashboard.stockData.map((s) => s.unitsSold || 0),
-            backgroundColor: "#e74c3c",
+            backgroundColor: "#e73939",
           },
         ],
       },
@@ -217,12 +217,12 @@ const Dashboard2 = () => {
         </div>
 
         <div className="admin-content">
-          <div className="admin-section">
+          <div className="admin-section-responsive">
             <div className="section-header">
               <h2>Recent Inventory</h2>
               <a href="/Admin/Inventory" className="view-all">View All</a>
             </div>
-            <div className="admin-table">
+            <div className="inventory-table">
               <table className="table table-bordered text-center">
                 <thead className="table-light">
                   <tr>
@@ -252,11 +252,11 @@ const Dashboard2 = () => {
             </div>
           </div>
 
-          <div className="admin-section">
+          <div className="admin-section-responsive">
             <div className="section-header">
               <h2>Recent Test Drives</h2>
             </div>
-            <div className="admin-table">
+            <div className="testdrive-table">
               <table className="table table-bordered text-center">
                 <thead className="table-light">
                   <tr>
