@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ZedCars.Net8.Data;
 using ZedCars.Net8.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ZedCars.Net8.Services
 {
@@ -81,10 +82,22 @@ namespace ZedCars.Net8.Services
                 .Where(td => _context.Admins.Any(a => a.AdminId == userId && a.Email == td.CustomerEmail))
                 .OrderByDescending(td => td.CreatedAt)
                 .ToListAsync();
-        }        public async Task<TestDrive?> GetTestDriveByCarAndEmailAsync(int carId, string email)
+        }        
+        
+        public async Task<TestDrive?> GetTestDriveByCarAndEmailAsync(int carId, string email)
         {
             return await _context.TestDrives
                 .FirstOrDefaultAsync(t => t.CarId == carId && t.CustomerEmail == email);
+        }
+
+        public async Task<bool> IsSlotAvailableForCarAsync(int carId, DateTime date, string timeSlot)
+        {
+            var existingBooking = await _context.TestDrives
+                    .FirstOrDefaultAsync(td => td.CarId == carId
+                    && td.BookingDate.Date == date.Date
+                    && td.TimeSlot == timeSlot
+                    && td.Status != "Cancelled");
+                return existingBooking == null;
         }
     }
 }

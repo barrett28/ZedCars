@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import apiClient from '../../../api/apiClient';
 import '../CSS/MyPurchases.css';
-// import '../../Home/CSS/MyPurchases.css';
 
 const MyPurchases = () => {
   const navigate = useNavigate();
@@ -12,6 +11,10 @@ const MyPurchases = () => {
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize] = useState(5);
+  const [totalPurchases, setTotalPurchases] = useState(0);
 
   useEffect(() => {
     console.log('Auth check - isAuthenticated:', user.isAuthenticated, 'role:', user.role);
@@ -27,16 +30,29 @@ const MyPurchases = () => {
     }
   }, [user]);
 
-  const fetchMyPurchases = async () => {
+  const fetchMyPurchases = async (page = 1) => {
     try {
-      const response = await apiClient.get('/home/purchases');
-      setPurchases(response.data);
+      // const response = await apiClient.get('/home/purchases');
+      // setPurchases(response.data);
+      const response = await apiClient.get(`/home/purchases?page=${page}&limit=${pageSize}`);
+      const data = response.data;
+      setPurchases(data.purchases || data.data || data || []);
+      setCurrentPage(data.currentPage || page);
+      setTotalPages(data.totalPages || 1);
+      setTotalPurchases(data.total || data.totalCount || (data.purchases?.length || 0));
       console.log(response.data);
     } catch (err) {
       setError('Failed to load purchases');
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+  const handlePageChange = (e, page) => {
+    e.preventDefault();
+    if (page >= 1 && page <= totalPages) {
+      setLoading(true);
+      fetchMyPurchases(page);
     }
   };
 
@@ -139,6 +155,50 @@ const MyPurchases = () => {
           ))}
         </div>
       )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <>
+          <nav className="admin-pagination-nav">
+            <ul className="admin-pagination">
+              <li className={`admin-page-item ${currentPage <= 1 ? "disabled" : ""}`}>
+                <button
+                  onClick={(e) => handlePageChange(e, currentPage - 1)}
+                  disabled={currentPage <= 1}
+                >
+                  &laquo;
+                </button>
+              </li>
+
+              {Array.from({ length: totalPages }, (_, i) => (
+                <li
+                  key={i + 1}
+                  className={`admin-page-item ${i + 1 === currentPage ? "active" : ""}`}
+                >
+                  <button onClick={(e) => handlePageChange(e, i + 1)}>
+                    {i + 1}
+                  </button>
+                </li>
+              ))}
+
+              <li className={`admin-page-item ${currentPage >= totalPages ? "disabled" : ""}`}>
+                <button
+                  onClick={(e) => handlePageChange(e, currentPage + 1)}
+                  disabled={currentPage >= totalPages}
+                >
+                  &raquo;
+                </button>
+              </li>
+            </ul>
+          </nav>
+
+          <div className="admin-pagination-info">
+            Showing {(currentPage - 1) * pageSize + 1}–
+            {Math.min(currentPage * pageSize, totalPurchases)} of {totalPurchases} purchases
+          </div>
+        </>
+      )}
+
     </div>
   );
 };

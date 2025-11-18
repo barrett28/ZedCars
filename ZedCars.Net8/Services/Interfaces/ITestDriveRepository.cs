@@ -8,6 +8,7 @@ namespace ZedCars.Net8.Services
         Task<List<TestDrive>> GetAllTestDrivesAsync();
         Task UpdateTestDriveStatusAsync(int testDriveId, string status);
         Task<bool> IsSlotAvailableAsync(DateTime date, string timeSlot);
+        Task<bool> IsSlotAvailableForCarAsync(int carId, DateTime date, string timeSlot);
         Task<TestDrive?> GetTestDriveByIdAsync(int id);
         Task<List<TestDrive>> GetTestDrivesByCustomerAsync(string customerEmail);
         Task<List<TestDrive>> GetTestDrivesByUserIdAsync(int userId);

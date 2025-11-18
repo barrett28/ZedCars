@@ -13,6 +13,8 @@ const VehicleDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
   const [testDriveData, setTestDriveData] = useState({
     customerName: '',
     customerEmail: '',
@@ -81,14 +83,38 @@ const VehicleDetail = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    setTestDriveData({
-      ...testDriveData,
-      [e.target.name]: e.target.value
-    });
+  const fetchAvailableSlots = async (date) => {
+    if (!date) return;
+    
+    console.log('Fetching slots for car:', id, 'date:', date);
+    setLoadingSlots(true);
+    try {
+      const response = await apiClient.get(`/home/available-slots/${id}?date=${date}`);
+      console.log('Available slots response:', response.data);
+      setAvailableSlots(response.data);
+    } catch (err) {
+      console.error('Failed to fetch available slots:', err);
+      // Fallback to all slots if API fails
+      const allSlots = ['09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'];
+      setAvailableSlots(allSlots);
+    } finally {
+      setLoadingSlots(false);
+    }
   };
 
-  const timeSlots = ['09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'];
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setTestDriveData({
+      ...testDriveData,
+      [name]: value
+    });
+    
+    // Fetch available slots when date changes
+    if (name === 'bookingDate') {
+      setTestDriveData(prev => ({ ...prev, timeSlot: '' })); // Reset time slot
+      fetchAvailableSlots(value);
+    }
+  };
 
   if (loading) return <div className="loading">Loading vehicle details...</div>;
   if (error) return <div className="error">{error}</div>;
@@ -281,7 +307,7 @@ const VehicleDetail = () => {
       {/* Test Drive Modal */}
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="vehicle-details modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>Book Your Test Drive</h2>
               <button className="modal-close" onClick={() => setShowModal(false)}>×</button>
@@ -339,21 +365,29 @@ const VehicleDetail = () => {
 
               <div className="form-section">
                 <h3>Select Time Slot *</h3>
-                <div className="time-slots">
-                  {timeSlots.map((time) => (
-                    <label key={time} className="time-slot">
-                      <input
-                        type="radio"
-                        name="timeSlot"
-                        value={time}
-                        checked={testDriveData.timeSlot === time}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      <span>{time}</span>
-                    </label>
-                  ))}
-                </div>
+                {loadingSlots ? (
+                  <div>Loading available slots...</div>
+                ) : availableSlots.length > 0 ? (
+                  <div className="time-slots">
+                    {availableSlots.map((time) => (
+                      <label key={time} className="time-slot">
+                        <input
+                          type="radio"
+                          name="timeSlot"
+                          value={time}
+                          checked={testDriveData.timeSlot === time}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        <span>{time}</span>
+                      </label>
+                    ))}
+                  </div>
+                ) : testDriveData.bookingDate ? (
+                  <div className="no-slots">No available slots for selected date</div>
+                ) : (
+                  <div className="select-date-first">Please select a date first</div>
+                )}
               </div>
 
               <div className="modal-actions">

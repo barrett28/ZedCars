@@ -315,11 +315,11 @@
   z-index: 1000;
 }
 
-.modal-content {
+.vehicle-details .modal-content {
   background: white;
   border-radius: 12px;
   width: 90%;
-  max-width: 600px;
+  width: 600px;
   max-height: 90vh;
   overflow-y: auto;
 }

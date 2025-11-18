@@ -178,7 +178,7 @@ namespace ZedCars.Net8.Controllers
 
         [HttpGet("purchases")]
         [Authorize(Roles = "Customer")]
-        public async Task<IActionResult> MyPurchases()
+        public async Task<IActionResult> MyPurchases([FromQuery] int page = 1, [FromQuery] int limit = 5)
         {
             var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
             
@@ -204,8 +204,18 @@ namespace ZedCars.Net8.Controllers
                 AccessoryPurchaseOnly = ap
             }));
 
-            return Ok(models.OrderByDescending(m => 
-                m.Purchase?.PurchaseDate ?? m.AccessoryPurchaseOnly?.PurchaseDate ?? DateTime.MinValue).ToList());
+            var orderedModels = models.OrderByDescending(m =>m.Purchase?.PurchaseDate ?? m.AccessoryPurchaseOnly?.PurchaseDate ?? DateTime.MinValue).ToList();
+            
+            var totalCount = orderedModels.Count;
+                        var totalPages = (int)Math.Ceiling((double)totalCount / limit);
+                        var paginatedModels = orderedModels.Skip((page - 1) * limit).Take(limit).ToList();
+            return Ok(new
+            {
+                                purchases = paginatedModels,
+                currentPage = page,
+                totalPages = totalPages,
+                total = totalCount
+            });
         }
 
         [HttpGet("purchase/{id}")]
@@ -286,10 +296,10 @@ namespace ZedCars.Net8.Controllers
                 return BadRequest("Please fill all required fields.");
             }
 
-            var isAvailable = await _testDriveRepository.IsSlotAvailableAsync(testDrive.BookingDate, testDrive.TimeSlot);
+            var isAvailable = await _testDriveRepository.IsSlotAvailableForCarAsync(testDrive.CarId, testDrive.BookingDate, testDrive.TimeSlot);
             if (!isAvailable)
             {
-                return BadRequest("Selected time slot is not available.");
+                return BadRequest("Selected time slot is not available for this vehicle.");
             }
 
             await _testDriveRepository.AddTestDriveAsync(testDrive);
@@ -318,6 +328,29 @@ namespace ZedCars.Net8.Controllers
                 Car = car
             };
             return Ok(testDrive);
+        }
+
+        [HttpGet("available-slots/{carId}")]
+        public async Task<IActionResult> GetAvailableSlots(int carId, [FromQuery] string date)
+        {
+            if (!DateTime.TryParse(date, out DateTime bookingDate))
+            {
+                return BadRequest("Invalid date format");
+            }
+
+            var allSlots = new[] { "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM" };
+            var availableSlots = new List<string>();
+
+            foreach (var slot in allSlots)
+            {
+                var isAvailable = await _testDriveRepository.IsSlotAvailableForCarAsync(carId, bookingDate, slot);
+                if (isAvailable)
+                {
+                    availableSlots.Add(slot);
+                }
+            }
+
+            return Ok(availableSlots);
         }
 
         [HttpPost("testdrive")]

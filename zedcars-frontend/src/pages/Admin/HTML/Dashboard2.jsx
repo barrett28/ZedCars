@@ -10,11 +10,13 @@ import Reports from "./Reports";
 import apiClient from "../../../api/apiClient";
 import { useAuth } from "../../../context/AuthContext";
 
+
 const Dashboard2 = () => {
   const [activeTab, setActiveTab] = useState("dashboard2");
   const [dashboard, setDashboard] = useState(null);
   const [chartReload, setChartReload] = useState(0);
   const { user } = useAuth();
+
 
   // Fetch Dashboard Data
   useEffect(() => {
@@ -28,6 +30,7 @@ const Dashboard2 = () => {
       });
   }, []);
 
+
   // Render Stock VS Sold Chart
   useEffect(() => {
     if (
@@ -37,9 +40,11 @@ const Dashboard2 = () => {
     )
       return;
 
+
     const ctx = document
       .getElementById("stockSoldChart")
       .getContext("2d");
+
 
     const chart = new Chart(ctx, {
       type: "bar",
@@ -67,11 +72,14 @@ const Dashboard2 = () => {
       },
     });
 
+
     return () => chart.destroy();
   }, [dashboard, activeTab, chartReload]);
 
+
   if (!dashboard)
     return <div className="loading">Loading Dashboard...</div>;
+
 
   return (
     <div className="dashboard2-container">
@@ -80,6 +88,7 @@ const Dashboard2 = () => {
         <img src={car_logo} alt="car_logo" />
         <h1>ZedCars Dashboard</h1>
       </div>
+
 
       {/* ------------ Navigation Buttons -------------- */}
       <div className="dashboard-navigation">
@@ -92,6 +101,7 @@ const Dashboard2 = () => {
           Overview
         </button>
 
+
         {(user.role === "SuperAdmin" || user.role === "Manager") && (
           <>
             <button onClick={() => setActiveTab("inventory")}>
@@ -103,12 +113,15 @@ const Dashboard2 = () => {
           </>
         )}
 
+
         {user.role === "SuperAdmin" && (
           <button onClick={() => setActiveTab("users")}>Manage Users</button>
         )}
 
+
         <button onClick={() => setActiveTab("report")}>View Report</button>
       </div>
+
 
       {/* ------------ MAIN CONTENT AREA -------------- */}
       <div className="dashboard2-overview">
@@ -116,6 +129,7 @@ const Dashboard2 = () => {
           <>
          <div className="dashboard-overview">
           <h2 className="mb-4">📊 Dashboard Overview</h2>
+
 
           <div className="row g-4">
             <div className="col-md-3">
@@ -130,6 +144,7 @@ const Dashboard2 = () => {
               </div>
             </div>
 
+
             <div className="col-md-3">
               <div className="card shadow-sm border-1 rounded-3 h-100">
                 <div className="card-body d-flex align-items-center">
@@ -142,6 +157,7 @@ const Dashboard2 = () => {
               </div>
             </div>
 
+
             <div className="col-md-3">
               <div className="card shadow-sm border-1 rounded-3 h-100">
                 <div className="card-body d-flex align-items-center">
@@ -153,6 +169,7 @@ const Dashboard2 = () => {
                 </div>
               </div>
             </div>
+
 
             <div className="col-md-3">
               <div className="card shadow-sm border-1 rounded-3 h-100">
@@ -167,6 +184,7 @@ const Dashboard2 = () => {
             </div>
           </div>
 
+
           <div className="row g-4 mt-2">
             <div className="col-md-3">
               <div className="card text-center shadow-sm border-1 rounded-3 h-100">
@@ -176,6 +194,7 @@ const Dashboard2 = () => {
                 </div>
               </div>
             </div>
+
 
             <div className="col-md-3">
               <div className="card shadow-sm border-1 rounded-3 h-100">
@@ -189,6 +208,7 @@ const Dashboard2 = () => {
               </div>
             </div>
 
+
             <div className="col-md-3">
               <div className="card text-center shadow-sm border-1 rounded-3 h-100">
                 <div className="card-body">
@@ -197,6 +217,7 @@ const Dashboard2 = () => {
                 </div>
               </div>
             </div>
+
 
             <div className="col-md-3">
               <div className="card text-center shadow-sm border-1 rounded-3 h-100">
@@ -208,16 +229,19 @@ const Dashboard2 = () => {
             </div>
           </div>
         </div>
-        
+       
+
 
             {/* ---------- Analytics Chart Section ---------- */}
             <div className="analytics-section mt-4">
               <h2>Inventory Analytics</h2>
 
+
               <div className="analytics-grid">
                 <div className="analytics-chart">
                   <canvas id="stockSoldChart"></canvas>
                 </div>
+
 
                 <div className="analytics-metrics">
                   <div className="metric-card">
@@ -230,6 +254,7 @@ const Dashboard2 = () => {
                     </div>
                   </div>
 
+
                   <div className="metric-card">
                     <div className="metric-title">Average Sale Price</div>
                     <div className="metric-value">
@@ -237,6 +262,7 @@ const Dashboard2 = () => {
                     </div>
                     <div className="metric-detail">Per vehicle</div>
                   </div>
+
 
                   <div className="metric-card">
                     <div className="metric-title">Total Units Sold</div>
@@ -249,6 +275,7 @@ const Dashboard2 = () => {
               </div>
             </div>
 
+
             {/* Recent Inventory Section */}
             <div className="admin-section-responsive">
               <div className="section-header">
@@ -257,6 +284,7 @@ const Dashboard2 = () => {
                   View All
                 </a>
               </div>
+
 
               <table className="table table-bordered text-center">
                 <thead className="table-light">
@@ -292,11 +320,13 @@ const Dashboard2 = () => {
               </table>
             </div>
 
+
             {/* Recent Test Drives */}
             <div className="admin-section-responsive">
               <div className="section-header">
                 <h2>Recent Test Drives</h2>
               </div>
+
 
               <table className="table table-bordered text-center">
                 <thead className="table-light">
@@ -309,6 +339,7 @@ const Dashboard2 = () => {
                     <th>Status</th>
                   </tr>
                 </thead>
+
 
                 <tbody>
                   {dashboard.recentBookings?.length > 0 ? (
@@ -335,6 +366,7 @@ const Dashboard2 = () => {
               </table>
             </div>
 
+
             {/* Recent User Activity */}
             <div className="user-activity-section refined">
               <div className="ua-header">
@@ -345,6 +377,7 @@ const Dashboard2 = () => {
                   View All
                 </a>
               </div>
+
 
               <div className="ua-grid">
                 {dashboard.recentActivities?.length > 0 ? (
@@ -364,13 +397,16 @@ const Dashboard2 = () => {
                       }
                     };
 
+
                     const icon = mapIcon(activity.activityType);
+
 
                     return (
                       <div key={i} className="ua-card">
                         <div className={`ua-icon text-${icon.color}`}>
                           <i className={`bi ${icon.icon}`}></i>
                         </div>
+
 
                         <div className="ua-body">
                           <div className="ua-title-row">
@@ -390,12 +426,15 @@ const Dashboard2 = () => {
                             </small>
                           </div>
 
+
                           <div className="ua-user">
                             <i className="bi bi-person me-1"></i>
                             {activity.username}
                           </div>
 
+
                           <p className="ua-desc">{activity.description}</p>
+
 
                           <span
                             className={`badge bg-${
@@ -423,13 +462,18 @@ const Dashboard2 = () => {
           </>
         )}
 
+
         {/* ---------- TABS COMPONENT RENDERS ---------- */}
+
 
         {activeTab === "inventory" && <AdminInventory />}
 
+
         {activeTab === "accessories" && <ManageAccessories />}
 
+
         {activeTab === "users" && <ManageUsers />}
+
 
         {activeTab === "report" && <Reports />}
       </div>
@@ -437,4 +481,9 @@ const Dashboard2 = () => {
   );
 };
 
+
 export default Dashboard2;
+
+
+
+
