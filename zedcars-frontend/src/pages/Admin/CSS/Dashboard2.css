@@ -1,7 +1,7 @@
 .dashboard2-container{
     color: black;
     margin-top: 8vh;
-    background-color: #FFEADE;
+    background-color: #ffe5d6;
     padding-top: 0vh;
     padding-bottom: 1vh;
 }
@@ -134,7 +134,7 @@
 }
 
 /* 📱 Mobile responsive (stack in column) */
-@media (max-width: 768px) {
+@media (max-width: 1165px) {
   .admin-content {
     grid-template-columns: 1fr; /* Single column on mobile */
   }

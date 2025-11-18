@@ -39,7 +39,7 @@ const Dashboard2 = () => {
           {
             label: "Stock Available",
             data: dashboard.stockData.map((s) => s.stockAvailable || 0),
-            backgroundColor: "#ffc1a0ff",
+            backgroundColor: "#ffa474ff",
           },
           {
             label: "Units Sold", 
@@ -263,8 +263,8 @@ const Dashboard2 = () => {
                     <th>Name</th>
                     <th>Vehicle</th>
                     <th>Date</th>
-                    <th>Phone Number</th>
-                    <th>Time Slot</th>
+                    <th>Phone</th>
+                    <th>Timeslot</th>
                     <th>Status</th>
                   </tr>
                 </thead>
