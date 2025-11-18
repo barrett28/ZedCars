@@ -1,7 +1,7 @@
 .dashboard2-container{
     color: black;
     margin-top: 8vh;
-    background-color: #ffe5d6;
+    background-color: #FFEADE;
     padding-top: 0vh;
     padding-bottom: 1vh;
 }
@@ -88,7 +88,10 @@
     align-items: center;
     background-color: #FFD8C3;
     color: black;
-    box-shadow: 4px 12px 10px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 4px 12px 10px rgba(0, 0, 0, 0.2); */
+    border: 8px outset #ffbd8e;
+    box-shadow: 1px 1px 4px black;
+
 }
 .ana-text{
     text-align: center;
@@ -120,6 +123,8 @@
     width: 240px;
     padding: 4% 0px;
     border-radius: 15px;
+    border: 8px inset #ffbd8e;
+    box-shadow: 1px 1px 4px black;
 }
 
 .acc-name{
@@ -134,7 +139,7 @@
 }
 
 /* 📱 Mobile responsive (stack in column) */
-@media (max-width: 1165px) {
+@media (max-width: 768px) {
   .admin-content {
     grid-template-columns: 1fr; /* Single column on mobile */
   }

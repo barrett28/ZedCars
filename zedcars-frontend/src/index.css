@@ -293,7 +293,7 @@ input, textarea, select {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.05);
-  color: white;
+  color: black;
   transition: border-color 0.3s ease;
 }
 

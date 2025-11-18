@@ -40,7 +40,7 @@ const Login = () => {
         if (userRole === 'Customer') {
           navigate("/");
         } else {
-          navigate("/Admin/Dashboard");
+          navigate("/dashboard2");
         }
       } else {
         setError("Invalid response from server.");
