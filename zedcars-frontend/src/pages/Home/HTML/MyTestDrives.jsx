@@ -11,13 +11,14 @@ const MyTestDrives = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize] = useState(5);
+  const [totalTestDrives, setTotalTestDrives] = useState(0);
 
   useEffect(() => {
     if (user.isAuthenticated === null) {
       return;
     }
-    
     if (user.isAuthenticated && user.role === 'Customer') {
       fetchMyTestDrives();
     } else {
@@ -26,29 +27,32 @@ const MyTestDrives = () => {
     }
   }, [user]);
 
-  const fetchMyTestDrives = async () => {
+  const fetchMyTestDrives = async (page = 1) => {
     try {
-      const response = await apiClient.get('/home/testdrives');
-      setTestDrives(response.data);
-      setLoading(false);
+      const response = await apiClient.get(`/home/testdrives?page=${page}&limit=${pageSize}`);
+      const data = response.data;
+      setTestDrives(data.testDrives || data.data || data || []);
+      setCurrentPage(data.currentPage || page);
+      setTotalPages(data.totalPages || Math.ceil((data.testDrives?.length || data.length || 0) / pageSize));
+      setTotalTestDrives(data.total || data.totalCount || (data.testDrives?.length || data.length || 0));
     } catch (err) {
       setError('Failed to load test drives');
       console.error(err);
+    } finally {
       setLoading(false);
     }
   };
 
-  if (user.isAuthenticated === null) {
-    return <div className="loading">Loading...</div>;
-  }
+  const handlePageChange = (e, page) => {
+    e.preventDefault();
+    if (page >= 1 && page <= totalPages) {
+      setLoading(true);
+      fetchMyTestDrives(page);
+    }
+  };
 
   if (loading) return <div className="loading">Loading your test drives...</div>;
   if (error) return <div className="error">{error}</div>;
-
-  // Pagination logic
-  const totalPages = Math.ceil(testDrives.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentTestDrives = testDrives.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="my-testdrives-container">
@@ -65,7 +69,7 @@ const MyTestDrives = () => {
         </div>
       ) : (
         <div className="testdrives-list">
-          {currentTestDrives.map((testDrive) => (
+          {testDrives.map((testDrive) => (
             <div key={testDrive.testDriveId} className="testdrive-card">
               <div className="testdrive-content">
                 <div className="top-section">
@@ -123,23 +127,49 @@ const MyTestDrives = () => {
         </div>
       )}
 
-      {testDrives.length > 0 && (
-        <div className="pagination">
-          <button 
-            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-          >
-            Previous
-          </button>
-          <span>Page {currentPage} of {totalPages} ({testDrives.length} items)</span>
-          <button 
-            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </button>
-        </div>
+      {/* Pagination */}
+      {totalPages > 0 && (
+        <>
+          <nav className="admin-pagination-nav">
+            <ul className="admin-pagination">
+              <li className={`admin-page-item ${currentPage <= 1 ? "disabled" : ""}`}>
+                <button
+                  onClick={(e) => handlePageChange(e, currentPage - 1)}
+                  disabled={currentPage <= 1}
+                >
+                  &laquo;
+                </button>
+              </li>
+
+              {Array.from({ length: totalPages }, (_, i) => (
+                <li
+                  key={i + 1}
+                  className={`admin-page-item ${i + 1 === currentPage ? "active" : ""}`}
+                >
+                  <button onClick={(e) => handlePageChange(e, i + 1)}>
+                    {i + 1}
+                  </button>
+                </li>
+              ))}
+
+              <li className={`admin-page-item ${currentPage >= totalPages ? "disabled" : ""}`}>
+                <button
+                  onClick={(e) => handlePageChange(e, currentPage + 1)}
+                  disabled={currentPage >= totalPages}
+                >
+                  &raquo;
+                </button>
+              </li>
+            </ul>
+          </nav>
+
+          <div className="admin-pagination-info">
+            Showing {(currentPage - 1) * pageSize + 1}–
+            {Math.min(currentPage * pageSize, totalTestDrives)} of {totalTestDrives} test drives
+          </div>
+        </>
       )}
+
     </div>
   );
 };
