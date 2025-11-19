@@ -196,7 +196,7 @@
   }
 
   .admin-table-main > * {
-    width: 100% !important; /* ⭐ TAKE FULL WIDTH */
+    width: 100% !important;
   }
 }
 .admin-section-responsive {
