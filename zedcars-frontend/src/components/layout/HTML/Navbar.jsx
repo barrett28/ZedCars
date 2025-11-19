@@ -57,7 +57,7 @@ const Navbar = () => {
                 </>
               )}
               {user.role === 'SuperAdmin' && (
-                <a href="/Admin/Dashboard">Dashboard</a>
+                <a href="/dashboard2">Dashboard</a>
               )}
               <button onClick={handleLogout} className="logout-btn">
                 Logout
@@ -77,14 +77,29 @@ const Navbar = () => {
       </div>
 
       <div className={`mobile-nav ${isMenuOpen ? "active" : ""}`}>
-        <a href="#home" onClick={() => setIsMenuOpen(false)}>Home</a>
-        <a href="#inventory" onClick={() => setIsMenuOpen(false)}>Inventory</a>
-        <a href="#services" onClick={() => setIsMenuOpen(false)}>Services</a>
-        <a href="#financing" onClick={() => setIsMenuOpen(false)}>Financing</a>
+        <a href="/home" onClick={() => setIsMenuOpen(false)}>Home</a>
+        <a href="/aboout" onClick={() => setIsMenuOpen(false)}>About</a>
         <a href="/contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
-        {user.isAuthenticated && user.role === "Customer" && (
-          <a href="/my-testdrives" onClick={() => setIsMenuOpen(false)}>My Test Drives</a>
-        )}
+        <a href="/inventory" onClick={() => setIsMenuOpen(false)}>Inventory</a>
+          {!user.isAuthenticated ? (
+            <a href="/auth/login">Login</a>
+          ) : (
+            <>
+              {user.role === 'Customer' && (
+                <>
+                  <a href="/purchaseaccessories">Accessories</a>
+                  <a href="/my-testdrives">My Test Drives</a>
+                  <a href="/my-purchases">My Purchases</a>
+                </>
+              )}
+              {user.role === 'SuperAdmin' && (
+                <a href="/dashboard2">Dashboard</a>
+              )}
+              <button onClick={handleLogout} className="logout-btn">
+                Logout
+              </button>
+            </>
+          )}
       </div>
     </header>
   );

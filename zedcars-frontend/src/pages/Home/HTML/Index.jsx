@@ -288,6 +288,27 @@ const slides = [
   { title: "Ferrari", image: "https://seeklogo.com/images/F/ferrari-logo-4E85EADFE9-seeklogo.png" }
 ];
 
+const cards = [
+  {
+    title: "Native graphical user interfaces",
+    desc: "Interact with your operating system's interfaces with Electron's main process APIs. Customize your application window appearance, control application menus, or alert users through dialogs or notifications.",
+    imgFront: "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg",
+    imgBack: "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg"
+  },
+  {
+    title: "Automatic software updates",
+    desc: "Electron apps can automatically update themselves. Deliver new features and fixes instantly.",
+    imgFront: "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg",
+    imgBack: "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg"
+  },
+  {
+    title: "Cross-platform compatibility",
+    desc: "Build once and run everywhere. Electron enables developing apps for macOS, Windows and Linux.",
+    imgFront: "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg",
+    imgBack: "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg"
+  }
+];
+
 
   return (
     <div className="home-page">
@@ -394,6 +415,22 @@ const slides = [
           </div>
         </div>
       </div> */}
+
+       <div className="cards-wrapper">
+      {cards.map((c, i) => (
+        <div key={i} className="card-container">
+          <div className="text-content">
+            <h2>{c.title}</h2>
+            <p>{c.desc}</p>
+          </div>
+
+          <div className="image-wrapper">
+            <img src={c.imgBack} alt="back" className="img-back" />
+            <img src={c.imgFront} alt="front" className="img-front" />
+          </div>
+        </div>
+      ))}
+    </div>
       
       <div className="featured-brands">
         <Scroller />

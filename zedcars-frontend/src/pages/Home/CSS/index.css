@@ -468,6 +468,88 @@
 } */
 
 
+.cards-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  /* margin-top: 60px; */
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 40px;
+}
+
+.card-container {
+  /* width: 360px; */
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-content {
+  margin-bottom: 20px;
+}
+
+.text-content h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.text-content p {
+  font-size: 15px;
+  color: #c2c2c2;
+  line-height: 1.4rem;
+}
+
+/* --- Image stack wrapper --- */
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 230px;
+  perspective: 1000px;
+}
+
+/* --- Back image --- */
+.img-back {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 61%;
+  height: 88%;
+  object-fit: cover;
+  border-radius: 14px;
+  transform: rotate(-8deg);
+  transition: transform 0.5s ease;
+  opacity: 0.85;
+}
+
+/* --- Front image --- */
+.img-front {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 61%;
+  height: 88%;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  transform: rotate(3deg);
+  transition: transform 0.5s ease;
+}
+
+/* --- Hover animation --- */
+.card-container:hover .img-back {
+  transform: rotate(-14deg) translateX(-8px);
+}
+
+.card-container:hover .img-front {
+  transform: rotate(10deg) translateX(8px);
+}
+
+
 /* marqueee */
 
 .featured-brands{

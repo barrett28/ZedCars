@@ -3,7 +3,6 @@ import Chart from "chart.js/auto";
 import "../CSS/Dashboard2.css";
 import "../CSS/Dashboard.css";
 // import car_logo from "../../../assets/images/dashboard/car-logo.png";
-// import car_logo from "../../../assets/images/dashboard/car-logo.png";
 import AdminInventory from "./AdminInventory";
 import ManageAccessories from "./ManageAccessories";
 import ManageUsers from "./Users/ManageUsers";
@@ -87,7 +86,6 @@ const Dashboard2 = () => {
       {/* ------------ Header -------------- */}
       <div className="top-heading">
         {/* <img src={car_logo} alt="car_logo" /> */}
-        {/* <img src="https://imgs.search.brave.com/OKGS_ha6ixdvaEnSdMWUOTOoqO0SwEbZ9TEABl3MKEs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wNy5o/aWNsaXBhcnQuY29t/L3ByZXZpZXcvODk5/LzEwMDgvODcxL2Nh/cnMtMi1saWdodG5p/bmctbWNxdWVlbi1t/YXRlci1waXhhci1j/YXJzLTMuanBn" alt=""  style={{backgroundColor: "transparent"}}/> */}
         <h1>Dashboard</h1>
       </div>
 
