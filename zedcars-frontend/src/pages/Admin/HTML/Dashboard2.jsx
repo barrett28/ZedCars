@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import Chart from "chart.js/auto";
 import "../CSS/Dashboard2.css";
 import "../CSS/Dashboard.css";
-import car_logo from "../../../assets/images/zedcar_logo.png";
+// import car_logo from "../../../assets/images/dashboard/car-logo.png";
+// import car_logo from "../../../assets/images/dashboard/car-logo.png";
 import AdminInventory from "./AdminInventory";
 import ManageAccessories from "./ManageAccessories";
 import ManageUsers from "./Users/ManageUsers";
@@ -54,7 +55,7 @@ const Dashboard2 = () => {
           {
             label: "Stock Available",
             data: dashboard.stockData.map((s) => s.stockAvailable || 0),
-            backgroundColor: "#5bc764ff",
+            backgroundColor: "#2ebe3a",
           },
           {
             label: "Units Sold",
@@ -85,42 +86,58 @@ const Dashboard2 = () => {
     <div className="container">
       {/* ------------ Header -------------- */}
       <div className="top-heading">
-        <img src={car_logo} alt="car_logo" />
-        <h1>ZedCars Dashboard</h1>
+        {/* <img src={car_logo} alt="car_logo" /> */}
+        {/* <img src="https://imgs.search.brave.com/OKGS_ha6ixdvaEnSdMWUOTOoqO0SwEbZ9TEABl3MKEs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wNy5o/aWNsaXBhcnQuY29t/L3ByZXZpZXcvODk5/LzEwMDgvODcxL2Nh/cnMtMi1saWdodG5p/bmctbWNxdWVlbi1t/YXRlci1waXhhci1j/YXJzLTMuanBn" alt=""  style={{backgroundColor: "transparent"}}/> */}
+        <h1>Dashboard</h1>
       </div>
 
 
       {/* ------------ Navigation Buttons -------------- */}
       <div className="dashboard-navigation">
-        <button
-          onClick={() => {
-            setActiveTab("dashboard2");
-            setChartReload((prev) => prev + 1);
-          }}
-        >
-          Overview
-        </button>
+  <button
+    className={activeTab === "dashboard2" ? "active" : ""}
+    onClick={() => {
+      setActiveTab("dashboard2");
+      setChartReload((prev) => prev + 1);
+    }}
+  >
+    Overview
+  </button>
 
+  {(user.role === "SuperAdmin" || user.role === "Manager") && (
+    <>
+      <button
+        className={activeTab === "inventory" ? "active" : ""}
+        onClick={() => setActiveTab("inventory")}
+      >
+        Vehicle
+      </button>
+      <button
+        className={activeTab === "accessories" ? "active" : ""}
+        onClick={() => setActiveTab("accessories")}
+      >
+        Accessories
+      </button>
+    </>
+  )}
 
-        {(user.role === "SuperAdmin" || user.role === "Manager") && (
-          <>
-            <button onClick={() => setActiveTab("inventory")}>
-              Manage Vehicle
-            </button>
-            <button onClick={() => setActiveTab("accessories")}>
-              Manage Accessories
-            </button>
-          </>
-        )}
+  {user.role === "SuperAdmin" && (
+    <button
+      className={activeTab === "users" ? "active" : ""}
+      onClick={() => setActiveTab("users")}
+    >
+      Users
+    </button>
+  )}
 
+  <button
+    className={activeTab === "report" ? "active" : ""}
+    onClick={() => setActiveTab("report")}
+  >
+    View Report
+  </button>
+</div>
 
-        {user.role === "SuperAdmin" && (
-          <button onClick={() => setActiveTab("users")}>Manage Users</button>
-        )}
-
-
-        <button onClick={() => setActiveTab("report")}>View Report</button>
-      </div>
 
 
       {/* ------------ MAIN CONTENT AREA -------------- */}
@@ -275,10 +292,10 @@ const Dashboard2 = () => {
               </div>
             </div>
 
-<div className="admin-table-main">
 
+            <div className="admin-table-main">
             {/* Recent Inventory Section */}
-            <div className="admin-section-responsive">
+              <div className="admin-section-responsive">
               <div className="section-header">
                 <h2>Recent Inventory</h2>
                 <a href="/Admin/Inventory" className="view-all">
@@ -319,11 +336,11 @@ const Dashboard2 = () => {
                   )}
                 </tbody>
               </table>
-            </div>
+              </div>
 
 
-            {/* Recent Test Drives */}
-            <div className="admin-section-responsive">
+              {/* Recent Test Drives */}
+              <div className="admin-section-responsive">
               <div className="section-header">
                 <h2>Recent Test Drives</h2>
               </div>
@@ -365,9 +382,9 @@ const Dashboard2 = () => {
                   )}
                 </tbody>
               </table>
+              </div>
             </div>
 
-</div>
             {/* Recent User Activity */}
             <div className="user-activity-section refined">
               <div className="ua-header">

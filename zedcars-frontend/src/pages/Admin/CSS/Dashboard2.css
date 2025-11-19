@@ -16,16 +16,17 @@
 .top-heading{
     background-color: #FEFEFE;
     padding: 1% 0px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
     display: flex;
     justify-content: start;
     align-items: normal;
+    margin-top: 14vh;
 }
 
 .top-heading img{
     width: 50px;
     height: 50px;
-    margin-left: 4vw;
+    /* margin-left: 4vw; */
 }
 
 /* .top-heading h1{
@@ -43,34 +44,76 @@
     margin-top: 5%;
 }
 
-.dashboard-navigation{
-    width: 100%;
-    max-width: 87vw;
-    margin: auto;
-    /* background-color: white; */
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    border-radius: 15px;
-    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+.dashboard-navigation {
+  width: 100%;
+  max-width: 90vw;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 22px;
+  padding: 25px;
 }
 
-.dashboard-navigation button{
-    border: 2px solid rgba(2, 2, 53, 0.4);
-    border-radius: 10px;
-    background: white;
-    padding: 2px;
-    width: 100%;
-    cursor: pointer;
-    transition: 0.3s ease;
-    font-size: 1.3rem;
-    font-weight: 600;
+/* Button Base Style */
+.dashboard-navigation button {
+  position: relative;
+  overflow: hidden; /* Needed for ripple effect */
+  background: #ffffff;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  height: 60px;               
+  padding: 0 18px;         
+  
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #1f1f1f;
+  
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
 }
 
-.dashboard-navigation button:hover{
-    border: 2px solid rgb(2, 2, 53);
+/* Hover Micro Interaction */
+.dashboard-navigation button:hover {
+  border-color: #2a2a6a;
+  background: #f3f4ff;
+  transform: translateY(-3px) scale(1.02);   
+  box-shadow: 0px 10px 22px rgba(0, 0, 0, 0.15);
 }
+
+/* Ripple Effect */
+.dashboard-navigation button:active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  /* background: rgba(80, 80, 200, 0.25); */
+  background: #2c3e50;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: ripple 0.45s ease-out;
+}
+
+/* Ripple Animation Keyframes */
+@keyframes ripple {
+  to {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+}
+
+/* Active Tab Style */
+.dashboard-navigation button.active {
+  background: linear-gradient(135deg, #2a2a6a, #4646a3);
+  color: white;
+  border: none;
+  transform: translateY(-4px) scale(1.03); /* ⭐ Slight pop effect */
+  box-shadow: 0px 12px 30px rgba(44, 44, 120, 0.4);
+}
+
 
 .analysis-count{
     margin-top: 0%;
@@ -147,8 +190,13 @@
 
 /* 📱 Mobile responsive (stack in column) */
 @media (max-width: 1140px) {
-  .admin-content {
+  .admin-table-main {
     flex-direction: column; /* Single column on mobile */
+    /* flex-grow: 1; */
+  }
+
+  .admin-table-main > * {
+    width: 100% !important; /* ⭐ TAKE FULL WIDTH */
   }
 }
 .admin-section-responsive {
@@ -161,7 +209,7 @@
 .admin-table-main{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     gap: 15px;
 }
 

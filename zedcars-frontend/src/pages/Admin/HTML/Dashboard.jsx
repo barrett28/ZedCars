@@ -62,12 +62,27 @@ const Dashboard = () => {
         <h1>Dashboard</h1>
         <p className="lead">Manage your ZedCars inventory and users</p>
 
-        <div className="admin-actions d-flex justify-content-start align-items-center">
-          <a href="/Admin/AddVehicle" className="btn btn-secondary bg-primary">Add New Vehicle</a> 
-          <a href="/Admin/AdminInventory" className="btn btn-secondary">Manage Vehicles</a>
-          <a href="/Admin/ManageAccessories" className="btn btn-secondary">Manage Accessories</a>
-          <a href="/Admin/Users" className="btn btn-secondary">Manage Users</a>
-          <a href="/Admin/Reports" className="btn btn-secondary">View Reports</a>
+         <div className="admin-actions">
+          <a href="/Admin/AddVehicle" className="action-btn primary">
+            <i className="bi bi-plus-circle"></i>
+            <span>Add Vehicle</span>
+          </a>
+          <a href="/Admin/AdminInventory" className="action-btn">
+            <i className="bi bi-car-front"></i>
+            <span>Manage Vehicles</span>
+          </a>
+          <a href="/Admin/ManageAccessories" className="action-btn">
+            <i className="bi bi-tools"></i>
+            <span>Accessories</span>
+          </a>
+          <a href="/Admin/Users" className="action-btn">
+            <i className="bi bi-people"></i>
+            <span>Users</span>
+          </a>
+          <a href="/Admin/Reports" className="action-btn">
+            <i className="bi bi-graph-up"></i>
+            <span>Reports</span>
+          </a>
         </div>
       </div>
     
