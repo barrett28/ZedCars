@@ -45,7 +45,7 @@ namespace ZedCars.Net8.Controllers
                 AccessoriesTotal = await _accessoryRepository.GetTotalAccessoryValueAsync(),
                 AccessoriesSales = await _purchaseRepository.GetAccessorySalesAsync(),
                 AverageSale = await _purchaseRepository.GetAverageSalesAsync(),
-                RecentInventory = (await _carRepository.GetAllCarsAsync()).Take(8).ToList(),
+                RecentInventory = (await _carRepository.GetAllCarsAsync()).Take(5).ToList(),
                 UnitsSold = await _purchaseRepository.GetUnitsSoldAsync(),
                 TotalSales = await _purchaseRepository.GetTotalSalesAsync(),
                 RecentActivities = await GetRecentActivitiesAsync(),

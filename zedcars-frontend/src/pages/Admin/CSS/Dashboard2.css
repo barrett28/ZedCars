@@ -6,6 +6,13 @@
     padding-bottom: 1vh;
 }
 
+.container{
+    margin-top: 8vh;
+    color: black;
+    padding-top: 0vh;
+    padding-bottom: 1vh;
+}
+
 .top-heading{
     background-color: #FEFEFE;
     padding: 1% 0px;
@@ -115,7 +122,7 @@
 }
 
 .acc-ana-count{
-    background-color: #c3f1ff;
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -139,9 +146,9 @@
 }
 
 /* 📱 Mobile responsive (stack in column) */
-@media (max-width: 768px) {
+@media (max-width: 1140px) {
   .admin-content {
-    grid-template-columns: 1fr; /* Single column on mobile */
+    flex-direction: column; /* Single column on mobile */
   }
 }
 .admin-section-responsive {
@@ -149,6 +156,13 @@
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.admin-table-main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
 }
 
 

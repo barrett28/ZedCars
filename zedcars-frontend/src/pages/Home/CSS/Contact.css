@@ -1,27 +1,29 @@
 .contact-page {
-  background-color: #0f0f0f;
+  background-color: #f8f9fa;
   min-height: 100vh;
-  color: #fff;
+  margin-top: 7vh;
+  color: #212529;
 }
 
 /* Header */
 .contact-page h1 {
-  color: #e63939;
+  color: black;
   letter-spacing: 1px;
 }
 
 /* Info Cards */
 .info-card {
-  background: rgba(25, 25, 25, 0.85);
+  background: #ffffff;
+  border: 1px solid #e9ecef;
   border-radius: 16px;
   padding: 2rem;
   text-align: center;
-  box-shadow: 0 0 20px rgba(229, 9, 20, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
 .info-card:hover {
-  box-shadow: 0 0 25px rgba(229, 9, 20, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .icon-wrapper {
@@ -33,18 +35,19 @@
   align-items: center;
   margin: 0 auto 1rem;
   font-size: 2rem;
-  color: #fff;
+  color: #e63939;
+  background: #f8f9fa;
 }
 
 .info-card h5 {
   margin-bottom: 0.75rem;
-  color: #fff;
+  color: #212529;
   font-weight: 600;
 }
 
 .info-card p {
   margin-bottom: 0.5rem;
-  color: #ccc;
+  color: #6c757d;
 }
 
 .info-card .link {
@@ -54,24 +57,24 @@
 }
 
 .info-card .link:hover {
-  color: #ff3838;
+  color: #c92626;
 }
 
 /* Contact Form */
 .contact-form {
-  /* background: rgba(25, 25, 25, 0.9); */
+  background: #ffffff;
+  border: 1px solid #e9ecef;
   border-radius: 20px;
   padding: 2.5rem;
-  box-shadow: 0 0 25px rgba(229, 9, 20, 0.1);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .contact-form input,
 .contact-form select,
 .contact-form textarea {
-  background-color: #202020;
-  border: 2px solid #333;
-  color: #fff;
+  background-color: #ffffff;
+  border: 2px solid #dee2e6;
+  color: #212529;
   border-radius: 10px;
   padding: 0.9rem 1rem;
   transition: all 0.3s ease;
@@ -82,12 +85,12 @@
 .contact-form textarea:focus {
   border-color: #e63939;
   outline: none;
-  background: black;
-  box-shadow: 1px 2px 8px rgba(229, 9, 20, 0.3);
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(230, 57, 57, 0.2);
 }
 
 .contact-form ::placeholder{
-    color: rgba(255, 255, 255, 0.411);
+  color: #6c757d;
 }
 
 /* Submit Button */
@@ -105,7 +108,6 @@
 .btn-submit:hover {
   background-color: #c92626;
   transform: scale(1.01);
-  /* box-shadow: 0 0 15px rgba(229, 9, 20, 0.4); */
 }
 
 /* Responsive */

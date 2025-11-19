@@ -7,7 +7,7 @@ const Contact = () => {
       <div className="container py-5">
         {/* Header */}
         <div className="text-center mb-5">
-          <h1 className="display-5 fw-bold text-light">Get in Touch</h1>
+          <h1 className="display-5 fw-bold">Get in Touch</h1>
           <p className="lead text-secondary">
             Have questions or feedback? We’re here to help you every step of the way.
           </p>
@@ -17,7 +17,7 @@ const Contact = () => {
         <div className="row g-4 mb-5">
           <div className="col-lg-4 col-md-6">
             <div className="info-card">
-              <div className="icon-wrapper bg-danger">
+              <div className="icon-wrapper">
                 <i className="bi bi-geo-alt-fill"></i>
               </div>
               <h5>Our Location</h5>
@@ -33,7 +33,7 @@ const Contact = () => {
 
           <div className="col-lg-4 col-md-6">
             <div className="info-card">
-              <div className="icon-wrapper bg-success">
+              <div className="icon-wrapper">
                 <i className="bi bi-envelope-fill"></i>
               </div>
               <h5>Contact Emails</h5>
@@ -54,7 +54,7 @@ const Contact = () => {
 
           <div className="col-lg-4 col-md-12">
             <div className="info-card">
-              <div className="icon-wrapper bg-warning">
+              <div className="icon-wrapper">
                 <i className="bi bi-clock-fill"></i>
               </div>
               <h5>Business Hours</h5>
@@ -68,7 +68,7 @@ const Contact = () => {
         <div className="row justify-content-center">
           <div className="col-lg-8">
             <div className="contact-form">
-              <h3 className="text-light text-center mb-4">Send Us a Message</h3>
+              <h3 className="text-center mb-4">Send Us a Message</h3>
               <form>
                 <div className="row g-3">
                   <div className="col-md-6">

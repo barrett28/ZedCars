@@ -75,11 +75,11 @@
 .inventory-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 30px;
+  gap: 30px; 
 }
 
 /* Cards */
-.vehicle-card {
+.inventory-page .inventory-grid .vehicle-card {
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
@@ -87,15 +87,14 @@
   transition: all 0.3s;
 }
 .vehicle-card:hover {
-  transform: translateY(-8px);
   box-shadow: 0 15px 30px rgba(0,0,0,0.12);
 }
 
-.vehicle-image {
+.inventory-page .inventory-grid .vehicle-card .vehicle-image {
   position: relative;
-  height: 220px;
+  height: 37vh;
 }
-.vehicle-image img {
+.inventory-page .inventory-grid .vehicle-card .vehicle-image img {
   width: 100%;
   height: 100%;
   object-fit: contain;

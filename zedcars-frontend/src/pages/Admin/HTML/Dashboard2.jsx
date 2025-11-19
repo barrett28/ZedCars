@@ -54,7 +54,7 @@ const Dashboard2 = () => {
           {
             label: "Stock Available",
             data: dashboard.stockData.map((s) => s.stockAvailable || 0),
-            backgroundColor: "#2ebe3a",
+            backgroundColor: "#5bc764ff",
           },
           {
             label: "Units Sold",
@@ -82,7 +82,7 @@ const Dashboard2 = () => {
 
 
   return (
-    <div className="dashboard2-container">
+    <div className="container">
       {/* ------------ Header -------------- */}
       <div className="top-heading">
         <img src={car_logo} alt="car_logo" />
@@ -275,6 +275,7 @@ const Dashboard2 = () => {
               </div>
             </div>
 
+<div className="admin-table-main">
 
             {/* Recent Inventory Section */}
             <div className="admin-section-responsive">
@@ -366,7 +367,7 @@ const Dashboard2 = () => {
               </table>
             </div>
 
-
+</div>
             {/* Recent User Activity */}
             <div className="user-activity-section refined">
               <div className="ua-header">

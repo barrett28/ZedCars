@@ -157,7 +157,7 @@ const MyPurchases = () => {
       )}
 
       {/* Pagination */}
-      {totalPages > 1 && (
+      {totalPages > 0 && (
         <>
           <nav className="admin-pagination-nav">
             <ul className="admin-pagination">

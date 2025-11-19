@@ -49,7 +49,7 @@ function App() {
               <Route path="/Auth/Login" element={<Login />} />
               <Route path="/Auth/Register" element={<Register />} />
               
-              {/* Routes accessible to Home */}
+              {/* Routes accessible to Customer */}
               <Route path="/inventory" element={<HomeInventory />} />
               <Route path="/purchase/:id" element={<Purchase />} />
               <Route path='/my-purchases' element={<MyPurchases />} />
@@ -58,7 +58,7 @@ function App() {
               <Route path="/purchaseaccessories" element={<PurchaseAccessories />} />
               <Route path='/addon' element={< Addon/>} />
               
-              {/* Routes are for Admin  */}
+              {/* Routes accessible only to Management  */}
               <Route path="/Admin/Dashboard" element={<Dashboard />} />
               <Route path="/Admin/AdminInventory" element={<AdminInventory />} />
               <Route path="/Admin/AddVehicle" element={<AddVehicle />} />
@@ -67,13 +67,15 @@ function App() {
               <Route path="/Admin/ManageAccessories" element={<ManageAccessories />} />
               <Route path="/Admin/EditAccessories/:id" element={<EditAccessories />} />
               <Route path="/Admin/AddAccessory" element={<AddAccessory />} />
-              <Route path="/Admin/Users" element={<ManageUsers />} />
-              <Route path="/Admin/Users/Add" element={<AddUser />} />
-              <Route path="/Admin/Users/Edit/:id" element={<EditUser />} />
               <Route path="/Admin/Reports" element={<Reports />} />
               <Route path="/Admin/test-drives" element={<TestDrives />} />
               <Route path="/dashboard2" element={<Dashboard2 />} />
               <Route path="/Admin/UserActivity" element={<UserActivity />} />
+
+              {/* Routes accessible only to SuperAdmin */}
+              <Route path="/Admin/Users" element={<ManageUsers />} />
+              <Route path="/Admin/Users/Add" element={<AddUser />} />
+              <Route path="/Admin/Users/Edit/:id" element={<EditUser />} />
 
             </Routes>
           <Footer />

@@ -78,7 +78,7 @@
 }
 
 .metric-card {
-    background: #c3f1ff;
+    background: #f5f5f5;
     border-radius: 8px;
     padding: 15px;
 }
@@ -113,7 +113,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background: #c3f1ff;
+    background: #f5f5f5;
     border-bottom: 1px groove #e9ecef;
     color: black;
 }
@@ -215,9 +215,9 @@ tr:hover {
 /* CARD --------------------------------------------------------------- */
 .ua-card {
   min-width: 300px;
-  padding: 20px;
+  padding: 15px;
   border-radius: 16px;
-  background: #c3f1ff;
+  background: #f5f5f5;
   border: 1px solid #e7e9f5;
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.05);
   display: flex;
