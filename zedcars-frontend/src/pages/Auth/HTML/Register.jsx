@@ -19,9 +19,18 @@ const Register = () => {
   const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+  const { name, value } = e.target;
+  
+  if (name === 'phoneNumber') {
+    const numbersOnly = value.replace(/[^0-9]/g, '');
+    setForm((prev) => ({ ...prev, [name]: numbersOnly }));
+  } else if (name === 'fullName') {
+    const lettersOnly = value.replace(/[^a-zA-Z\s]/g, '');
+    setForm((prev) => ({ ...prev, [name]: lettersOnly }));
+  } else {
     setForm((prev) => ({ ...prev, [name]: value }));
-  };
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
