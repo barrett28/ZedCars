@@ -193,8 +193,8 @@ namespace ZedCars.Net8.Controllers
             models.AddRange(cars.Select(car => new MyPurchaseViewModel
             {
                 Car = car,
-                Purchase = _purchaseRepository.GetPurchaseByCarAndEmailAsync(car.CarId.Value, userEmail).Result,
-                TestDrive = _testDriveRepository.GetTestDriveByCarAndEmailAsync(car.CarId.Value, userEmail).Result
+                Purchase = _purchaseRepository.GetPurchaseByCarAndEmailAsync(car.CarId ?? 0, userEmail).Result,
+                TestDrive = _testDriveRepository.GetTestDriveByCarAndEmailAsync(car.CarId ?? 0, userEmail).Result
             }));
 
             var accessoryPurchases = await _accessoryRepository.GetAccessoryPurchasesByEmailAsync(userEmail);
@@ -228,7 +228,7 @@ namespace ZedCars.Net8.Controllers
 
             var viewModel = new PurchaseViewModel
             {
-                Purchase = new Purchase { CarId = car.CarId.Value, Car = car },
+                Purchase = new Purchase { CarId = car.CarId ?? 0, Car = car },
                 Accessories = accessories
             };
             return Ok(viewModel);
@@ -259,7 +259,7 @@ namespace ZedCars.Net8.Controllers
 
             purchase.PurchasePrice = totalPrice;
 
-            await _purchaseRepository.AddPurchaseWithAccessoriesAsync(purchase, purchase.SelectedAccessories);
+            await _purchaseRepository.AddPurchaseWithAccessoriesAsync(purchase, purchase.SelectedAccessories ?? new List<string>());
 
             await _userActivityRepository.LogActivityAsync
                 (purchase.BuyerName, "Purchase", $"Purchased {car.Brand} {car.Model} for ${totalPrice:N0}", Request.Headers["User-Agent"]);
@@ -309,7 +309,7 @@ namespace ZedCars.Net8.Controllers
             await _userActivityRepository.LogActivityAsync(
                 testDrive.CustomerName,
                 "Test Drive Booked",
-                $"Booked test drive for {car.Brand} {car.Model}",
+                $"Booked test drive for {car?.Brand} {car?.Model}",
                 Request.Headers["User-Agent"]
             );
 
@@ -324,7 +324,7 @@ namespace ZedCars.Net8.Controllers
 
             var testDrive = new TestDrive()
             {
-                CarId = car.CarId.Value,
+                CarId = car.CarId ?? 0,
                 Car = car
             };
             return Ok(testDrive);

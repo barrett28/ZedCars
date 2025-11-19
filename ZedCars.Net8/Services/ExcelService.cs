@@ -97,7 +97,7 @@ namespace ZedCars.Net8.Services
                 row.Append(
                     CreateNumberCell(purchase.PurchaseId.ToString()),
                     CreateTextCell($"{purchase.BuyerName}"),
-                    CreateTextCell($"{purchase.Car.Brand} {purchase.Car.Model}"),
+                    CreateTextCell($"{purchase.Car?.Brand} {purchase.Car?.Model}"),
                     CreateNumberCell(purchase.PurchasePrice.ToString("F2")),
                     CreateTextCell(purchase.PurchaseDate.ToString("yyyy-MM-dd"))
                 );
@@ -131,7 +131,7 @@ namespace ZedCars.Net8.Services
                 var row = new Row();
                 row.Append(
                     CreateNumberCell(accessoryPurchase.AccessoryPurchaseId.ToString()),
-                    CreateTextCell(accessoryPurchase.BuyerName),
+                    CreateTextCell(accessoryPurchase.BuyerName ?? ""),
                     CreateTextCell(accessoryPurchase.BuyerEmail),
                     CreateTextCell(accessoryPurchase.SelectedAccessoriesString),
                     CreateNumberCell(accessoryPurchase.TotalPrice.ToString("F2")),

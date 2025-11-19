@@ -116,7 +116,7 @@ namespace ZedCars.Net8.Services
                 {
                     Category = g.Key,
                     UnitsSold = g.Count(),
-                    TotalSales = g.Sum(x => (decimal)x.Price)
+                    TotalSales = g.Sum(x => (decimal)(x.Price ?? 0))
                 })
                 .OrderByDescending(x => x.TotalSales)
                 .ToList();

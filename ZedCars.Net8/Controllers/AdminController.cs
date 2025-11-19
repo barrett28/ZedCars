@@ -157,7 +157,7 @@ namespace ZedCars.Net8.Controllers
                 if (car == null)
                     return NotFound();
 
-                var success = await _carRepository.DeleteCarAsync(id, User.Identity?.Name);
+                var success = await _carRepository.DeleteCarAsync(id, User.Identity?.Name ?? "System");
                 if (!success)
                     return BadRequest(new { message = "Failed to delete vehicle" });
 
