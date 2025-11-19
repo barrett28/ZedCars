@@ -178,7 +178,9 @@ namespace ZedCars.Net8.Services
 
         public async Task<int> GetAccessoryCountAsync()
         {
-            return await _context.AccessoryPurchaseOnly.CountAsync();
+            //return await _context.AccessoryPurchaseOnly.CountAsync();
+            var accessoryPurchases = await _context.AccessoryPurchaseOnly.AsNoTracking().ToListAsync();
+            return accessoryPurchases.Sum(ap => ap.SelectedAccessories.Count);
         }
 
         public async Task<List<AccessoryPurchaseOnly>> GetAllAccessoriesAsync()

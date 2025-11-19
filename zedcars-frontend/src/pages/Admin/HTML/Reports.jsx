@@ -99,11 +99,11 @@ const Reports = () => {
 
   return (
     <div className="reports-page">
-      <div className="admin-header">
+      {/* <div className="admin-header">
         <h1>Reports</h1>
         <p>View and generate business reports</p>
         <a href="/admin/dashboard" className="btn btn-secondary">Back to Dashboard</a>
-      </div>
+      </div> */}
 
       <div className="container">
         <div className="filters-section">
