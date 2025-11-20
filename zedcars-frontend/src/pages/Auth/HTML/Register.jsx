@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../../api/apiClient";
-import "../CSS/Login.css"; // ✅ Reuse same dark theme CSS
+import "../CSS/Login.css"; 
 
 const Register = () => {
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ const Register = () => {
   };
 
   return (
-    <div className="login-container mt-4">
+    <div className="login-container">
       <div className="login-form">
         <h1>Register</h1>
         <p className="subtitle">Create your ZedCars account</p>
@@ -137,7 +137,7 @@ const Register = () => {
             </div>
           )}
 
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="register-btn">
             Register
           </button>
 

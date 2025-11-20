@@ -1,6 +1,6 @@
 .dashboard2-container{
     color: black;
-    margin-top: 8vh;
+    /* margin-top: 8vh; */
     background-color: #ffffff;
     padding-top: 0vh;
     padding-bottom: 1vh;
@@ -20,7 +20,6 @@
     display: flex;
     justify-content: start;
     align-items: normal;
-    margin-top: 14vh;
 }
 
 .top-heading img{
@@ -41,7 +40,7 @@
 .dashboard2-overview{
     background-color: transparent;
     box-shadow: none;
-    margin-top: 5%;
+    /* margin-top: 5%; */
 }
 
 .dashboard-navigation {

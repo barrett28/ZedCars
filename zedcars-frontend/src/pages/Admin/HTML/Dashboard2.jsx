@@ -153,7 +153,7 @@ const Dashboard2 = () => {
                   <i className="bi bi-car-front-fill text-primary fs-1 me-3"></i>
                   <div>
                     <div className="fw-semibold text-muted">Total Vehicles</div>
-                    <div className="fs-4 fw-bold">{dashboard.totalCars || 0}</div>
+                    <div className="fs-4 fw-bold text-center">{dashboard.totalCars || 0}</div>
                   </div>
                 </div>
               </div>
@@ -166,7 +166,7 @@ const Dashboard2 = () => {
                   <i className="bi bi-check-circle-fill text-info fs-1 me-3"></i>
                   <div>
                     <div className="fw-semibold text-muted">Available Cars</div>
-                    <div className="fs-4 fw-bold">{dashboard.activeVehicles || 0}</div>
+                    <div className="fs-4 fw-bold text-center">{dashboard.activeVehicles || 0}</div>
                   </div>
                 </div>
               </div>
@@ -179,7 +179,7 @@ const Dashboard2 = () => {
                   <i className="bi bi-cash-stack text-success fs-1 me-3"></i>
                   <div>
                     <div className="fw-semibold text-muted">Car Inventory</div>
-                    <div className="fs-4 fw-bold">${dashboard.vehiclePrice || 0}</div>
+                    <div className="fs-4 fw-bold text-center">${dashboard.vehiclePrice || 0}</div>
                   </div>
                 </div>
               </div>
@@ -192,7 +192,7 @@ const Dashboard2 = () => {
                   <i className="bi bi-currency-dollar text-success fs-1 me-3"></i>
                   <div>
                     <div className="fw-semibold text-muted">Car Sales</div>
-                    <div className="fs-4 fw-bold">${(dashboard.totalSales || 0).toFixed(2)}</div>
+                    <div className="fs-4 fw-bold text-center">${(dashboard.totalSales || 0).toFixed(2)}</div>
                   </div>
                 </div>
               </div>
@@ -204,7 +204,7 @@ const Dashboard2 = () => {
             <div className="col-md-3">
               <div className="card text-center shadow-sm border-1 rounded-3 h-100">
                 <div className="card-body">
-                  <div className="fs-3 fw-bold text-success">8</div>
+                  <div className="fs-3 fw-bold text-success text-center">8</div>
                   <div className="text-muted">Vehicle Brands</div>
                 </div>
               </div>
@@ -216,7 +216,7 @@ const Dashboard2 = () => {
                 <div className="card-body d-flex align-items-center">
                   <i className="bi bi-people-fill text-warning fs-1 me-3"></i>
                   <div>
-                    <div className="fs-4 fw-bold">{dashboard.totalUsers || 0}</div>
+                    <div className="fs-4 fw-bold text-center">{dashboard.totalUsers || 0}</div>
                     <div className="fw-semibold text-muted">Total Users</div>
                   </div>
                 </div>
@@ -227,7 +227,7 @@ const Dashboard2 = () => {
             <div className="col-md-3">
               <div className="card text-center shadow-sm border-1 rounded-3 h-100">
                 <div className="card-body">
-                  <div className="fs-3 fw-bold text-danger">${dashboard.accessoriesTotal || 0}</div>
+                  <div className="fs-3 fw-bold text-danger text-center">${dashboard.accessoriesTotal || 0}</div>
                   <div className="text-muted">Accessory Inventory</div>
                 </div>
               </div>
@@ -237,7 +237,7 @@ const Dashboard2 = () => {
             <div className="col-md-3">
               <div className="card text-center shadow-sm border-1 rounded-3 h-100">
                 <div className="card-body">
-                  <div className="fs-3 fw-bold text-danger">${dashboard.accessoriesSales || 0}</div>
+                  <div className="fs-3 fw-bold text-danger text-center">${dashboard.accessoriesSales || 0}</div>
                   <div className="text-muted">Accessory Sales</div>
                 </div>
               </div>
