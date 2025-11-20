@@ -11,8 +11,7 @@ const Navbar = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const { user, logout } = useAuth();
 
-  // NEW: ref to animate links
-  const linksRef = useRef([]);
+  const linksRef = useRef([]); 
 
   useEffect(() => {
     const handleScroll = () => {
@@ -139,69 +138,80 @@ const handleHoverLeave = (ev, i) => {
       <div className={`mobile-nav ${isMenuOpen ? "active" : ""}`}>
 
         {[
-  // -----------------------------
-  // PUBLIC (BEFORE LOGIN)
-  // -----------------------------
-  { text: "Home", href: "/home", image: "https://picsum.photos/600/400?random=1", show: true },
-  { text: "Inventory", href: "/inventory", image: "https://picsum.photos/600/400?random=2", show: true },
+        // -----------------------------
+        // PUBLIC (BEFORE LOGIN)
+        // -----------------------------
+        { text: "Home", href: "/home", image: "https://images.pexels.com/photos/326503/pexels-photo-326503.jpeg", show: true },
+        { text: "Inventory", href: "/inventory", image: "https://images.pexels.com/photos/28928971/pexels-photo-28928971.jpeg", show: true },
 
-  // Show About + Contact ONLY before login
-  { text: "About", href: "/about", image: "https://picsum.photos/600/400?random=3", show: !user?.isAuthenticated },
-  { text: "Contact", href: "/contact", image: "https://picsum.photos/600/400?random=4", show: !user?.isAuthenticated },
+        // Show About + Contact ONLY before login
+        { text: "About", href: "/about", image: "https://images.pexels.com/photos/5941395/pexels-photo-5941395.jpeg", show: !user?.isAuthenticated },
+        { text: "Contact", href: "/contact", image: "https://images.pexels.com/photos/215367/pexels-photo-215367.jpeg", show: !user?.isAuthenticated },
 
-  // Login only when NOT logged in
-  { text: "Login", href: "/auth/login", image: "https://picsum.photos/600/400?random=5", show: !user?.isAuthenticated },
+        // Login only when NOT logged in
+        { text: "Login", href: "/auth/login", image: "https://picsum.photos/600/400?random=5", show: !user?.isAuthenticated },
 
-  // -----------------------------
-  // LOGGED IN ITEMS
-  // -----------------------------
-  { text: "My Test Drive", href: "/my-testdrives", image: "https://picsum.photos/600/400?random=6", show: user?.isAuthenticated },
-  { text: "My Purchases", href: "/my-purchases", image: "https://picsum.photos/600/400?random=7", show: user?.isAuthenticated },
-  { text: "Accessories", href: "/accessories", image: "https://picsum.photos/600/400?random=8", show: user?.isAuthenticated },
+        // -----------------------------
+        // LOGGED IN ITEMS
+        // -----------------------------
+        { text: "My Test Drive", href: "/my-testdrives", image: "https://images.pexels.com/photos/13861/IMG_3496bfree.jpg", show: user?.isAuthenticated },
+        { text: "My Purchases", href: "/my-purchases", image: "https://images.pexels.com/photos/5926240/pexels-photo-5926240.jpeg", show: user?.isAuthenticated },
+        { text: "Accessories", href: "/purchaseaccessories", image: "https://images.pexels.com/photos/16030463/pexels-photo-16030463.jpeg", show: user?.isAuthenticated },
 
-  // Logout
-  { text: "Logout", href: "/home", image: "https://picsum.photos/600/400?random=9", show: user?.isAuthenticated, logout: true },
+        // Logout
+        { text: "Logout", href: "/home", image: "https://images.pexels.com/photos/1181325/pexels-photo-1181325.jpeg", show: user?.isAuthenticated, logout: true },
 
-]
-  .filter(item => item.show)
-  .map((item, i) => (
-    <div
-      key={i}
-      className="flow-item"
-      onMouseEnter={(e) => handleHoverEnter(e, i)}
-      onMouseLeave={(e) => handleHoverLeave(e, i)}
-    >
-      <a
-        href={item.href}
-        className="flow-item-link"
-        ref={(el) => (linksRef.current[i] = el)}
-        onClick={() => {
-          setIsMenuOpen(false);
+      ]
+        .filter(item => item.show)
+        .map((item, i) => (
+          <div
+  key={i}
+  className="flow-item"
+  onMouseEnter={(e) => {
+    // Hide original text
+    window.gsap.to(linksRef.current[i], { opacity: 0, duration: 0.2 });
 
-          if (item.logout) {
-            logout();
-            navigate("/auth/login");
-          }
-        }}
-      >
-        {item.text}
-      </a>
+    handleHoverEnter(e, i);
+  }}
+  onMouseLeave={(e) => {
+    // Show original text again
+    window.gsap.to(linksRef.current[i], { opacity: 1, duration: 0.2 });
 
-      <div className="flow-marquee" ref={(el) => (marqueeRefs.current[i] = el)}>
-        <div className="flow-marquee-inner" ref={(el) => (marqueeInnerRefs.current[i] = el)}>
-          {[...Array(4)].map((_, idx) => (
-            <React.Fragment key={idx}>
-              <span>{item.text}</span>
-              <div
-                className="flow-img"
-                style={{ backgroundImage: `url(${item.image})` }}
-              />
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-    </div>
-  ))}
+    handleHoverLeave(e, i);
+  }}
+>
+
+            <a
+              href={item.href}
+              className="flow-item-link"
+              ref={(el) => (linksRef.current[i] = el)}
+              onClick={() => {
+                setIsMenuOpen(false);
+
+                if (item.logout) {
+                  logout();
+                  navigate("/auth/login");
+                }
+              }}
+            >
+              {item.text}
+            </a>
+
+            <div className="flow-marquee" ref={(el) => (marqueeRefs.current[i] = el)}>
+              <div className="flow-marquee-inner" ref={(el) => (marqueeInnerRefs.current[i] = el)}>
+                {[...Array(4)].map((_, idx) => (
+                  <React.Fragment key={idx}>
+                    <span>{item.text}</span>
+                    <div
+                      className="flow-img"
+                      style={{ backgroundImage: `url(${item.image})` }}
+                    />
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
 
       </div>
 
