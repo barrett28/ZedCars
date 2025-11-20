@@ -1,254 +1,173 @@
+/* ========== MAIN CONTAINER ========== */
 .my-purchases-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  max-width: 1100px;
+  margin: 10vh auto;
+  padding: 40px 20px;
 }
 
+/* Header */
 .header h2 {
-  color: #333;
+  font-size: 2rem;
+  font-weight: 700;
   margin-bottom: 30px;
-  font-weight: bold;
+  color: #141414;
 }
 
-.no-purchases {
-  text-align: center;
-  padding: 60px 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.browse-btn {
-  background: #007bff;
-  color: white;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
+/* ================== GRID LIST ================== */
 .purchases-list {
   display: flex;
   flex-direction: column;
+  gap: 22px;
+}
+
+/* ================== GRID CARD ================== */
+.purchase-card-grid {
+  display: grid;
+  grid-template-columns: 180px 1fr 120px 120px;
+  align-items: center;
   gap: 20px;
+  padding: 20px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 18px;
+  border: 1px solid rgba(230,230,230,0.6);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  transition: 0.25s ease;
 }
 
-.purchase-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.purchase-card:hover {
+.purchase-card-grid:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
 }
 
-.car-purchase {
-  display: flex;
-  align-items: center;
-}
-
-.car-image {
-  flex: 0 0 300px;
-}
-
-.car-image img {
+/* ================== MEDIA ================== */
+.card-media img {
   width: 100%;
-  height: 200px;
+  height: 140px;
   object-fit: cover;
+  border-radius: 16px;
 }
 
-.purchase-details {
-  flex: 1;
-  padding: 30px;
-}
-
-.purchase-header {
+.card-media.accessory-only {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  height: 140px;
+  background: #f3f4f6;
+  border-radius: 16px;
+  font-weight: 600;
+  color: #555;
 }
 
-.purchase-header h3 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.price {
-  /* background: #28a745; */
-  /* color: white; */
-  color:black;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: bold;
-}
-
-.purchase-info {
-  margin-bottom: 20px;
-}
-
-.info-row {
+/* ================== MAIN INFO ================== */
+.card-main {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  color: #666;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.accessories {
-  margin-top: 15px;
-  color: #666;
+.card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1b1b1d;
 }
 
-.purchase-actions {
-  display: flex;
-  justify-content: flex-end;
+.card-meta {
+  font-size: 0.9rem;
+  color: #757575;
 }
 
-.view-details-btn {
-  background: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.card-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 6px 15px;
+  font-size: 0.92rem;
+  color: #444;
 }
 
-.view-details-btn:hover {
-  background: #0056b3;
+/* Accessories inside Car Purchase */
+.card-accessories {
+  font-size: 0.9rem;
+  margin-top: 8px;
+  color: #222;
 }
 
-.accessory-purchase {
-  padding: 30px;
-}
-
-.accessory-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.accessory-header h3 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.accessory-info {
-  color: #666;
-}
-
-.accessories-list {
-  margin-top: 15px;
-}
-
-.accessory-tags {
+/* Accessory tags */
+.acc-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 10px;
 }
 
-.accessory-tag {
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  padding: 6px 12px;
-  border-radius: 15px;
-  font-size: 0.9rem;
-  color: #495057;
-}
-
-.no-accessories {
-  color: #999;
-  font-style: italic;
-}
-
-.loading, .error {
-  text-align: center;
-  padding: 40px;
-  font-size: 1.1rem;
-}
-
-.error {
-  color: #dc3545;
-}
-
-@media (max-width: 768px) {
-  .car-purchase {
-    flex-direction: column;
-  }
-
-  .car-image {
-    flex: none;
-    width: 100%;
-  }
-  
-  .purchase-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  
-  .info-row {
-    flex-direction: column;
-    gap: 5px;
-  }
-}
-/* Pagination Styles */
-.admin-pagination-nav {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.admin-pagination {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  gap: 5px;
-}
-
-.admin-page-item {
-  display: flex;
-}
-
-.admin-page-item button {
-  padding: 8px 12px;
+.chip {
+  background: #555658;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 0.85rem;
   border: 1px solid #ddd;
-  background: white;
-  color: #333;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.2s;
 }
 
-.admin-page-item button:hover:not(:disabled) {
-  background: #f5f5f5;
-  border-color: #999;
-}
-
-.admin-page-item.active button {
-  background: #007bff;
-  color: white;
-  border-color: #007bff;
-}
-
-.admin-page-item.disabled button {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.admin-pagination-info {
+/* ================== PRICE ================== */
+.card-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: #7b7c7e;
+  padding: 12px 13px;
+  border-radius: 16px;
   text-align: center;
-  margin-top: 10px;
-  color: #666;
-  font-size: 14px;
+}
+
+/* ================== ACTION BUTTON ================== */
+.card-actions {
+  text-align: right;
+}
+
+.view-details-btn {
+  background: #0066ff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.view-details-btn:hover {
+  background: #004fd4;
+  transform: translateY(-3px);
+}
+
+/* ================== RESPONSIVE ================== */
+@media (max-width: 900px) {
+  .purchase-card-grid {
+    grid-template-columns: 120px 1fr 100px;
+    grid-template-areas: 
+      "media main price"
+      "action action action";
+  }
+
+  .card-actions {
+    grid-area: action;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 650px) {
+  .purchase-card-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "media"
+      "main"
+      "price"
+      "action";
+    text-align: left;
+  }
+
+  .card-media img {
+    height: 160px;
+  }
+
+  .card-price {
+    width: fit-content;
+    margin: 10px 0;
+  }
 }

@@ -74,86 +74,98 @@ const MyPurchases = () => {
         </div>
       ) : (
         <div className="purchases-list">
-          {purchases.map((item, index) => (
-            <div key={index} className="purchase-card">
-              {item.car && item.purchase ? (
-                // Car Purchase
-                <div className="car-purchase">
-                  <div className="car-image">
-                    <img src={item.car.imageUrl} alt={item.car.model} />
-                  </div>
-                  <div className="purchase-details">
-                    <div className="purchase-header">
-                      <h3>{item.car.brand} - {item.car.model}</h3>
-                      <span className="price">${item.purchase.purchasePrice.toLocaleString()}</span>
-                    </div>
-                    
-                    <div className="purchase-info">
-                      <div className="info-row">
-                        <span>Year: {item.car.year}</span>
-                        <span>Quantity: {item.purchase.purchaseQuantity}</span>
-                      </div>
-                      <div className="info-row">
-                        <span>Mileage: {item.car.mileage} MPG</span>
-                        <span>Color: {item.car.color}</span>
-                      </div>
-                      <div className="info-row">
-                        <span>Fuel: {item.car.fuelType}</span>
-                        <span>Transmission: {item.car.transmission}</span>
-                      </div>
-                      <div className="info-row">
-                        <span>Purchase Date: {new Date(item.purchase.purchaseDate).toLocaleDateString()}</span>
-                      </div>
-                      {item.purchase.selectedAccessoriesString && (
-                        <div className="accessories">
-                          <strong>Accessories: </strong>
-                          {item.purchase.selectedAccessoriesString}
-                        </div>
-                      )}
-                    </div>
+  {purchases.map((item, index) => {
+    const isCar = item.car && item.purchase;
+    const isAccessory = item.accessoryPurchaseOnly;
 
-                    <div className="purchase-actions">
-                      <button 
-                        onClick={() => navigate(`/vehicle/${item.car.carId}`)}
-                        className="view-details-btn"
-                      >
-                        View Details
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ) : item.accessoryPurchaseOnly ? (
-                // Accessory Only Purchase
-                <div className="accessory-purchase">
-                  <div className="accessory-header">
-                    <h3>Accessories Purchase</h3>
-                    <span className="price">${item.accessoryPurchaseOnly.totalPrice.toLocaleString()}</span>
-                  </div>
-                  
-                  <div className="accessory-info">
-                    <div className="info-row">
-                      <span>Date: {new Date(item.accessoryPurchaseOnly.purchaseDate).toLocaleDateString()}</span>
-                      <span>Buyer: {item.accessoryPurchaseOnly.buyerName}</span>
-                    </div>
-                    
-                    <div className="accessories-list">
-                      <strong>Accessories:</strong>
-                      {item.accessoryPurchaseOnly.selectedAccessories && item.accessoryPurchaseOnly.selectedAccessories.length > 0 ? (
-                        <div className="accessory-tags">
-                          {item.accessoryPurchaseOnly.selectedAccessories.map((acc, idx) => (
-                            <span key={idx} className="accessory-tag">{acc}</span>
-                          ))}
-                        </div>
-                      ) : (
-                        <span className="no-accessories">No accessories selected</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ) : null}
+    return (
+      <div key={index} className="purchase-card-grid">
+
+        {/* ==== CAR PURCHASE ==== */}
+        {isCar && (
+          <>
+            <div className="card-media">
+              <img src={item.car.imageUrl} alt={item.car.model} />
             </div>
-          ))}
-        </div>
+
+            <div className="card-main">
+              <h3 className="card-title">{item.car.brand} - {item.car.model}</h3>
+              <p className="card-meta">
+                {new Date(item.purchase.purchaseDate).toLocaleDateString()}
+              </p>
+
+              <div className="card-specs-grid">
+                <span>Year: {item.car.year}</span>
+                <span>Qty: {item.purchase.purchaseQuantity}</span>
+                <span>Mileage: {item.car.mileage} MPG</span>
+                <span>Color: {item.car.color}</span>
+                <span>Fuel: {item.car.fuelType}</span>
+                <span>Transmission: {item.car.transmission}</span>
+              </div>
+
+              {item.purchase.selectedAccessoriesString && (
+                <div className="card-accessories">
+                  <strong>Accessories: </strong>
+                  {item.purchase.selectedAccessoriesString}
+                </div>
+              )}
+            </div>
+
+            <div className="card-price">
+              ₹{item.purchase.purchasePrice.toLocaleString()}
+            </div>
+
+            <div className="card-actions">
+              <button
+                onClick={() => navigate(`/vehicle/${item.car.carId}`)}
+                className="view-details-btn"
+              >
+                View Details
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* ==== ACCESSORY ONLY PURCHASE ==== */}
+        {isAccessory && (
+          <>
+            <div className="card-media accessory-only">
+              <span>Accessories</span>
+            </div>
+
+            <div className="card-main">
+              <h3 className="card-title">Accessories Purchase</h3>
+              <p className="card-meta">
+                {new Date(item.accessoryPurchaseOnly.purchaseDate).toLocaleDateString()}
+              </p>
+
+              <div className="card-specs-grid">
+                <span>Buyer: {item.accessoryPurchaseOnly.buyerName}</span>
+                <span>Total: ₹{item.accessoryPurchaseOnly.totalPrice.toLocaleString()}</span>
+              </div>
+
+              <div className="acc-chips">
+                {item.accessoryPurchaseOnly.selectedAccessories?.map((acc, i) => (
+                  <span key={i} className="chip">{acc}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="card-price">
+              ₹{item.accessoryPurchaseOnly.totalPrice.toLocaleString()}
+            </div>
+
+            <div className="card-actions">
+              <button className="view-details-btn">View Details</button>
+            </div>
+          </>
+        )}
+
+      </div>
+    );
+  })}
+</div>
+
       )}
 
       {/* Pagination */}
