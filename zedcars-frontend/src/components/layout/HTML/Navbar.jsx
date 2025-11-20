@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../CSS/Navbar.css";
 import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import home_img from "../../../assets/images/One.png"
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -10,11 +11,13 @@ const Navbar = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const { user, logout } = useAuth();
 
+  // NEW: ref to animate links
+  const linksRef = useRef([]);
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Show navbar when scrolling up, hide when scrolling down
       if (currentScrollY < lastScrollY) {
         setIsVisible(true);
       } else if (currentScrollY > lastScrollY + 10) {
@@ -28,10 +31,83 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
+  const animateMenuOpen = () => {
+    const gsap = window.gsap;
+
+    gsap.fromTo(
+      linksRef.current,
+      { y: 20, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        ease: "power3.out",
+        stagger: 0.15,
+        delay: 0.1,
+      }
+    );
+  };
+
+  const animateMenuClose = () => {
+    const gsap = window.gsap;
+
+    gsap.to(linksRef.current, {
+      y: 20,
+      opacity: 0,
+      duration: 0.1,
+      ease: "power3.out",
+      stagger: 0.08,
+    });
+  };
+
+  // Trigger animation when menu opens/closes
+  useEffect(() => {
+    if (isMenuOpen) animateMenuOpen();
+    else animateMenuClose();
+  }, [isMenuOpen]);
+
   const handleLogout = () => {
     logout();
-    window.location.href = '/';
+    window.location.href = "/";
   };
+
+  // Flowing hover animation refs
+const marqueeRefs = useRef([]);
+const marqueeInnerRefs = useRef([]);
+
+const animationDefaults = { duration: 0.6, ease: "expo.out" };
+
+const getClosestEdge = (mouseX, mouseY, width, height) => {
+  const top = (mouseX - width / 2) ** 2 + (mouseY - 0) ** 2;
+  const bottom = (mouseX - width / 2) ** 2 + (mouseY - height) ** 2;
+  return top < bottom ? "top" : "bottom";
+};
+
+const handleHoverEnter = (ev, i) => {
+  const gsap = window.gsap;
+  const rect = ev.currentTarget.getBoundingClientRect();
+  const x = ev.clientX - rect.left;
+  const y = ev.clientY - rect.top;
+  const edge = getClosestEdge(x, y, rect.width, rect.height);
+
+  gsap.timeline({ defaults: animationDefaults })
+    .set(marqueeRefs.current[i], { y: edge === "top" ? "-101%" : "101%" })
+    .set(marqueeInnerRefs.current[i], { y: edge === "top" ? "101%" : "-101%" })
+    .to([marqueeRefs.current[i], marqueeInnerRefs.current[i]], { y: "0%" });
+};
+
+const handleHoverLeave = (ev, i) => {
+  const gsap = window.gsap;
+  const rect = ev.currentTarget.getBoundingClientRect();
+  const x = ev.clientX - rect.left;
+  const y = ev.clientY - rect.top;
+  const edge = getClosestEdge(x, y, rect.width, rect.height);
+
+  gsap.timeline({ defaults: animationDefaults })
+    .to(marqueeRefs.current[i], { y: edge === "top" ? "-101%" : "101%" })
+    .to(marqueeInnerRefs.current[i], { y: edge === "top" ? "101%" : "-101%" });
+};
+
 
   return (
     <header className={`navbar ${isVisible ? "visible" : "hidden"}`}>
@@ -40,67 +116,96 @@ const Navbar = () => {
           <a href="/home">ZedCars</a>
         </div>
 
-        <nav className="nav-menu">
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
-          <a href="/inventory">Inventory</a>
-
-          {!user.isAuthenticated ? (
-            <a href="/auth/login">Login</a>
-          ) : (
-            <>
-              {user.role === 'Customer' && (
-                <>
-                  <a href="/purchaseaccessories">Accessories</a>
-                  <a href="/my-testdrives">My Test Drives</a>
-                  <a href="/my-purchases">My Purchases</a>
-                </>
-              )}
-              {user.role === 'SuperAdmin' && (
-                <a href="/dashboard2">Dashboard</a>
-              )}
-              <button onClick={handleLogout} className="logout-btn">
-                Logout
-              </button>
-            </>
-          )}
-        </nav>
-
-        <button
-          className={`nav-toggle ${isMenuOpen ? "open" : ""}`}
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        <div className="nav-actions">
+          <button
+            className={`menu-btn ${isMenuOpen ? "open" : ""}`}
+            onClick={() => setIsMenuOpen((s) => !s)}
+            aria-expanded={isMenuOpen}
+            aria-label="Toggle menu"
+          >
+            <span className="menu-label" style={{ color: "white" }}>
+              menu
+            </span>
+            <span className="menu-plus">
+              <span className="plus-h" style={{ color: "white", marginLeft: "2px" }}>
+                +
+              </span>
+            </span>
+          </button>
+        </div>
       </div>
 
+      {/* MOBILE NAV */}
       <div className={`mobile-nav ${isMenuOpen ? "active" : ""}`}>
-        <a href="/home" onClick={() => setIsMenuOpen(false)}>Home</a>
-        <a href="/aboout" onClick={() => setIsMenuOpen(false)}>About</a>
-        <a href="/contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
-        <a href="/inventory" onClick={() => setIsMenuOpen(false)}>Inventory</a>
-          {!user.isAuthenticated ? (
-            <a href="/auth/login">Login</a>
-          ) : (
-            <>
-              {user.role === 'Customer' && (
-                <>
-                  <a href="/purchaseaccessories">Accessories</a>
-                  <a href="/my-testdrives">My Test Drives</a>
-                  <a href="/my-purchases">My Purchases</a>
-                </>
-              )}
-              {user.role === 'SuperAdmin' && (
-                <a href="/dashboard2">Dashboard</a>
-              )}
-              <button onClick={handleLogout} className="logout-btn">
-                Logout
-              </button>
-            </>
-          )}
+
+        {[
+  // -----------------------------
+  // PUBLIC (BEFORE LOGIN)
+  // -----------------------------
+  { text: "Home", href: "/home", image: "https://picsum.photos/600/400?random=1", show: true },
+  { text: "Inventory", href: "/inventory", image: "https://picsum.photos/600/400?random=2", show: true },
+
+  // Show About + Contact ONLY before login
+  { text: "About", href: "/about", image: "https://picsum.photos/600/400?random=3", show: !user?.isAuthenticated },
+  { text: "Contact", href: "/contact", image: "https://picsum.photos/600/400?random=4", show: !user?.isAuthenticated },
+
+  // Login only when NOT logged in
+  { text: "Login", href: "/auth/login", image: "https://picsum.photos/600/400?random=5", show: !user?.isAuthenticated },
+
+  // -----------------------------
+  // LOGGED IN ITEMS
+  // -----------------------------
+  { text: "My Test Drive", href: "/my-testdrives", image: "https://picsum.photos/600/400?random=6", show: user?.isAuthenticated },
+  { text: "My Purchases", href: "/my-purchases", image: "https://picsum.photos/600/400?random=7", show: user?.isAuthenticated },
+  { text: "Accessories", href: "/accessories", image: "https://picsum.photos/600/400?random=8", show: user?.isAuthenticated },
+
+  // Logout
+  { text: "Logout", href: "/home", image: "https://picsum.photos/600/400?random=9", show: user?.isAuthenticated, logout: true },
+
+]
+  .filter(item => item.show)
+  .map((item, i) => (
+    <div
+      key={i}
+      className="flow-item"
+      onMouseEnter={(e) => handleHoverEnter(e, i)}
+      onMouseLeave={(e) => handleHoverLeave(e, i)}
+    >
+      <a
+        href={item.href}
+        className="flow-item-link"
+        ref={(el) => (linksRef.current[i] = el)}
+        onClick={() => {
+          setIsMenuOpen(false);
+
+          if (item.logout) {
+            logout();
+            navigate("/auth/login");
+          }
+        }}
+      >
+        {item.text}
+      </a>
+
+      <div className="flow-marquee" ref={(el) => (marqueeRefs.current[i] = el)}>
+        <div className="flow-marquee-inner" ref={(el) => (marqueeInnerRefs.current[i] = el)}>
+          {[...Array(4)].map((_, idx) => (
+            <React.Fragment key={idx}>
+              <span>{item.text}</span>
+              <div
+                className="flow-img"
+                style={{ backgroundImage: `url(${item.image})` }}
+              />
+            </React.Fragment>
+          ))}
+        </div>
       </div>
+    </div>
+  ))}
+
+      </div>
+
+
     </header>
   );
 };
