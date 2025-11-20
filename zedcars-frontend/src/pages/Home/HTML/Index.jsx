@@ -3,6 +3,10 @@ import '../CSS/index.css';
 import carVideo from "../../../assets/video/car_video.mp4"
 import heroVideo from "../../../assets/video/hero-video.mp4"
 import Scroller from "../../../components/layout/HTML/Scroller";
+import img from "../../../assets/images/backview.png";
+import accessoriesImg from "../../../assets/images/landingPage/accessories.png";
+import purchasecar from "../../../assets/images/landingPage/purchasecar.png";
+import testdrive from "../../../assets/images/landingPage/testdrive.png";
 
 const HomeIndex = () => {
   
@@ -279,36 +283,60 @@ const HomeIndex = () => {
     });
   };
 
-const slides = [
-  { title: "BMW", image: "https://imgs.search.brave.com/zdgNQorMcJlP4cq8vvVTV8Jg5AyWiQadv4wEl7li6Z8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzY1LzU0/LzNkLzY1NTQzZGVh/M2QzZDk1OGE5NzUz/MGMyMjM4YjE4YWE1/LmpwZw" },
-  { title: "Audi", image: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Audi_logo_2016.png" },
-  { title: "Mercedes", image: "https://imgs.search.brave.com/zdgNQorMcJlP4cq8vvVTV8Jg5AyWiQadv4wEl7li6Z8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzY1LzU0/LzNkLzY1NTQzZGVh/M2QzZDk1OGE5NzUz/MGMyMjM4YjE4YWE1/LmpwZw" },
-  { title: "Porsche", image: "https://pngimg.com/uploads/porsche_logo/porsche_logo_PNG12.png" },
-  { title: "Toyota", image: "https://imgs.search.brave.com/zdgNQorMcJlP4cq8vvVTV8Jg5AyWiQadv4wEl7li6Z8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzY1LzU0/LzNkLzY1NTQzZGVh/M2QzZDk1OGE5NzUz/MGMyMjM4YjE4YWE1/LmpwZw" },
-  { title: "Ferrari", image: "https://seeklogo.com/images/F/ferrari-logo-4E85EADFE9-seeklogo.png" }
-];
 
-const cards = [
-  {
-    title: "Native graphical user interfaces",
-    desc: "Interact with your operating system's interfaces with Electron's main process APIs. Customize your application window appearance, control application menus, or alert users through dialogs or notifications.",
-    imgFront: "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg",
-    imgBack: "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg"
-  },
-  {
-    title: "Automatic software updates",
-    desc: "Electron apps can automatically update themselves. Deliver new features and fixes instantly.",
-    imgFront: "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg",
-    imgBack: "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg"
-  },
-  {
-    title: "Cross-platform compatibility",
-    desc: "Build once and run everywhere. Electron enables developing apps for macOS, Windows and Linux.",
-    imgFront: "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg",
-    imgBack: "https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg"
-  }
-];
 
+function useDecryptOnScroll() {
+    useEffect(() => {
+        const letters = "___";
+
+        function decryptText(element) {
+            const finalText = element.dataset.text;
+            let iteration = 0;
+
+            element.style.opacity = 1;
+
+            const interval = setInterval(() => {
+                element.innerText = finalText
+                    .split("")
+                    .map((char, index) => {
+                        if (index < iteration) return finalText[index];
+                        return letters[Math.floor(Math.random() * letters.length)];
+                    })
+                    .join("");
+
+                if (iteration >= finalText.length) {
+                    clearInterval(interval);
+                }
+
+                iteration += 0.5; // speed
+            }, 20);
+        }
+
+        function checkScroll() {
+            const elements = document.querySelectorAll(".decrypt");
+
+            elements.forEach((el) => {
+                const rect = el.getBoundingClientRect();
+                if (
+                    rect.top < window.innerHeight - 100 &&
+                    !el.classList.contains("active")
+                ) {
+                    el.classList.add("active");
+                    decryptText(el);
+                }
+            });
+        }
+
+        window.addEventListener("scroll", checkScroll);
+        window.addEventListener("load", checkScroll);
+
+        return () => {
+            window.removeEventListener("scroll", checkScroll);
+            window.removeEventListener("load", checkScroll);
+        };
+    }, []);
+}
+useDecryptOnScroll();
 
   return (
     <div className="home-page">
@@ -416,26 +444,68 @@ const cards = [
         </div>
       </div> */}
 
-       <div className="cards-wrapper">
-      {cards.map((c, i) => (
-        <div key={i} className="card-container">
-          <div className="text-content">
-            <h2>{c.title}</h2>
-            <p>{c.desc}</p>
-          </div>
 
-          <div className="image-wrapper">
-            <img src={c.imgBack} alt="back" className="img-back" />
-            <img src={c.imgFront} alt="front" className="img-front" />
-          </div>
-        </div>
-      ))}
-    </div>
-      
       <div className="featured-brands">
         <Scroller />
       </div>
 
+
+      <div class="best-selling-brands">
+          <div class="div1"><h2>Hey</h2></div>
+          <div class="div2"><img src={img} alt="" /></div>
+          <div class="div3"><img src={img} alt="" /></div>
+          <div class="div4">4</div>
+      </div>
+     <div class="cards-wrapper">
+        <div class="card-container">
+        <div class="text-content">
+          <h2 class="decrypt" data-text="Purchase cars along accessories">
+              Purchase cars along accessories
+          </h2>
+            <p>
+                Explore a wide range of cars and customize them with premium accessories to enhance comfort, performance, and style. Build your perfect car with ease.
+            </p>
+        </div>
+
+            <div class="image-wrapper">
+                <img class="img-back" src="https://colorate.azurewebsites.net/SwatchColor/E73939" />
+                <img class="img-front" src={purchasecar} />
+            </div>
+        </div>
+
+
+        <div class="card-container">
+            <div class="image-wrapper">
+                <img class="img-back" src="https://colorate.azurewebsites.net/SwatchColor/E73939" />
+                <img class="img-front" src={accessoriesImg} />
+            </div>
+            <div class="text-content">
+                <h2 class="decrypt" data-text="Standalone accessories purchase">
+                  Standalone accessories purchase
+                </h2>
+                <p>
+                    Buy high-quality car accessories individually without purchasing a vehicle. Choose from a wide selection of interior, exterior, and performance add-ons.
+                </p>
+            </div>
+        </div>
+
+
+        <div class="card-container">
+          <div class="text-content">
+            <h2 class="decrypt" data-text="TestDrive booking for car">
+                TestDrive booking for car
+            </h2>
+              <p>
+                  Easily schedule a test drive for any car of your choice. Experience the vehicle firsthand before making your purchase decision.
+              </p>
+          </div>
+
+            <div class="image-wrapper">
+                <img class="img-back" src="https://colorate.azurewebsites.net/SwatchColor/E73939" />
+                <img class="img-front" src={testdrive} />
+            </div>
+        </div>
+      </div>
     </div>
   );
 };
