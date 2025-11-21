@@ -262,93 +262,114 @@ const Dashboard2 = () => {
 
             <div className="admin-table-main">
             {/* Recent Inventory Section */}
+              {/* ==================== RECENT INVENTORY TABLE ==================== */}
               <div className="admin-section-responsive">
-              <div className="section-header">
-                <h2>Recent Inventory</h2>
-                <a href="/Admin/Inventory" className="view-all">
-                  View All
-                </a>
-              </div>
+                <div className="section-header">
+                  <h2>Recent Inventory</h2>
+                  <a href="/Admin/Inventory" className="view-all">View All →</a>
+                </div>
 
-
-              <table className="table table-bordered text-center">
-                <thead className="table-light">
-                  <tr>
-                    <th>Vehicle</th>
-                    <th>Transmission</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Added Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {dashboard.recentInventory?.length > 0 ? (
-                    dashboard.recentInventory.map((car, i) => (
-                      <tr key={i}>
-                        <td>
-                          {car.brand} {car.model}
-                        </td>
-                        <td>{car.transmission}</td>
-                        <td>{car.stockQuantity}</td>
-                        <td>${car.price}</td>
-                        <td>
-                          {new Date(car.createdDate).toLocaleDateString()}
-                        </td>
+                <div className="table-responsive-wrapper">
+                  <table className="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Vehicle</th>
+                        <th>Transmission</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Added Date</th>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="5">No recent inventory</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody>
+                      {dashboard.recentInventory?.length > 0 ? (
+                        dashboard.recentInventory.map((car, i) => (
+                          <tr key={i}>
+                            <td data-label="Vehicle">
+                              <strong>{car.brand} {car.model}</strong>
+                            </td>
+                            <td data-label="Transmission">{car.transmission}</td>
+                            <td data-label="Quantity">
+                              <span className="badge-stock">{car.stockQuantity}</span>
+                            </td>
+                            <td data-label="Price">
+                              <strong className="text-success">${Number(car.price).toLocaleString()}</strong>
+                            </td>
+                            <td data-label="Added Date">
+                              {new Date(car.createdDate).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              })}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="5" className="no-data">
+                            No recent inventory added
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
 
-
-              {/* Recent Test Drives */}
+              {/* ==================== RECENT TEST DRIVES TABLE ==================== */}
               <div className="admin-section-responsive">
-              <div className="section-header">
-                <h2>Recent Test Drives</h2>
-              </div>
+                <div className="section-header">
+                  <h2>Recent Test Drives</h2>
+                </div>
 
-
-              <table className="table table-bordered text-center">
-                <thead className="table-light">
-                  <tr>
-                    <th>Name</th>
-                    <th>Vehicle</th>
-                    <th>Date</th>
-                    <th>Phone</th>
-                    <th>Timeslot</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-
-
-                <tbody>
-                  {dashboard.recentBookings?.length > 0 ? (
-                    dashboard.recentBookings.map((td, i) => (
-                      <tr key={i}>
-                        <td>{td.customerName}</td>
-                        <td>
-                          {td.car?.brand} - {td.car?.model}
-                        </td>
-                        <td>
-                          {new Date(td.bookingDate).toLocaleDateString()}
-                        </td>
-                        <td>{td.customerPhone}</td>
-                        <td>{td.timeSlot}</td>
-                        <td>{td.status}</td>
+                <div className="table-responsive-wrapper">
+                  <table className="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Customer</th>
+                        <th>Vehicle</th>
+                        <th>Date</th>
+                        <th>Phone</th>
+                        <th>Time Slot</th>
+                        <th>Status</th>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="6">No test drives found</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody>
+                      {dashboard.recentBookings?.length > 0 ? (
+                        dashboard.recentBookings.map((booking, i) => (
+                          <tr key={i}>
+                            <td data-label="Customer">
+                              <div className="customer-name">
+                                {booking.customerName}
+                              </div>
+                            </td>
+                            <td data-label="Vehicle">
+                              {booking.car?.brand} {booking.car?.model}
+                            </td>
+                            <td data-label="Date">
+                              {new Date(booking.bookingDate).toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                              })}
+                            </td>
+                            <td data-label="Phone">{booking.customerPhone}</td>
+                            <td data-label="Time Slot">{booking.timeSlot}</td>
+                            <td data-label="Status">
+                              <span className={`status-badge status-${booking.status.toLowerCase()}`}>
+                                {booking.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="6" className="no-data">
+                            No recent test drives
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
 
