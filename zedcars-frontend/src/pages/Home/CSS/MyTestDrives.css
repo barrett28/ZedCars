@@ -114,9 +114,9 @@
   color: #2c3e50;
 }
 
-.car-image {
-  width: 120px;
-  height: 180px;
+.car-image-testdrive {
+  width: 229px;
+  height: 155px;
   overflow: hidden;
   border-radius: 8px;
   flex-shrink: 0;
@@ -317,6 +317,10 @@
   
   .header h2 {
     font-size: 2rem;
+  }
+  
+  .header{
+    margin-top: 6vh;
   }
 }
 

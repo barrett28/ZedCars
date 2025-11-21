@@ -80,7 +80,7 @@ const MyTestDrives = () => {
                       <strong>Booking Date:</strong> {new Date(testDrive.bookingDate).toLocaleDateString()}
                     </p>
                   </div>
-                  <div className="car-image">
+                  <div className="car-image-testdrive">
                     <img 
                       src={testDrive.car?.imageUrl} 
                       alt={testDrive.car?.model}

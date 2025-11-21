@@ -1,14 +1,14 @@
 import React from "react";
-import "../CSS/Footer.css";
+import "../CSS/Footer2.css";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
-const Footer = () => {
+const Footer2 = () => {
   return (
-    <footer className="footer">
-      <div className="footer-wave"></div>
+    <footer className="footer2">
+      <div className="footer-wave2"></div>
 
-      <div className="footer-content">
-        <div className="footer-section about">
+      <div className="footer-content2">
+        <div className="footer-section2 about">
           <h2>ZedCars</h2>
           <p>
             Premium cars, trusted service, and unmatched experience.  
@@ -16,8 +16,8 @@ const Footer = () => {
           </p>
         </div>
 
-        <div className="footer-section links">
-          <h3>Quick Links</h3>
+        <div className="footer-section2 links">
+            <h3>Quick Links</h3>
           <ul>
             <li><a href="/home">Home</a></li>
             <li><a href="/about">About</a></li>
@@ -27,13 +27,13 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div className="footer-section contact">
-          <h3>Get in Touch</h3>
+        <div className="footer-section2 contact">
+          <h3>Location</h3>
           <p>📍 Pune, Maharashtra</p>
           <p>📞 +91 98765 43210</p>
           <p>✉️ info@zedcars.com</p>
 
-          <div className="footer-socials">
+          <div className="footer-socials2">
             <a href="#"><FaFacebookF /></a>
             <a href="#"><FaTwitter /></a>
             <a href="#"><FaInstagram /></a>
@@ -41,12 +41,9 @@ const Footer = () => {
           </div>
         </div>
       </div>
-
-      {/* <div className="footer-bottom">
-        <p>© 2025 ZedCars. All rights reserved.</p>
-      </div> */}
     </footer> 
   );
 };
 
-export default Footer;
+export default Footer2;
+
