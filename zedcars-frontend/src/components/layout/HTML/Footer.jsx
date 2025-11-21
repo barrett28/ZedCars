@@ -28,11 +28,10 @@ const Footer = () => {
         </div>
 
         <div className="footer-section contact">
-          <h3>Get in Touch</h3>
-          <p>📍 Pune, Maharashtra</p>
-          <p>📞 +91 98765 43210</p>
-          <p>✉️ info@zedcars.com</p>
-
+          <h3>Location</h3>
+          <p><i className="bi bi-pin-map"></i> Pune, Maharashtra</p>
+          <p><i className="bi bi-telephone"></i> +91 98765 43210</p>
+          <p><i className="bi bi-envelope align-items-center"></i> info@zedcars.com</p>
           <div className="footer-socials">
             <a href="#"><FaFacebookF /></a>
             <a href="#"><FaTwitter /></a>
