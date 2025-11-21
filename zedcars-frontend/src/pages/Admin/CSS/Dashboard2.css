@@ -207,9 +207,12 @@
 
 .admin-table-main{
     display: flex;
-    justify-content: center;
-    align-items: start;
-    gap: 15px;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 
@@ -310,4 +313,237 @@
     .card-content h3 {
         font-size: 24px;
     }
+}
+
+
+/* ==================== LATEST ACTIVITY – MODERN & RESPONSIVE (2025 STYLE) ==================== */
+
+.user-activity-section.refined {
+  background: white;
+  border-radius: 18px;
+  padding: 28px;
+  margin: 40px 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f1f5f9;
+  overflow: hidden;
+}
+
+.ua-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid #f8fafc;
+}
+
+.ua-header h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ua-view-all {
+  color: #6366f1;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.ua-view-all:hover {
+  color: #4f46e6;
+  text-decoration: underline;
+}
+
+/* Grid – Responsive from 1 to 3 columns */
+.ua-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+/* Individual Activity Card – Elevated & Modern */
+.ua-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Left accent border on hover */
+.ua-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(180deg, #6366f1, #8b5cf6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.ua-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  border-color: #c7d2fe;
+}
+
+.ua-card:hover::before {
+  opacity: 1;
+}
+
+/* Icon Circle – Bigger & Better */
+.ua-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.6rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  background: white;
+}
+
+/* Icon Colors – Keep your existing text-success, text-primary, etc. */
+.ua-icon.text-success  { background: #ecfdf5; }
+.ua-icon.text-primary  { background: #eef2ff; }
+.ua-icon.text-warning  { background: #fffbeb; }
+.ua-icon.text-info     { background: #ecfeff; }
+.ua-icon.text-secondary{ background: #f1f5f9; }
+
+/* Card Body */
+.ua-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ua-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.ua-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.ua-time {
+  font-size: 0.82rem;
+  color: #64748b;
+  white-space: nowrap;
+  background: #f8fafc;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.ua-user {
+  font-size: 0.95rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.ua-desc {
+  margin: 6px 0;
+  font-size: 0.92rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* Badge – Modern pill style */
+.ua-card .badge {
+  align-self: flex-start;
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ua-card .badge.bg-success { background: #d1fae5 !important; color: #065f46; }
+.ua-card .badge.bg-danger  { background: #fee2e2 !important; color: #991b1b; }
+
+/* Empty State */
+.ua-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 70px 20px;
+  color: #94a3b8;
+}
+
+.ua-empty i {
+  font-size: 4.5rem;
+  margin-bottom: 16px;
+  opacity: 0.4;
+}
+
+/* ==================== RESPONSIVE BREAKPOINTS ==================== */
+@media (max-width: 992px) {
+  .ua-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-activity-section.refined {
+    margin: 20px 16px;
+    padding: 20px;
+  }
+
+  .ua-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .ua-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .ua-card {
+    padding: 18px;
+  }
+
+  .ua-icon {
+    width: 52px;
+    height: 52px;
+    font-size: 1.4rem;
+  }
+
+  .ua-title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ua-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .ua-time {
+    align-self: flex-start;
+  }
 }
