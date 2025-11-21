@@ -23,8 +23,12 @@ const AddVehicle = () => {
   const [message, setMessage] = useState({ type: "", text: "" });
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if ((name === 'price' || name === 'stockQuantity' || name === 'mileage') && value < 0) return;
+    if (name === 'year' && (value < 1900 || value > 2030)) return;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,17 +101,17 @@ const AddVehicle = () => {
 
               <div className="admin-form-group">
                 <label>Year</label>
-                <input type="number" name="year" value={formData.year} onChange={handleChange} />
+                <input type="number" name="year" value={formData.year} onChange={handleChange} min="1900" max="2030" />
               </div>
 
               <div className="admin-form-group">
                 <label>Price ($)</label>
-                <input type="number" step="0.01" name="price" value={formData.price} onChange={handleChange} required />
+                <input type="number" step="0.01" name="price" value={formData.price} onChange={handleChange} min="0" required />
               </div>
 
               <div className="admin-form-group">
                 <label>Stock Quantity</label>
-                <input type="number" name="stockQuantity" value={formData.stockQuantity} onChange={handleChange} />
+                <input type="number" name="stockQuantity" value={formData.stockQuantity} onChange={handleChange} min="0" />
               </div>
 
               <div className="admin-form-group">
@@ -138,7 +142,7 @@ const AddVehicle = () => {
 
               <div className="admin-form-group">
                 <label>Mileage (MPG)</label>
-                <input type="number" name="mileage" value={formData.mileage} onChange={handleChange} />
+                <input type="number" name="mileage" value={formData.mileage} onChange={handleChange} min="0" />
               </div>
             </div>
 
