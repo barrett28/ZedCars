@@ -99,14 +99,69 @@
     color: white;
 } */
 
-.dashboard-overview {
+.dashboard-grid-container {
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-    padding: 20px;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     color: black;
+    margin-top: 8vh;
 }
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.grid-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+    transition: 0.2s ease;
+}
+
+.grid-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+.grid-card .label {
+    margin: 0;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.grid-card .value {
+    margin: 0;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+/* Icons responsive */
+.grid-card i {
+    font-size: 40px;
+}
+
+/* Responsive Grid */
+@media (max-width: 992px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 
 .analytics-section {
     background: white;
@@ -125,7 +180,7 @@
 
 .analytics-chart {
     width: 100%;
-    max-width: 87vw;
+    /* max-width: 87vw; */
     height: 400px;
     margin: 0 auto;
     background: white;
@@ -134,10 +189,11 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     display: flex;
     justify-content: center;
+    align-items: center;
 }
-.analytics-chart canvas{
-  padding: 20px;
-  max-width: 70vw;
+#stockSoldChart{
+  height: auto;
+  width: auto;
   /* margin-left: 4vw; */
   /* margin: auto; */
 }

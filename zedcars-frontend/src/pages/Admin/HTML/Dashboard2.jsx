@@ -142,108 +142,77 @@ const Dashboard2 = () => {
       <div className="dashboard2-overview">
         {activeTab === "dashboard2" && (
           <>
-         <div className="dashboard-overview">
-          <h2 className="mb-4">📊 Dashboard Overview</h2>
+        
+<div className="dashboard-grid-container">
+  <h2 className="mb-4">📊 Dashboard Overview</h2>
 
+  <div className="dashboard-grid">
+    <div className="grid-card">
+      <i className="bi bi-car-front-fill text-primary fs-1"></i>
+      <div>
+        <p className="label">Total Vehicles</p>
+        <h3 className="value">{dashboard.totalCars || 0}</h3>
+      </div>
+    </div>
 
-          <div className="row g-4">
-            <div className="col-md-3">
-              <div className="card shadow-sm border-1 rounded-3 h-100">
-                <div className="card-body d-flex align-items-center">
-                  <i className="bi bi-car-front-fill text-primary fs-1 me-3"></i>
-                  <div>
-                    <div className="fw-semibold text-muted">Total Vehicles</div>
-                    <div className="fs-4 fw-bold text-center">{dashboard.totalCars || 0}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div className="grid-card">
+      <i className="bi bi-check-circle-fill text-info fs-1"></i>
+      <div>
+        <p className="label">Available Cars</p>
+        <h3 className="value">{dashboard.activeVehicles || 0}</h3>
+      </div>
+    </div>
 
+    <div className="grid-card">
+      <i className="bi bi-cash-stack text-success fs-1"></i>
+      <div>
+        <p className="label">Car Inventory</p>
+        <h3 className="value">${dashboard.vehiclePrice || 0}</h3>
+      </div>
+    </div>
 
-            <div className="col-md-3">
-              <div className="card shadow-sm border-1 rounded-3 h-100">
-                <div className="card-body d-flex align-items-center">
-                  <i className="bi bi-check-circle-fill text-info fs-1 me-3"></i>
-                  <div>
-                    <div className="fw-semibold text-muted">Available Cars</div>
-                    <div className="fs-4 fw-bold text-center">{dashboard.activeVehicles || 0}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div className="grid-card">
+      <i className="bi bi-currency-dollar text-success fs-1"></i>
+      <div>
+        <p className="label">Car Sales</p>
+        <h3 className="value">${(dashboard.totalSales || 0).toFixed(2)}</h3>
+      </div>
+    </div>
 
+    <div className="grid-card">
+      <i className="bi bi-grid-fill text-success fs-1"></i>
+      <div>
+        <p className="label">Vehicle Brands</p>
+        <h3 className="value">8</h3>
+      </div>
+    </div>
 
-            <div className="col-md-3">
-              <div className="card shadow-sm border-1 rounded-3 h-100">
-                <div className="card-body d-flex align-items-center">
-                  <i className="bi bi-cash-stack text-success fs-1 me-3"></i>
-                  <div>
-                    <div className="fw-semibold text-muted">Car Inventory</div>
-                    <div className="fs-4 fw-bold text-center">${dashboard.vehiclePrice || 0}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div className="grid-card">
+      <i className="bi bi-people-fill text-warning fs-1"></i>
+      <div>
+        <p className="label">Total Users</p>
+        <h3 className="value">{dashboard.totalUsers || 0}</h3>
+      </div>
+    </div>
 
+    <div className="grid-card">
+      <i className="bi bi-box-seam-fill text-danger fs-1"></i>
+      <div>
+        <p className="label">Accessory Inventory</p>
+        <h3 className="value">${dashboard.accessoriesTotal || 0}</h3>
+      </div>
+    </div>
 
-            <div className="col-md-3">
-              <div className="card shadow-sm border-1 rounded-3 h-100">
-                <div className="card-body d-flex align-items-center">
-                  <i className="bi bi-currency-dollar text-success fs-1 me-3"></i>
-                  <div>
-                    <div className="fw-semibold text-muted">Car Sales</div>
-                    <div className="fs-4 fw-bold text-center">${(dashboard.totalSales || 0).toFixed(2)}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="grid-card">
+      <i className="bi bi-graph-up-arrow text-danger fs-1"></i>
+      <div>
+        <p className="label">Accessory Sales</p>
+        <h3 className="value">${dashboard.accessoriesSales || 0}</h3>
+      </div>
+    </div>
+  </div>
+</div>
 
-
-          <div className="row g-4 mt-2">
-            <div className="col-md-3">
-              <div className="card text-center shadow-sm border-1 rounded-3 h-100">
-                <div className="card-body">
-                  <div className="fs-3 fw-bold text-success text-center">8</div>
-                  <div className="text-muted">Vehicle Brands</div>
-                </div>
-              </div>
-            </div>
-
-
-            <div className="col-md-3">
-              <div className="card shadow-sm border-1 rounded-3 h-100">
-                <div className="card-body d-flex align-items-center">
-                  <i className="bi bi-people-fill text-warning fs-1 me-3"></i>
-                  <div>
-                    <div className="fs-4 fw-bold text-center">{dashboard.totalUsers || 0}</div>
-                    <div className="fw-semibold text-muted">Total Users</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-            <div className="col-md-3">
-              <div className="card text-center shadow-sm border-1 rounded-3 h-100">
-                <div className="card-body">
-                  <div className="fs-3 fw-bold text-danger text-center">${dashboard.accessoriesTotal || 0}</div>
-                  <div className="text-muted">Accessory Inventory</div>
-                </div>
-              </div>
-            </div>
-
-
-            <div className="col-md-3">
-              <div className="card text-center shadow-sm border-1 rounded-3 h-100">
-                <div className="card-body">
-                  <div className="fs-3 fw-bold text-danger text-center">${dashboard.accessoriesSales || 0}</div>
-                  <div className="text-muted">Accessory Sales</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
        
 
 
