@@ -139,6 +139,49 @@ const HomeIndex = () => {
       .to("#card-two", { width: "70%", height: "70vh" }, 'c');
 
     ScrollTrigger.refresh();
+
+
+    // NEW: Animate .card-container children on scroll
+    gsap.utils.toArray(".card-container").forEach((container) => {
+      const textContent = container.querySelector(".text-content");
+      const imageWrapper = container.querySelector(".image-wrapper");
+
+      // Set initial state
+      gsap.set([textContent, imageWrapper], { 
+        y: 120,
+        opacity: 0 
+      });
+
+      gsap.set(textContent, { x: -80 });   // Start from bottom-left
+      gsap.set(imageWrapper, { x: 80 });   // Start from bottom-right
+
+      // Create timeline for each card
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: "top 60%",   
+          end: "top 50%",
+          // scrub: true,
+          toggleActions: "play none none reverse",
+          // markers: true,   // Remove in production
+        }
+      });
+
+      tl.to(textContent, {
+        x: 0,
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power3.out"
+      }, 0)
+      .to(imageWrapper, {
+        x: 0,
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power3.out"
+      }, 0.15);
+    });
   };
 
   const initializeAccordion = () => {
@@ -386,11 +429,21 @@ useDecryptOnScroll();
         </div>
       </div>
 
-      <div className="hover-container">
+      {/* <div className="hover-container">
         <div className="heading">
           <h2><span style={{color:'#FFC43A'}}>Command</span> Attention</h2>
           <h2>with <br /> the <span style={{color:'#FFC43A'}}>ZedCars</span> <button className='btn btn-primary'>Browse Inventory</button></h2>
         </div>
+      </div> */}
+
+      <div className="heading">
+        <h2>
+          <span>Command</span> Attention
+        </h2>
+        <h2>
+          with the <span>ZedCars</span>
+          <button className="btn btn-primary">Browse Inventory</button>
+        </h2>
       </div>
 
       <div id="main">
@@ -468,7 +521,7 @@ useDecryptOnScroll();
         </div>
 
             <div class="image-wrapper">
-                <img class="img-back" src="https://colorate.azurewebsites.net/SwatchColor/E73939" />
+                <img class="img-back" src="https://colorate.azurewebsites.net/SwatchColor/FF5252" />
                 <img class="img-front" src={purchasecar} />
             </div>
         </div>
