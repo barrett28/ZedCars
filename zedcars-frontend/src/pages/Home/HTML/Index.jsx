@@ -429,21 +429,11 @@ useDecryptOnScroll();
         </div>
       </div>
 
-      {/* <div className="hover-container">
+      <div className="hover-container">
         <div className="heading">
           <h2><span style={{color:'#FFC43A'}}>Command</span> Attention</h2>
           <h2>with <br /> the <span style={{color:'#FFC43A'}}>ZedCars</span> <button className='btn btn-primary'>Browse Inventory</button></h2>
         </div>
-      </div> */}
-
-      <div className="heading">
-        <h2>
-          <span>Command</span> Attention
-        </h2>
-        <h2>
-          with the <span>ZedCars</span>
-          <button className="btn btn-primary">Browse Inventory</button>
-        </h2>
       </div>
 
       <div id="main">
