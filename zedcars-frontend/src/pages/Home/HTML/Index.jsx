@@ -7,8 +7,11 @@ import img from "../../../assets/images/backview.png";
 import accessoriesImg from "../../../assets/images/landingPage/accessories.png";
 import purchasecar from "../../../assets/images/landingPage/purchasecar.png";
 import testdrive from "../../../assets/images/landingPage/testdrive.png";
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const HomeIndex = () => {
+
+  const navigate = useNavigate();
   
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -92,31 +95,34 @@ const HomeIndex = () => {
     const { gsap, ScrollTrigger } = window;
     gsap.registerPlugin(ScrollTrigger);
 
-    gsap.to(".hero h1", { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
-    gsap.to(".hero h2", { opacity: 1, y: 0, duration: 1, delay: 0.3, ease: "power3.out" });
+    gsap.to(".hero h1", { opacity: 1, y: 0, duration: 1, ease: "power2.out" });
+    gsap.to(".hero h2", { opacity: 1, y: 0, duration: 1, delay: 0.4, ease: "power2.out" });
+
+    gsap.set(".info-box", { y: 0 });
 
     const heroTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".hero",
-        start: "top top",
-        end: "+=1200",
-        scrub: true,
-        pin: true,
-        onUpdate: (self) => {
-          if (self.progress === 0) {
-            gsap.set(".hero h1", { x: 0, y: 0, opacity: 1 });
-            gsap.set(".hero h2", { x: 0, y: 0, opacity: 1 });
-            gsap.set(".info-box", { bottom: "-183%" });
-          }
-        }
-      },
-    });
+    scrollTrigger: {
+    trigger: ".hero",
+    start: "top top",
+    end: "+=1200",
+    scrub: 1,
+    pin: true,
+    anticipatePin: 1,
 
-    heroTimeline
-      .to(".hero h1", { x: "-100vw", ease: "power1.out" }, 0)
-      .to(".hero h2", { x: "100vw", ease: "power1.out" }, 0)
-      .to(".info-box", { bottom: "50%", ease: "power1.out" }, 0)
-      .to(".video-overlay", {backgroundColor: "black", ease:"power1.out"}, 0);
+    onEnterBack: () => {
+      gsap.set(".hero h1", { x: 0, y: 0, opacity: 1 });
+      gsap.set(".hero h2", { x: 0, y: 0, opacity: 1 });
+      gsap.set(".info-box", { y: 0 });
+    }
+  }
+});
+
+// Super-smooth transform-based animations
+heroTimeline
+  .to(".hero h1", { x: "-100vw", ease: "none" }, 0)
+  .to(".hero h2", { x: "100vw", ease: "none" }, 0)
+  .to(".info-box", { y: "-130%", ease: "none" }, 0)
+  .to(".video-overlay", { backgroundColor: "black", ease: "none" }, 0);
 
     const cardsTimeline = gsap.timeline({
       scrollTrigger: {
@@ -184,18 +190,22 @@ const HomeIndex = () => {
     });
   };
 
-  const initializeAccordion = () => {
-    const headers = document.querySelectorAll('.accordion-header');
-    headers.forEach(header => {
-      header.addEventListener('click', () => {
-        const item = header.parentElement;
-        document.querySelectorAll('.accordion-item').forEach(i => {
-          if (i !== item) i.classList.remove('active');
-        });
-        item.classList.toggle('active');
-      });
+const initializeAccordion = () => {
+  const accordion = document.querySelector('.accordion');
+
+  accordion.addEventListener('click', (e) => {
+    const header = e.target.closest('.accordion-header');
+    if (!header) return;
+
+    const item = header.parentElement;
+
+    document.querySelectorAll('.accordion-item').forEach(i => {
+      if (i !== item) i.classList.remove('active');
     });
-  };
+
+    item.classList.toggle('active');
+  });
+};
 
   const initializeSlider = () => {
     const slides = Array.from(document.querySelectorAll(".slide"));
@@ -402,25 +412,37 @@ useDecryptOnScroll();
           </div>
           <div className="accordion">
             <div className="accordion-item">
-              <button className="accordion-header">Performance Cars</button>
+              <button className="accordion-header">
+                <span>Performance Cars</span>
+                <span className="accordion-icon">+</span>
+              </button>
               <div className="accordion-content">
                 <p>Unleash precision engineering and thrilling performance on every road.</p>
               </div>
             </div>
             <div className="accordion-item">
-              <button className="accordion-header">Luxury Cars</button>
+              <button className="accordion-header">
+                <span>Luxury Cars</span>
+                <span className="accordion-icon">+</span>
+              </button>
               <div className="accordion-content">
                 <p>Experience elegance and craftsmanship crafted to perfection.</p>
               </div>
             </div>
             <div className="accordion-item">
-              <button className="accordion-header">SUVs & Family</button>
+              <button className="accordion-header">
+                <span>SUVs & Family</span>
+                <span className="accordion-icon">+</span>
+              </button>
               <div className="accordion-content">
                 <p>Space, power, and comfort — designed for every adventure.</p>
               </div>
             </div>
             <div className="accordion-item">
-              <button className="accordion-header">Electric Cars</button>
+              <button className="accordion-header">
+                <span>Electric Cars</span>
+                <span className="accordion-icon">+</span>
+              </button>
               <div className="accordion-content">
                 <p>Step into the future with advanced electric technology and innovation.</p>
               </div>
@@ -432,7 +454,7 @@ useDecryptOnScroll();
       <div className="hover-container">
         <div className="heading">
           <h2><span style={{color:'#FFC43A'}}>Command</span> Attention</h2>
-          <h2>with <br /> the <span style={{color:'#FFC43A'}}>ZedCars</span> <button className='btn btn-primary'>Browse Inventory</button></h2>
+          <h2>with <br /> the <span style={{color:'#FFC43A'}}>ZedCars</span> <button className='btn btn-primary' onClick={()=>navigate("/inventory")}>Browse Inventory</button></h2>
         </div>
       </div>
 
