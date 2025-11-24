@@ -106,7 +106,7 @@ const ManageAccessories = () => {
             <option value="Safety">Safety</option>
             <option value="Maintenance">Maintenance</option>
           </select>
-          <button className="btn btn-primary" onClick={() => navigate('/admin/add-accessory')}>
+          <button className="btn btn-primary" onClick={() => navigate('/Admin/AddAccessory')}>
             Add New Accessory
           </button>
         </div>

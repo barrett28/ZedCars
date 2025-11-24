@@ -63,10 +63,17 @@ const EditVehicle = () => {
   }, [id]);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    // setFormData({
+    //   ...formData,
+    //   [e.target.name]: e.target.value
+    // });
+    const { name, value } = e.target;
+    if (name === 'color') {
+      const lettersOnly = value.replace(/[^a-zA-Z\s]/g, '');
+      setFormData({ ...formData, [name]: lettersOnly });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {

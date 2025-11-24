@@ -1,11 +1,11 @@
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace ZedCars.Net8.Migrations
 {
     /// <inheritdoc />
-    public partial class AddUniqueConstraintToRefreshToken : Migration
+    public partial class AddUniqueConstraintforRefreshToken : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,3 +74,6 @@ namespace ZedCars.Net8.Migrations
         }
     }
 }
+
+
+

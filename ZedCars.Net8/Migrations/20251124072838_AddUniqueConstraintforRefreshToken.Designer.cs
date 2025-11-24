@@ -11,8 +11,8 @@ using ZedCars.Net8.Data;
 namespace ZedCars.Net8.Migrations
 {
     [DbContext(typeof(ZedCarsContext))]
-    [Migration("20251124063239_AddUniqueConstraintToRefreshToken")]
-    partial class AddUniqueConstraintToRefreshToken
+    [Migration("20251124072838_AddUniqueConstraintforRefreshToken")]
+    partial class AddUniqueConstraintforRefreshToken
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

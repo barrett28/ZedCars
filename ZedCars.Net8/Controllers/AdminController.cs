@@ -198,12 +198,39 @@ namespace ZedCars.Net8.Controllers
         [HttpPost("users")]
         public async Task<IActionResult> CreateUser([FromBody] Admin admin)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage);
 
-            await _adminRepository.CreateAdminAsync(admin);
-            return CreatedAtAction(nameof(GetUser), new { id = admin.AdminId }, admin);
+                    return BadRequest(new
+                    {
+                        message = "Validation failed",
+                        errors = errors
+                    });
+                }
+
+                await _adminRepository.CreateAdminAsync(admin);
+
+                return CreatedAtAction(
+                    nameof(GetUser),
+                    new { id = admin.AdminId },
+                    admin
+                );
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = $"Error creating user: {ex.Message}",
+                    innerException = ex.InnerException?.Message
+                });
+            }
         }
+
 
         [HttpPut("users/{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] Admin admin)

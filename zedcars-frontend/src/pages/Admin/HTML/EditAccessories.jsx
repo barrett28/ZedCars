@@ -49,10 +49,15 @@ const EditAccessories = () => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    if (name === 'name' || name === 'category') {
+      const lettersOnly = value.replace(/[^a-zA-Z\s]/g, '');
+      setFormData((prev) => ({ ...prev, [name]: lettersOnly }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {

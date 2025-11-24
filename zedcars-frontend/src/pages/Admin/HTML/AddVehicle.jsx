@@ -27,7 +27,12 @@ const AddVehicle = () => {
     const { name, value } = e.target;
     if ((name === 'price' || name === 'stockQuantity' || name === 'mileage') && value < 0) return;
     if (name === 'year' && (value < 1900 || value > 2030)) return;
-    setFormData({ ...formData, [name]: value });
+    if (name === 'color') {
+      const lettersOnly = value.replace(/[^a-zA-Z\s]/g, '');
+      setFormData({ ...formData, [name]: lettersOnly });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -46,7 +51,7 @@ const AddVehicle = () => {
 
   return (
     <div className="admin-add-vehicle-page">
-      <header className="admin-header">
+      {/* <header className="admin-header">
         <h1>Add New Vehicle</h1>
         <p>Add a new vehicle to your inventory.</p>
         <div className="admin-actions">
@@ -57,7 +62,7 @@ const AddVehicle = () => {
             View Inventory
           </button>
         </div>
-      </header>
+      </header> */}
 
       {message.text && (
         <div className={`admin-alert ${message.type === "success" ? "admin-alert-success" : "admin-alert-danger"}`}>

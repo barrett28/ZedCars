@@ -21,10 +21,18 @@ const AddUser = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
+    if (name === 'fullName') {
+      const lettersOnly = value.replace(/[^a-zA-Z\s]/g, '');
+      setFormData(prev => ({ ...prev, [name]: lettersOnly }));
+    } else if (name === 'phoneNumber') {
+      const numbersOnly = value.replace(/[^0-9]/g, '');
+      setFormData(prev => ({ ...prev, [name]: numbersOnly }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value
+      }));
+    }
   };
 
   const validateForm = () => {
@@ -44,10 +52,13 @@ const AddUser = () => {
     if (!validateForm()) return;
 
     setLoading(true);
+    console.log("Sending user data:", formData); // Debug log
     try {
-      await apiClient.post("/admin/users", formData);
+      const response = await apiClient.post("/admin/users", formData);
+      console.log("User created successfully:", response.data); // Debug log
       navigate("/admin/users");
     } catch (err) {
+      console.error("Error creating user:", err.response?.data || err.message); // Debug log
       alert(err.response?.data?.message || "Failed to create user");
     } finally {
       setLoading(false);
