@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import apiClient from '../../../api/apiClient';
-import '../CSS/Purchase.css';
+import { validators, validateForm } from '../../../utils/validation';import '../CSS/Purchase.css';
 
 const Purchase = () => {
   const { id } = useParams();
@@ -14,6 +14,7 @@ const Purchase = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
   
   const [formData, setFormData] = useState({
     carId: parseInt(id),
@@ -48,7 +49,10 @@ const Purchase = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    if (name === 'purchaseQuantity' && value < 1) return;    setFormData(prev => ({ ...prev, [name]: value }));
+    if (validationErrors[name]) {
+      setValidationErrors(prev => ({ ...prev, [name]: null }));
+    }
   };
 
   const handleAccessoryChange = (accessoryName, isChecked) => {
@@ -76,6 +80,26 @@ const Purchase = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
+    
+    
+    const validationRules = {
+      buyerName: [validators.required, validators.minLength(2)],
+      buyerEmail: [validators.required, validators.email],
+      purchaseQuantity: [validators.required, (value) => {
+        const num = parseInt(value);
+        if (num < 1) return "Quantity must be at least 1";
+        if (num > car.stockQuantity) return `Only ${car.stockQuantity} available`;
+        return null;
+      }]
+    };
+
+    const errors = validateForm(formData, validationRules);
+    
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      setSubmitting(false);
+      return;
+    }
     
     try {
       const response = await apiClient.post('/home/purchase', formData);
@@ -126,7 +150,7 @@ const Purchase = () => {
               value={formData.buyerName}
               onChange={handleInputChange}
               required
-              placeholder="Enter your name"
+            {...validationErrors.buyerName && <span className="error-text">{validationErrors.buyerName}</span>}              placeholder="Enter your name"
             />
           </div>
 
@@ -137,7 +161,7 @@ const Purchase = () => {
               name="buyerEmail"
               value={formData.buyerEmail}
               onChange={handleInputChange}
-              required
+            {...validationErrors.buyerEmail && <span className="error-text">{validationErrors.buyerEmail}</span>}              required
               placeholder="Enter your email"
             />
           </div>
@@ -149,7 +173,7 @@ const Purchase = () => {
               name="purchaseQuantity"
               value={formData.purchaseQuantity}
               onChange={handleInputChange}
-              min="1"
+            {...validationErrors.purchaseQuantity && <span className="error-text">{validationErrors.purchaseQuantity}</span>}              min="1"
               max={car.stockQuantity}
               required
             />

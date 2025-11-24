@@ -16,6 +16,7 @@
 .car-info-section {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 30px;
   gap: 30px;
 }
@@ -321,4 +322,11 @@
     opacity: 1;
     transform: scale(1);
   }
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 0.875rem;
+  display: block;
+  margin-top: 5px;
 }
