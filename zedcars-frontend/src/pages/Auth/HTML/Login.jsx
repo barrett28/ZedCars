@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import { decodeJWT } from "../../../utils/jwtUtils";
 import apiClient from "../../../api/apiClient";
-import "../CSS/Login.css";
+import { validators, validateForm } from "../../../utils/validation";import "../CSS/Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,14 +11,29 @@ const Login = () => {
   const [form, setForm] = useState({ username: "", password: "", remember: false });
   const [error, setError] = useState("");
 
-  const handleChange = (e) => {
+  const [validationErrors, setValidationErrors] = useState({});  const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
-  const handleSubmit = async (e) => {
+    if (validationErrors[name]) {
+      setValidationErrors(prev => ({ ...prev, [name]: null }));
+    }  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+
+    const validationRules = {
+      username: [validators.required, validators.minLength(3)],
+      password: [validators.required, validators.minLength(6)]
+    };
+
+    const errors = validateForm(form, validationRules);
+    
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
 
     try {
       const response = await apiClient.post("/Auth/login", {
@@ -70,7 +85,7 @@ const Login = () => {
               autoComplete="username"
             />
           </div>
-
+            {validationErrors.username && <span className="error-text">{validationErrors.username}</span>}
           <div className="login-form-group">
             <label htmlFor="password">Password</label>
             <input
@@ -83,7 +98,7 @@ const Login = () => {
               required
               autoComplete="current-password"
             />
-          </div>
+            {validationErrors.password && <span className="error-text">{validationErrors.password}</span>}          </div>
 
           <div className="login-form-group remember-me">
             <input

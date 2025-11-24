@@ -143,3 +143,10 @@
   background-color: #4338ca;
   transform: translateY(-1px);
 }
+
+.error-text {
+  color: #dc3545;
+  font-size: 0.875rem;
+  display: block;
+  margin-top: 5px;
+}
