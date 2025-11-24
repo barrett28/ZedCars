@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ZedCars.Net8.Data;
 using ZedCars.Net8.Models;
@@ -7,10 +8,12 @@ namespace ZedCars.Net8.Services
     public class AdminRepository : IAdminRepository
     {
         private readonly ZedCarsContext _context;
+        private readonly IPasswordHasher<Admin> _passwordHasher;
 
-        public AdminRepository(ZedCarsContext context)
+        public AdminRepository(ZedCarsContext context, IPasswordHasher<Admin> passwordHasher)
         {
             _context = context;
+            _passwordHasher = passwordHasher;
         }
 
         // Get all admins
@@ -37,9 +40,10 @@ namespace ZedCars.Net8.Services
             return await _context.Admins.FirstOrDefaultAsync(a => a.AdminId == adminId);
         }
 
-        // Create new admin with role and permissions
+        // Create new admin with hashed password
         public async Task<Admin> CreateAdminAsync(Admin admin)
         {
+            admin.Password = _passwordHasher.HashPassword(admin, admin.Password); // Built method from Identity
             admin.CreatedDate = DateTime.UtcNow;
             admin.ModifiedDate = DateTime.UtcNow;
             admin.IsActive = true;
@@ -66,6 +70,12 @@ namespace ZedCars.Net8.Services
                 existing.Permissions = updateAdmin.Permissions;
                 existing.IsActive = updateAdmin.IsActive;
                 existing.ModifiedDate = DateTime.UtcNow;
+
+                // Only update password if provided
+                if (!string.IsNullOrEmpty(updateAdmin.Password))
+                {
+                    existing.Password = _passwordHasher.HashPassword(existing, updateAdmin.Password);
+                }
 
                 await _context.SaveChangesAsync();
                 return existing;
@@ -101,27 +111,34 @@ namespace ZedCars.Net8.Services
 
         public Admin? ValidateAdmin(string username, string password)
         {
-            try
-            {
-                return _context.Admins
-                    .FirstOrDefault(a => a.Username == username && a.Password == password && a.IsActive);
-            }
-            catch
-            {
-                return GetHardcodedAdmins().FirstOrDefault(a => a.Username == username && a.Password == password);
-            }
+            var admin = _context.Admins.FirstOrDefault(a => a.Username == username && a.IsActive);
+            if (admin == null) return null;
+
+            var result = _passwordHasher.VerifyHashedPassword(admin, admin.Password, password);
+            return result == PasswordVerificationResult.Success ? admin : null;
         }
 
         public async Task<Admin?> ValidateAdminAsync(string username, string password)
         {
-            try
+            var admin = await _context.Admins.FirstOrDefaultAsync(a => a.Username == username && a.IsActive);
+            if (admin == null) return null;
+
+            // Check if password is hashed (starts with "AQ" for PBKDF2)
+            if (admin.Password.StartsWith("AQ"))
             {
-                return await _context.Admins
-                    .FirstOrDefaultAsync(a => a.Username == username && a.Password == password && a.IsActive);
+                var result = _passwordHasher.VerifyHashedPassword(admin, admin.Password, password);
+                return result == PasswordVerificationResult.Success ? admin : null;
             }
-            catch
+            else
             {
-                return GetHardcodedAdmins().FirstOrDefault(a => a.Username == username && a.Password == password);
+                // Plain text password - verify and hash it
+                if (admin.Password == password)
+                {
+                    admin.Password = _passwordHasher.HashPassword(admin, password);
+                    await _context.SaveChangesAsync();
+                    return admin;
+                }
+                return null;
             }
         }
 

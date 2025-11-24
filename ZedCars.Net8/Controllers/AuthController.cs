@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using ZedCars.Net8.Models;
-using ZedCars.Net8.Services;
 using ZedCars.Net8.Services.Interfaces;
+using ZedCars.Net8.Services;
 
 namespace ZedCars.Net8.Controllers
 {
@@ -11,60 +10,35 @@ namespace ZedCars.Net8.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
+        private readonly IAuthService _authService;
         private readonly IAdminRepository _adminRepository;
-        private readonly IJwtService _jwtService;
 
-        public AuthController(IAdminRepository adminRepository, IJwtService jwtService)
+        public AuthController(IAuthService authService, IAdminRepository adminRepository)
         {
+            _authService = authService;
             _adminRepository = adminRepository;
-            _jwtService = jwtService;
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var admin = await _adminRepository.ValidateAdminAsync(request.Username, request.Password);
-            if (admin == null)
+            var result = await _authService.LoginAsync(request.Username, request.Password);
+            
+            if (result == null)
                 return Unauthorized(new { message = "Invalid credentials" });
 
-            var accessToken = _jwtService.GenerateAccessToken(admin);
-            var refreshToken = _jwtService.GenerateRefreshToken();
-            
-            await _jwtService.SaveRefreshTokenAsync(admin.AdminId, refreshToken);
-
-            return Ok(new
-            {
-                accessToken,
-                refreshToken,
-                user = new
-                {
-                    admin.AdminId,
-                    admin.Username,
-                    admin.Email,
-                    admin.FullName,
-                    admin.Role
-                }
-            });
+            return Ok(result);
         }
 
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshRequest request)
         {
-            var refreshToken = await _jwtService.GetRefreshTokenAsync(request.RefreshToken);
-            if (refreshToken == null)
+            var result = await _authService.RefreshTokenAsync(request.RefreshToken);
+            
+            if (result == null)
                 return Unauthorized(new { message = "Invalid refresh token" });
 
-            var newAccessToken = _jwtService.GenerateAccessToken(refreshToken.Admin);
-            var newRefreshToken = _jwtService.GenerateRefreshToken();
-
-            await _jwtService.RevokeRefreshTokenAsync(request.RefreshToken);
-            await _jwtService.SaveRefreshTokenAsync(refreshToken.AdminId, newRefreshToken);
-
-            return Ok(new
-            {
-                accessToken = newAccessToken,
-                refreshToken = newRefreshToken
-            });
+            return Ok(result);
         }
 
         [HttpPost("register")]
@@ -79,12 +53,11 @@ namespace ZedCars.Net8.Controllers
                     Username = request.Username,
                     Password = request.Password,
                     Role = "Customer",
-                    IsActive = true,
-                    CreatedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now
+                    IsActive = true
                 };
 
                 var addedUser = await _adminRepository.CreateAdminAsync(newUser);
+                
                 if (addedUser == null)
                     return BadRequest(new { message = "Registration failed" });
 
@@ -96,40 +69,18 @@ namespace ZedCars.Net8.Controllers
             }
         }
 
-        public class RegisterRequest
-        {
-            public string FullName { get; set; } = string.Empty;
-            public string Email { get; set; } = string.Empty;
-            public string Username { get; set; } = string.Empty;
-            public string Password { get; set; } = string.Empty;
-        }
-
         [HttpPost("logout")]
         [Authorize]
-        public async Task<IActionResult> Logout([FromBody] RefreshRequest request)
+        public async Task<IActionResult> Logout()
         { 
-            var userIdClaim = User.FindFirst("AdminId")?.Value;
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            
             if (int.TryParse(userIdClaim, out int adminId))
             {
-                await _jwtService.RevokeAllUserTokensAsync(adminId);
+                await _authService.RevokeTokenAsync(adminId);
             }
 
-            //revoking specific access token
-
-            if (!string.IsNullOrEmpty(request.RefreshToken))
-            {
-                await _jwtService.RevokeRefreshTokenAsync(request.RefreshToken);
-            }
-            return Ok(new { message = "Logged Out Successfully" });
-        }
-
-
-        [HttpPost("revoke")]
-        [Authorize]
-        public async Task<IActionResult> Revoke([FromBody] RefreshRequest request)
-        {
-            await _jwtService.RevokeRefreshTokenAsync(request.RefreshToken);
-            return Ok(new { message = "Token revoked" });
+            return Ok(new { message = "Logged out successfully" });
         }
     }
 
@@ -144,6 +95,11 @@ namespace ZedCars.Net8.Controllers
         public string RefreshToken { get; set; } = string.Empty;
     }
 
-
-
+    public class RegisterRequest
+    {
+        public string FullName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
 }

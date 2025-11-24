@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ZedCars.Net8.Data;
-using ZedCars.Net8.Services;
+using ZedCars.Net8.Data;
+using ZedCars.Net8.Models;
+using ZedCars.Net8.Services;using ZedCars.Net8.Services;
 using ZedCars.Net8.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -70,6 +73,8 @@ builder.Services.AddDbContext<ZedCarsContext>(options =>
     ));
 
 // Add repositories (Dependency Injecton)
+builder.Services.AddScoped<IPasswordHasher<Admin>, PasswordHasher<Admin>>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICarRepository,CarRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();

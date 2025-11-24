@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZedCars.Net8.Data;
 
@@ -10,9 +11,11 @@ using ZedCars.Net8.Data;
 namespace ZedCars.Net8.Migrations
 {
     [DbContext(typeof(ZedCarsContext))]
-    partial class ZedCarsContextModelSnapshot : ModelSnapshot
+    [Migration("20251124063239_AddUniqueConstraintToRefreshToken")]
+    partial class AddUniqueConstraintToRefreshToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

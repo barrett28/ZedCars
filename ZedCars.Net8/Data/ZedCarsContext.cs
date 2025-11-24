@@ -118,6 +118,7 @@ namespace ZedCars.Net8.Data
                       .OnDelete(DeleteBehavior.Cascade);
                 entity.HasIndex(e => e.Token);
                 entity.HasIndex(e => e.ExpiryDate);
+                entity.HasIndex(e => e.AdminId).IsUnique(); // One token per user
             });
         }
     }
