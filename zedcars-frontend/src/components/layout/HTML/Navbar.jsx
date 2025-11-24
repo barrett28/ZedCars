@@ -152,11 +152,19 @@ const handleHoverLeave = (ev, i) => {
         { text: "Login", href: "/auth/login", image: "https://picsum.photos/600/400?random=5", show: !user?.isAuthenticated },
 
         // -----------------------------
-        // LOGGED IN ITEMS
+        // CUSTOMER ITEMS
         // -----------------------------
-        { text: "My Test Drive", href: "/my-testdrives", image: "https://images.pexels.com/photos/13861/IMG_3496bfree.jpg", show: user?.isAuthenticated },
-        { text: "My Purchases", href: "/my-purchases", image: "https://images.pexels.com/photos/5926240/pexels-photo-5926240.jpeg", show: user?.isAuthenticated },
-        { text: "Accessories", href: "/purchaseaccessories", image: "https://images.pexels.com/photos/16030463/pexels-photo-16030463.jpeg", show: user?.isAuthenticated },
+        { text: "My Test Drive", href: "/my-testdrives", image: "https://images.pexels.com/photos/13861/IMG_3496bfree.jpg", show: user?.isAuthenticated && user?.role === "Customer" },
+        { text: "My Purchases", href: "/my-purchases", image: "https://images.pexels.com/photos/5926240/pexels-photo-5926240.jpeg", show: user?.isAuthenticated && user?.role === "Customer" },
+        { text: "Accessories", href: "/purchaseaccessories", image: "https://images.pexels.com/photos/16030463/pexels-photo-16030463.jpeg", show: user?.isAuthenticated && user?.role === "Customer" },
+
+        // -----------------------------
+        // ADMIN/SUPERADMIN ITEMS
+
+        { text: "Manage Users", href: "/admin/users", image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg", show: user?.isAuthenticated && (user?.role === "Admin" || user?.role === "SuperAdmin") },
+        { text: "Manage Vehicles", href: "/Admin/AdminInventory", image: "https://images.pexels.com/photos/1592384/pexels-photo-1592384.jpeg", show: user?.isAuthenticated && (user?.role === "Admin" || user?.role === "SuperAdmin") },    
+        { text: "Manage Accessories", href: "/Admin/ManageAccessories", image: "https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg", show: user?.isAuthenticated && (user?.role === "Admin" || user?.role === "SuperAdmin") },
+        { text: "View Reports", href: "/Admin/Reports", image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg", show: user?.isAuthenticated && (user?.role === "Admin" || user?.role === "SuperAdmin") },
 
         // Logout
         { text: "Logout", href: "/home", image: "https://images.pexels.com/photos/1181325/pexels-photo-1181325.jpeg", show: user?.isAuthenticated, logout: true },
