@@ -41,7 +41,7 @@ const Navbar = () => {
         opacity: 1,
         duration: 0.5,
         ease: "power3.out",
-        stagger: 0.15,
+        stagger: 0.1,
         delay: 0.1,
       }
     );
@@ -173,21 +173,21 @@ const handleHoverLeave = (ev, i) => {
         .filter(item => item.show)
         .map((item, i) => (
           <div
-  key={i}
-  className="flow-item"
-  onMouseEnter={(e) => {
-    // Hide original text
-    window.gsap.to(linksRef.current[i], { opacity: 0, duration: 0.2 });
+              key={i}
+              className="flow-item"
+              onMouseEnter={(e) => {
+                // Hide original text
+                window.gsap.to(linksRef.current[i], { opacity: 0, duration: 0.2 });
 
-    handleHoverEnter(e, i);
-  }}
-  onMouseLeave={(e) => {
-    // Show original text again
-    window.gsap.to(linksRef.current[i], { opacity: 1, duration: 0.2 });
+                handleHoverEnter(e, i);
+              }}
+              onMouseLeave={(e) => {
+                // Show original text again
+                window.gsap.to(linksRef.current[i], { opacity: 1, duration: 0.2 });
 
-    handleHoverLeave(e, i);
-  }}
->
+                handleHoverLeave(e, i);
+              }}
+            >
 
             <a
               href={item.href}
@@ -207,7 +207,7 @@ const handleHoverLeave = (ev, i) => {
 
             <div className="flow-marquee" ref={(el) => (marqueeRefs.current[i] = el)}>
               <div className="flow-marquee-inner" ref={(el) => (marqueeInnerRefs.current[i] = el)}>
-                {[...Array(4)].map((_, idx) => (
+                {[...Array(8)].map((_, idx) => (
                   <React.Fragment key={idx}>
                     <span>{item.text}</span>
                     <div
