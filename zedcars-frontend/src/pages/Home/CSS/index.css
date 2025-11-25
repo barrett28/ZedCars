@@ -62,19 +62,23 @@
 .info-box {
     position: absolute;
     bottom: -180%;
-    max-height: 250vh;
+    min-height: 217vh;
     left: 50%;
     transform: translateX(-50%);
     width: 36%;
     background: rgba(255, 255, 255, 0.07);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
-    padding: 15px;
+    padding: 9px;
     text-align: center;
     backdrop-filter: blur(13px);
     z-index: 2;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
     overflow-y: auto;}
+
+/* .info-video{
+    height: 80vh;
+} */
 
 .info-video video {
     width: 100%;
@@ -164,7 +168,8 @@
     width: 100%;
     height: 100vh;
     overflow: hidden;
-    background: black;
+    background-color: black;
+    /* background: url('../../../assets/images/landingPage/hoverContainer.png'); */
 }
 
 .hover-container button{

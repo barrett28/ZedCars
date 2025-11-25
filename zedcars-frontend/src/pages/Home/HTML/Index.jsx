@@ -400,6 +400,7 @@ useDecryptOnScroll();
         <div className="video-overlay"></div>
         <h1>Discover Your Dream</h1>
         <h2>Ride Only at ZedCars</h2>
+        
         <div className="info-box">
           <div className="info-video">
             <video autoPlay muted loop playsInline>
