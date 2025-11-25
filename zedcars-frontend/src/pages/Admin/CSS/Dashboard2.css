@@ -198,6 +198,7 @@
     width: 100% !important;
   }
 }
+
 .admin-section-responsive {
   background: #fff;
   padding: 20px;
@@ -212,7 +213,7 @@
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    margin-top: 5vh;
 }
 
 
@@ -322,7 +323,7 @@
   background: white;
   border-radius: 18px;
   padding: 28px;
-  margin: 40px 20px;
+  margin-top: 6vh;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   border: 1px solid #f1f5f9;
   overflow: hidden;
@@ -506,7 +507,7 @@
 
 @media (max-width: 768px) {
   .user-activity-section.refined {
-    margin: 20px 16px;
+    /* margin: 20px 16px; */
     padding: 20px;
   }
 

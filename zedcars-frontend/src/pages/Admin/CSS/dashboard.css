@@ -196,35 +196,40 @@
     }
 }
 
+
+.analytics-metrics{
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
 /* Chart Container - Fixed height + responsive canvas */
 .analytics-chart {
     background: #f8fafc;
     padding: 20px;
     border-radius: 14px;
     border: 1px solid #e2e8f0;
-    height: auto; /* Fixed height for consistency */
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 400px;
+    position: relative;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-.analytics-chart canvas{
-  height: 50%;
-  width: auto;
+.analytics-chart canvas {
+    position: absolute !important;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
 }
-/* .analytics-chart canvas {
-    max-height: 100% !important;
-    width: 100% !important;
-    height: auto !important;
-} */
 
-/* Metrics Cards - Beautiful & Responsive */
-.analytics-metrics {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 18px;
+
+
+
+@media (max-width: 576px) {
+    .analytics-chart {
+        padding: 10px;
+        min-height: 200px;
+    }
 }
 
 .metric-card {

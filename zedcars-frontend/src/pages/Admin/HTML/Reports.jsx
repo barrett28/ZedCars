@@ -66,15 +66,27 @@ const Reports = () => {
       labels: reportData.salesByBrand?.map(item => item.brand) || [],
       datasets: [{
         data: reportData.salesByBrand?.map(item => item.totalSales) || [],
-        backgroundColor: ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6', '#1abc9c']
+        backgroundColor:[
+          '#e73939', 
+          '#ffc900', 
+          '#5682b1', 
+          '#E06B80', 
+          '#f25912', 
+          '#7adaa5' 
+          ],
+          borderColor: '#444',     // Black border
+          borderWidth : 1  
       }]
     },
     bar: {
       labels: reportData.salesByMonths?.map(item => `${new Date(item.year, item.month - 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`) || [],
       datasets: [{
-        label: 'Sales',
+        label: 'Sales ($)',
         data: reportData.salesByMonths?.map(item => item.totalSales) || [],
-        backgroundColor: '#3498db'
+        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+        borderColor: '#666',
+        borderWidth: 2,
+        borderRadius: 8
       }]
     }
   };
@@ -84,51 +96,75 @@ const Reports = () => {
       labels: reportData.accessorySalesByCategories?.map(item => item.category) || [],
       datasets: [{
         data: reportData.accessorySalesByCategories?.map(item => item.totalSales) || [],
-        backgroundColor: ['#1abc9c', '#9b59b6', '#f39c12', '#e74c3c', '#2ecc71', '#3498db']
+                backgroundColor:[
+                  '#5682b1', 
+                  '#e73939', 
+                  '#E06B80', 
+                  '#f25912', 
+                  '#ffc900', 
+          '#7adaa5' 
+          ],
+          borderColor: '#444',     // Black border
+          borderWidth : 1  
       }]
     },
     bar: {
       labels: reportData.accessoryMonthlySales?.map(item => `${new Date(item.year, item.month - 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`) || [],
       datasets: [{
-        label: 'Sales',
+        label: 'Sales ($)',
         data: reportData.accessoryMonthlySales?.map(item => item.totalSales) || [],
-        backgroundColor: '#1abc9c'
+        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+        borderColor: '#666',
+        borderWidth: 2,
+        borderRadius: 8
       }]
     }
   };
 
   return (
     <div className="reports-page">
-      {/* <div className="admin-header">
-        <h1>Reports</h1>
-        <p>View and generate business reports</p>
-        <a href="/admin/dashboard" className="btn btn-secondary">Back to Dashboard</a>
-      </div> */}
-
       <div className="container">
+        {/* Header */}
+        <div className="reports-header">
+          <h1>📊 Sales Reports</h1>
+          <p>Comprehensive analytics and insights for your business</p>
+        </div>
+
+        {/* Filters */}
         <div className="filters-section">
-          <div className="row">
-            <div className="col-md-3">
+          <div className="filters-row">
+            <div className="filter-group">
               <label>Report Type</label>
-              <select value={selectedReportType} onChange={(e) => setSelectedReportType(e.target.value)} className="form-select">
-                <option value="carSales">Car Sales</option>
-                <option value="accessorySales">Accessory Sales</option>
+              <select 
+                value={selectedReportType} 
+                onChange={(e) => setSelectedReportType(e.target.value)} 
+                className="form-select"
+              >
+                <option value="carSales">🚗 Car Sales</option>
+                <option value="accessorySales">🔧 Accessory Sales</option>
               </select>
             </div>
-            <div className="col-md-9 d-flex gap-2">
-              <button className="btn btn-primary" onClick={fetchReportData}>View Report</button>
-              <button className="btn btn-secondary" onClick={downloadPDF}>PDF</button>
-              <button className="btn btn-success" onClick={downloadExcel}>Excel</button>
+            <div className="action-buttons">
+              <button className="btn btn-primary" onClick={fetchReportData}>
+                <i className="bi bi-eye"></i> View Report
+              </button>
+              <button className="btn btn-secondary" onClick={downloadPDF}>
+                <i className="bi bi-file-pdf"></i> PDF
+              </button>
+              <button className="btn btn-success" onClick={downloadExcel}>
+                <i className="bi bi-file-excel"></i> Excel
+              </button>
             </div>
           </div>
         </div>
 
+        {/* Summary Cards */}
         {reportType === 'carSales' ? (
           <div className="summary-section">
             <div className="summary-card">
               <h6>Total Sales</h6>
               <h4>${reportData.totalSalesValue?.toFixed(2)}</h4>
-              <small>Total sales of Cars</small>
+              <small>Total revenue from car sales</small>
             </div>
             <div className="summary-card">
               <h6>Units Sold</h6>
@@ -136,17 +172,17 @@ const Reports = () => {
               <small>Number of cars sold</small>
             </div>
             <div className="summary-card">
-              <h6>Average Sales</h6>
+              <h6>Average Sale</h6>
               <h4>${reportData.averageSalesValue?.toFixed(2)}</h4>
-              <small>Average sale price of cars</small>
+              <small>Average price per vehicle</small>
             </div>
           </div>
         ) : (
           <div className="summary-section">
             <div className="summary-card">
-              <h6>Total Accessory Sales</h6>
+              <h6>Total Sales</h6>
               <h4>${reportData.accessoryTotalSales?.toFixed(2)}</h4>
-              <small>Total sales of Accessories</small>
+              <small>Total revenue from accessories</small>
             </div>
             <div className="summary-card">
               <h6>Units Sold</h6>
@@ -154,26 +190,49 @@ const Reports = () => {
               <small>Number of accessories sold</small>
             </div>
             <div className="summary-card">
-              <h6>Average Sales</h6>
+              <h6>Average Sale</h6>
               <h4>${reportData.accessoryAverageSales?.toFixed(2)}</h4>
-              <small>Average sale price of accessories</small>
+              <small>Average price per accessory</small>
             </div>
           </div>
         )}
 
+        {/* Charts */}
         <div className="charts-section">
           <div className="chart-card">
-            <h5>{reportType === 'carSales' ? 'Car Sales by Brand' : 'Accessory Sales by Category'}</h5>
-            <Doughnut className='doughnut-chart' data={reportType === 'carSales' ? carChartData.pie : accessoryChartData.pie} />
+            <h5>{reportType === 'carSales' ? '🚗 Sales by Brand' : '🔧 Sales by Category'}</h5>
+            <Doughnut 
+              data={reportType === 'carSales' ? carChartData.pie : accessoryChartData.pie}
+              options={{ 
+                maintainAspectRatio: false, 
+                responsive: true,
+                plugins: {
+                  legend: { position: 'bottom' }
+                }
+              }}
+            />
           </div>
           <div className="chart-card">
-            <h5>{reportType === 'carSales' ? 'Car Monthly Sales Trend' : 'Accessory Monthly Sales Trend'}</h5>
-            <Bar className='bar-chart' data={reportType === 'carSales' ? carChartData.bar : accessoryChartData.bar} />
+            <h5>{reportType === 'carSales' ? '📈 Monthly Sales Trend' : '📈 Monthly Sales Trend'}</h5>
+            <Bar 
+              data={reportType === 'carSales' ? carChartData.bar : accessoryChartData.bar}
+              options={{ 
+                maintainAspectRatio: false, 
+                responsive: true,
+                plugins: {
+                  legend: { display: false }
+                },
+                scales: {
+                  y: { beginAtZero: true }
+                }
+              }}
+            />
           </div>
         </div>
 
+        {/* Purchase History Table */}
         <div className="table-section">
-          <h5>{reportType === 'carSales' ? 'Car Purchase History' : 'Accessory Purchase History'}</h5>
+          <h5>{reportType === 'carSales' ? '🚗 Car Purchase History' : '🔧 Accessory Purchase History'}</h5>
           <div className="table-responsive">
             <table className="table">
               <thead>
@@ -185,12 +244,12 @@ const Reports = () => {
                       <th>Vehicle</th>
                       <th>Sale Price</th>
                       <th>Buyer</th>
-                      <th>Buyer Email</th>
+                      <th>Email</th>
                     </>
                   ) : (
                     <>
                       <th>Buyer Name</th>
-                      <th>Buyer Email</th>
+                      <th>Email</th>
                       <th>Sale Price</th>
                       <th>Accessories</th>
                     </>

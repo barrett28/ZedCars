@@ -65,10 +65,19 @@ const Dashboard2 = () => {
       },
       options: {
         responsive: true,
+          maintainAspectRatio: false,
         plugins: {
           title: { display: true, text: "Stock Available vs Units Sold" },
           legend: { position: "bottom" },
         },
+        scales: {
+        x: {
+          ticks: {
+            maxRotation: 45,
+            minRotation: 0
+          }
+        }
+      }
       },
     });
 
@@ -217,7 +226,7 @@ const Dashboard2 = () => {
 
 
             {/* ---------- Analytics Chart Section ---------- */}
-            <div className="analytics-section mt-4">
+            <div className="analytics-section mt-4 d-flex flex-column">
               <h2>Inventory Analytics</h2>
 
 
