@@ -113,6 +113,9 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 18px;
     margin-top: 20px;
+        background-color: #EDF0F6;
+    padding: 16px;
+    border-radius: 20px;
 }
 
 .grid-card {

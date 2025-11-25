@@ -364,8 +364,11 @@
 /* Grid – Responsive from 1 to 3 columns */
 .ua-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
   gap: 20px;
+      background-color: #EDF0F6;
+    padding: 16px;
+    border-radius: 20px;
 }
 
 /* Individual Activity Card – Elevated & Modern */
@@ -434,10 +437,10 @@
 }
 
 .ua-title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3px;
 }
 
 .ua-title {
