@@ -25,23 +25,76 @@ const AddUser = () => {
       const lettersOnly = value.replace(/[^a-zA-Z\s]/g, '');
       setFormData(prev => ({ ...prev, [name]: lettersOnly }));
     } else if (name === 'phoneNumber') {
-      const numbersOnly = value.replace(/[^0-9]/g, '');
+      const numbersOnly = value.replace(/[^0-9]/g, '').slice(0, 10);
       setFormData(prev => ({ ...prev, [name]: numbersOnly }));
+    } else if (name === 'username') {
+      const alphanumeric = value.replace(/[^a-zA-Z0-9_]/g, '');
+      setFormData(prev => ({ ...prev, [name]: alphanumeric }));
     } else {
       setFormData(prev => ({
         ...prev,
         [name]: type === 'checkbox' ? checked : value
       }));
     }
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
   };
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.username.trim()) newErrors.username = "Username is required";
-    if (!formData.password.trim()) newErrors.password = "Password is required";
-    if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    if (!formData.role.trim()) newErrors.role = "Role is required";
+    
+    // Username validation
+    if (!formData.username.trim()) {
+      newErrors.username = "Username is required";
+    } else if (formData.username.length < 3) {
+      newErrors.username = "Username must be at least 3 characters";
+    } else if (formData.username.length > 20) {
+      newErrors.username = "Username must not exceed 20 characters";
+    } else if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) {
+      newErrors.username = "Username can only contain letters, numbers, and underscores";
+    }
+    
+    // Password validation
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
+    } else if (!/(?=.*[a-z])/.test(formData.password)) {
+      newErrors.password = "Password must contain at least one lowercase letter";
+    } else if (!/(?=.*[A-Z])/.test(formData.password)) {
+      newErrors.password = "Password must contain at least one uppercase letter";
+    } else if (!/(?=.*\d)/.test(formData.password)) {
+      newErrors.password = "Password must contain at least one number";
+    } else if (!/(?=.*[@$!%*?&#])/.test(formData.password)) {
+      newErrors.password = "Password must contain at least one special character (@$!%*?&#)";
+    }
+    
+    // Full name validation
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+    } else if (formData.fullName.trim().length < 2) {
+      newErrors.fullName = "Full name must be at least 2 characters";
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.fullName)) {
+      newErrors.fullName = "Full name can only contain letters and spaces";
+    }
+    
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    
+    // Phone validation (optional but if provided must be valid)
+    if (formData.phoneNumber && formData.phoneNumber.length !== 10) {
+      newErrors.phoneNumber = "Phone number must be exactly 10 digits";
+    }
+    
+    // Role validation
+    if (!formData.role.trim()) {
+      newErrors.role = "Role is required";
+    }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -52,14 +105,17 @@ const AddUser = () => {
     if (!validateForm()) return;
 
     setLoading(true);
-    console.log("Sending user data:", formData); // Debug log
     try {
       const response = await apiClient.post("/admin/users", formData);
-      console.log("User created successfully:", response.data); // Debug log
       navigate("/admin/users");
     } catch (err) {
-      console.error("Error creating user:", err.response?.data || err.message); // Debug log
-      alert(err.response?.data?.message || "Failed to create user");
+      if (err.response?.data?.message?.includes('username')) {
+        setErrors(prev => ({ ...prev, username: 'Username already exists' }));
+      } else if (err.response?.data?.message?.includes('email')) {
+        setErrors(prev => ({ ...prev, email: 'Email already exists' }));
+      } else {
+        alert(err.response?.data?.message || "Failed to create user");
+      }
     } finally {
       setLoading(false);
     }
@@ -87,6 +143,7 @@ const AddUser = () => {
               value={formData.username}
               onChange={handleChange}
               className={errors.username ? 'error' : ''}
+              maxLength="20"
             />
             {errors.username && <span className="error-text">{errors.username}</span>}
           </div>
@@ -159,7 +216,11 @@ const AddUser = () => {
               name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleChange}
+              placeholder="10 digits"
+              maxLength="10"
+              className={errors.phoneNumber ? 'error' : ''}
             />
+            {errors.phoneNumber && <span className="error-text">{errors.phoneNumber}</span>}
           </div>
 
           <div className="form-group full-width">

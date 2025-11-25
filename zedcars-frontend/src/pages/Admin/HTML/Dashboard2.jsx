@@ -96,12 +96,10 @@ const Dashboard2 = () => {
       <div className="top-heading">
         {/* <img src={car_logo} alt="car_logo" /> */}
         <h1>Dashboard</h1>
-      </div>
-
 
       {/* ------------ Navigation Buttons -------------- */}
       <div className="dashboard-navigation">
-  <button
+    <button
     className={activeTab === "dashboard2" ? "active" : ""}
     onClick={() => {
       setActiveTab("dashboard2");
@@ -144,6 +142,8 @@ const Dashboard2 = () => {
     View Report
   </button>
 </div>
+
+      </div>
 
 
 
