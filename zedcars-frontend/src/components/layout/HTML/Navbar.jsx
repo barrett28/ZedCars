@@ -41,8 +41,8 @@ const Navbar = () => {
         opacity: 1,
         duration: 0.5,
         ease: "power3.out",
-        stagger: 0.1,
-        delay: 0.1,
+        // stagger: 0.1,
+        // delay: 0.1,
       }
     );
   };
@@ -55,7 +55,7 @@ const Navbar = () => {
       opacity: 0,
       duration: 0.1,
       ease: "power3.out",
-      stagger: 0.08,
+      // stagger: 0.08,
     });
   };
 
@@ -116,6 +116,23 @@ const handleHoverLeave = (ev, i) => {
         </div>
 
         <div className="nav-actions">
+          {user?.isAuthenticated ? (
+            <button
+              className=""
+              onClick={handleLogout}
+              style={{ color: "white", marginRight: "15px" }}
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              className=""
+              onClick={() => navigate("/auth/login")}
+              style={{ color: "white", marginRight: "15px" }}
+            >
+              Login
+            </button>
+          )}
           <button
             className={`menu-btn ${isMenuOpen ? "open" : ""}`}
             onClick={() => setIsMenuOpen((s) => !s)}
@@ -154,6 +171,7 @@ const handleHoverLeave = (ev, i) => {
         // -----------------------------
         // CUSTOMER ITEMS
         // -----------------------------
+        { text: "Profile", href: "/profile", image: "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg", show: user?.isAuthenticated },
         { text: "My Test Drive", href: "/my-testdrives", image: "https://images.pexels.com/photos/13861/IMG_3496bfree.jpg", show: user?.isAuthenticated && user?.role === "Customer" },
         { text: "My Purchases", href: "/my-purchases", image: "https://images.pexels.com/photos/5926240/pexels-photo-5926240.jpeg", show: user?.isAuthenticated && user?.role === "Customer" },
         { text: "Accessories", href: "/purchaseaccessories", image: "https://images.pexels.com/photos/16030463/pexels-photo-16030463.jpeg", show: user?.isAuthenticated && user?.role === "Customer" },

@@ -1,0 +1,165 @@
+.profile-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: white;
+  color: #1a1a1a;
+  margin-top: 9vh;
+  font-family: 'Inter', sans-serif;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.profile-card {
+  flex: 1;
+  max-width: 500px;
+  margin: auto;
+  padding: 2.5rem;
+  background: #f5f7fa;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.288);
+  border: 1px solid #d0d5dd;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #4338ca);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.profile-header h1 {
+  color: #111111;
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
+  margin: 0;
+  font-weight: 600;
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profile-field label {
+  color: #333333;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.profile-field span {
+  color: #1a1a1a;
+  font-size: 1rem;
+  padding: 0.75rem;
+  background-color: #ffffff;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  word-break: break-all;
+}
+
+.role-badge {
+  display: inline-block !important;
+  width: fit-content !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 20px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  font-size: 0.85rem !important;
+  border: none !important;
+}
+
+.role-badge.customer {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  color: white !important;
+}
+
+.role-badge.admin {
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+  color: white !important;
+}
+
+.role-badge.superadmin {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
+  color: white !important;
+}
+
+.profile-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.edit-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background-color: #4f46e5;
+  color: #ffffff;
+  flex: 1;
+}
+
+.edit-btn:hover {
+  background-color: #4338ca;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .profile-card {
+    box-shadow: none;
+    border-radius: 0;
+    max-width: 100%;
+    height: 100vh;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 15px;
+  }
+  
+  .profile-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .profile-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .profile-actions {
+    flex-direction: column;
+  }
+}

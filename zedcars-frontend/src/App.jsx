@@ -31,6 +31,7 @@ import TestDrives from './pages/Admin/HTML/TestDrives'
 import Dashboard2 from './pages/Admin/HTML/Dashboard2'
 import UserActivity from './pages/Admin/HTML/UserActivity'
 import Addon from './pages/Home/HTML/Addon'
+import Profile from './pages/Profile/HTML/Profile'
 
 
 function AppContent() {
@@ -63,6 +64,7 @@ function AppContent() {
           <Route path="/my-testdrives" element={<MyTestDrives />} />
           <Route path="/purchaseaccessories" element={<PurchaseAccessories />} />
           <Route path='/addon' element={<Addon />} />
+          <Route path="/profile" element={<Profile />} />
 
           {/* Admin */}
           <Route path="/Admin/Dashboard" element={<Dashboard />} />

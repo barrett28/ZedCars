@@ -169,7 +169,7 @@
     height: 100vh;
     overflow: hidden;
     background-color: black;
-    /* background: url('../../../assets/images/landingPage/hoverContainer.png'); */
+    background: url('../../../assets/images/landingPage/hoverContainer.png');
 }
 
 .hover-container button{
@@ -197,13 +197,15 @@
 .heading h2 {
     font-family: "Funnel Sans", sans-serif;
     color: #fff;
-    font-size: clamp(6rem, 8vw, 9rem);
+    /* font-size: clamp(6rem, 8vw, 9rem); */
+    /* font-size: 5rem; */
+    font-size: clamp(2rem, 8vw, 5rem);
     font-weight: 800;
     text-align: left;
     line-height: 1.05;
     margin: 0;
     padding: 0;
-    font-size: 5rem;
+    /* font-size: 5rem; */
 }
 
 .hover-images {
@@ -216,6 +218,25 @@
     pointer-events: none;
     opacity: 0;
     z-index: 0;
+}
+
+.hover-container .btn-hover{
+    position: absolute;
+    top: 60%;
+    right: 6vw;
+    color: white;
+    background-color: #e73939;
+    border: none;
+    padding: 12px 24px;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 3;
+}
+
+.hover-container .btn-hover:hover {
+    background-color: #961414;
 }
 
 /* ===== CARDS SECTION ===== */

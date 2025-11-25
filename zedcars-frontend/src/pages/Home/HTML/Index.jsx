@@ -455,8 +455,9 @@ useDecryptOnScroll();
       <div className="hover-container">
         <div className="heading">
           <h2><span style={{color:'#FFC43A'}}>Command</span> Attention</h2>
-          <h2>with <br /> the <span style={{color:'#FFC43A'}}>ZedCars</span> <button className='btn btn-primary' onClick={()=>navigate("/inventory")}>Browse Inventory</button></h2>
+          <h2>with <br /> the <span style={{color:'#FFC43A'}}>ZedCars</span></h2>
         </div>
+        <button className='btn-hover' onClick={()=>navigate("/inventory")}>Browse Inventory</button>
       </div>
 
       <div id="main">
