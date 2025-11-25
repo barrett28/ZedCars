@@ -168,7 +168,6 @@
     border-radius: 16px;
     color: black;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    margin: 40px 20px;
     padding: 28px;
     border: 1px solid #eef2f6;
 }
@@ -203,18 +202,23 @@
     padding: 20px;
     border-radius: 14px;
     border: 1px solid #e2e8f0;
-    height: 420px; /* Fixed height for consistency */
+    height: auto; /* Fixed height for consistency */
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-.analytics-chart canvas {
+.analytics-chart canvas{
+  height: 50%;
+  width: auto;
+}
+/* .analytics-chart canvas {
     max-height: 100% !important;
     width: 100% !important;
     height: auto !important;
-}
+} */
 
 /* Metrics Cards - Beautiful & Responsive */
 .analytics-metrics {
