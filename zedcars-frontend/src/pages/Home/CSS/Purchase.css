@@ -1,332 +1,485 @@
-/* src/pages/Home/CSS/Purchase.css */
-.purchase-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 12vh 2vw;
-  color: black;
-}
-
-.purchase-card {
+/* Modern Industrial Purchase Page */
+.purchase-page-wrapper {
+  min-height: 100vh;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  padding: 30px;
+  padding: 10vh 0 5vh;
 }
 
-.car-info-section {
+.purchase-page-wrapper .purchase-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Header */
+.purchase-page-wrapper .purchase-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 30px;
-  gap: 30px;
+  gap: 2rem;
+  margin-bottom: 4rem;
 }
 
-.car-details h4 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+.purchase-page-wrapper .purchase-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.3rem;
   color: black;
+  white-space: nowrap;
 }
 
-.car-details .purchase-price {
-  font-size: 1.25rem;
-  font-weight: bold;
-  /* color: #28a745; */
-  color:#222;
+.purchase-page-wrapper .header-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e73939, transparent);
 }
 
-.car-image img {
-  max-width: 300px;
-  max-height: 200px;
-  border-radius: 8px;
+/* Grid Layout */
+.purchase-page-wrapper .purchase-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
 }
 
-.car-specs {
-    color: black;
-    display: flex;
-    flex-direction: column;
+/* Car Showcase */
+.purchase-page-wrapper .car-showcase {
+  background: white;
+  border: 1px solid #333;
+  border-radius: 4px;
+  overflow: hidden;
+  position: sticky;
+  top: 2rem;
 }
 
-.form-group {
-  margin-bottom: 20px;
+.purchase-page-wrapper .car-image-frame {
+  position: relative;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: #1a1a1a;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
-  /* color: black; */
-}
-
-.form-group input {
+.purchase-page-wrapper .car-image-frame img {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.purchase-page-wrapper .car-image-frame:hover img {
+  transform: scale(1.05);
+}
+
+.purchase-page-wrapper .image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.8));
+  pointer-events: none;
+}
+
+.purchase-page-wrapper .car-meta {
+  padding: 2rem;
+  border-top: 2px solid #e73939;
+}
+
+.purchase-page-wrapper .car-meta h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #e73939;
+  letter-spacing: 0.1rem;
+  margin: 0 0 0.5rem;
+}
+
+.purchase-page-wrapper .car-meta h3 {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #858585;
+  letter-spacing: 0.05rem;
+  margin: 0 0 2rem;
+}
+
+.purchase-page-wrapper .car-specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.purchase-page-wrapper .spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.purchase-page-wrapper .spec-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #000000;
+  letter-spacing: 0.1rem;
+}
+
+.purchase-page-wrapper .spec-value {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #646464;
+}
+
+/* Form Section */
+.purchase-page-wrapper .purchase-form-section {
+  background: white;
+  border: 1px solid #333;
   border-radius: 4px;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
-  caret-color: #e73939;
+  padding: 2.5rem;
+}
+
+.purchase-page-wrapper .industrial-form .form-section {
+  margin-bottom: 2.5rem;
+}
+
+.purchase-page-wrapper .industrial-form .form-section h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #e73939;
+  letter-spacing: 0.15rem;
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #333;
+}
+
+.purchase-page-wrapper .form-field {
+  margin-bottom: 1.5rem;
+}
+
+.purchase-page-wrapper .form-field label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #888;
+  letter-spacing: 0.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.purchase-page-wrapper .form-field input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  background: white;
+  border: 1px solid #333;
+  border-radius: 2px;
+  color: #313131;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.purchase-page-wrapper .form-field input:focus {
+  outline: none;
+  border-color: #e73939;
+  box-shadow: 0 0 0 2px rgba(231, 57, 57, 0.1);
+}
+
+.purchase-page-wrapper .error-text {
+  display: block;
+  color: #e73939;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+}
+
+/* Cost Table */
+.purchase-page-wrapper .cost-table {
+  border: 1px solid #333;
+  border-radius: 2px;
+  padding: 1.5rem;
+}
+
+.purchase-page-wrapper .cost-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  color: #aaa;
+  font-size: 0.95rem;
+}
+
+.purchase-page-wrapper .cost-row:not(:last-child) {
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.purchase-page-wrapper .cost-row.total-row {
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid #e73939;
+  font-size: 1.2rem;
+  font-weight: 700;
   color: black;
 }
 
-.form-group input:focus {
-  border: 2px solid #e73939;
-  outline: none;
+/* Action Buttons */
+.purchase-page-wrapper .action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
-.price-summary {
-  background: #f8f9fa;
-  padding: 20px;
-  border-radius: 8px;
-  margin: 20px 0;
+.purchase-page-wrapper .action-grid .btn-cancel {
+  grid-column: 1 / -1;
 }
 
-.price-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.price-row.total {
-  font-weight: bold;
-  font-size: 1.1rem;
-  border-top: 1px solid #ddd;
-  padding-top: 10px;
-}
-
-.action-buttons {
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  justify-content: start;
-  margin-top: 30px;
-}
-
-.accessories-btn, .purchase-btn, .cancel-btn {
-  padding: 12px 24px;
+.purchase-page-wrapper .btn-primary,
+.purchase-page-wrapper .btn-secondary,
+.purchase-page-wrapper .btn-cancel {
+  padding: 1rem;
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: 2px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
 }
 
-.accessories-btn {
-  background: #007bff;
-  color: white;
+.purchase-page-wrapper .btn-primary {
+  background: #e73939;
+  color: #fff;
 }
 
-.purchase-btn {
-  background: #28a745;
-  color: white;
+.purchase-page-wrapper .btn-primary:hover:not(:disabled) {
+  background: #c92e2e;
+  box-shadow: 0 4px 12px rgba(231, 57, 57, 0.4);
 }
 
-.cancel-btn {
-  background: #6c757d;
-  color: white;
+.purchase-page-wrapper .btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-/* === Modal Overlay === */
-.modal-overlay {
+.purchase-page-wrapper .btn-secondary {
+  background: transparent;
+  border: 1px solid #e73939;
+  color: #e73939;
+}
+
+.purchase-page-wrapper .btn-secondary:hover {
+  background: #e73939;
+  color: #fff;
+}
+
+.purchase-page-wrapper .btn-cancel {
+  background: white;
+  color: #aaa;
+  border: 1px solid #444;
+}
+
+.purchase-page-wrapper .btn-cancel:hover {
+  background: #696969;
+  color: #fff;
+}
+
+/* Modal */
+.purchase-page-wrapper .purchase-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  backdrop-filter: blur(4px); /* subtle glass effect */
+  animation: fadeIn 0.3s;
 }
 
-/* === Modal Container === */
-.modal-content {
-  background: #ffffff;
-  border-radius: 12px;
-  max-width: 750px;
+.purchase-page-wrapper .purchase-modal {
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 4px;
+  max-width: 800px;
   width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  animation: fadeInScale 0.3s ease;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s;
 }
 
-/* === Header === */
-.modal-header {
+.purchase-page-wrapper .purchase-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 24px;
-  border-bottom: 1px solid #e5e5e5;
-  background: #f8f9fa;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  padding: 1.5rem 2rem;
+  border-bottom: 2px solid #e73939;
 }
 
-.modal-header h5 {
+.purchase-page-wrapper .purchase-modal-header h3 {
   font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.15rem;
   margin: 0;
 }
 
-.modal-header button {
+.purchase-page-wrapper .close-btn {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: #666;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: color 0.3s;
+  line-height: 1;
 }
 
-.modal-header button:hover {
+.purchase-page-wrapper .close-btn:hover {
   color: #e73939;
 }
 
-/* === Modal Body === */
-.modal-body {
-  padding: 24px;
+.purchase-page-wrapper .purchase-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
 }
 
-.accessory-category {
-  margin-bottom: 24px;
+.purchase-page-wrapper .accessory-group {
+  margin-bottom: 2rem;
 }
 
-.accessory-category h6 {
-  font-weight: 600;
-  font-size: 1rem;
-  color: #444;
-  margin-bottom: 12px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 6px;
+.purchase-page-wrapper .accessory-group h5 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #e73939;
+  letter-spacing: 0.12rem;
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #333;
 }
 
-/* === Accessory Item (Improved Checkbox UI) === */
-.accessory-item {
-  margin-bottom: 10px;
-}
-
-.accessory-item label {
+.purchase-page-wrapper .accessory-list {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.purchase-page-wrapper .accessory-checkbox {
+  display: flex;
   align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 2px;
   cursor: pointer;
-  padding: 10px 12px;
-  border-radius: 6px;
-  transition: background 0.2s ease;
-}
-.accessory-item label .price {
-    color:black;
-    font-size: large;
+  transition: all 0.3s;
 }
 
-.accessory-item label:hover {
-  background: #f9f9f9;
+.purchase-page-wrapper .accessory-checkbox:hover {
+  border-color: #e73939;
+  background: #252525;
 }
 
-/* Custom checkbox */
-/* === Modern Animated Checkbox === */
-.accessory-item input[type="checkbox"] {
+.purchase-page-wrapper .accessory-checkbox input[type="checkbox"] {
   appearance: none;
-  -webkit-appearance: none;
-  width: 22px;
-  height: 22px;
-  border: 2px solid #bbb;
-  border-radius: 6px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #444;
+  border-radius: 2px;
   cursor: pointer;
   position: relative;
-  transition: all 0.25s ease;
-  outline: none;
-  background-color: #fff;
-  box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+  transition: all 0.3s;
+  flex-shrink: 0;
 }
 
-.accessory-item input[type="checkbox"]:hover {
+.purchase-page-wrapper .accessory-checkbox input[type="checkbox"]:checked {
+  background: #e73939;
   border-color: #e73939;
-  box-shadow: 0 0 6px rgba(40, 167, 69, 0.3);
 }
 
-.accessory-item input[type="checkbox"]:checked {
-  background: linear-gradient(135deg, #ce2c2c, #e41414);
-  border-color: #e73939;
-  /* box-shadow: 0 0 8px rgba(40, 167, 69, 0.4); */
-  transform: scale(1.05);
-}
-
-.accessory-item input[type="checkbox"]::after {
+.purchase-page-wrapper .accessory-checkbox input[type="checkbox"]:checked::after {
   content: '';
   position: absolute;
-  width: 6px;
-  height: 12px;
-  border-right: 3px solid white;
-  border-bottom: 3px solid white;
-  top: 5px;
-  left: 10px;
-  transform: rotate(45deg) scale(0);
-  opacity: 0;
-  transition: all 0.25s ease;
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
 
-.accessory-item input[type="checkbox"]:checked::after {
-  transform: rotate(45deg) scale(1);
-  opacity: 1;
+.purchase-page-wrapper .accessory-name {
+  flex: 1;
+  color: #ccc;
+  font-size: 0.95rem;
 }
 
-/* === Modal Footer === */
-.modal-footer {
+.purchase-page-wrapper .accessory-price {
+  color: #e73939;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.purchase-page-wrapper .purchase-modal-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  padding: 16px 24px;
-  border-top: 1px solid #e5e5e5;
-  background: #f8f9fa;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #333;
 }
 
-.modal-footer button {
-  padding: 10px 20px;
+.purchase-page-wrapper .purchase-modal-footer button {
+  padding: 0.8rem 1.5rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 2px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
   cursor: pointer;
-  font-size: 15px;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s;
 }
 
-.modal-footer .cancel-btn {
-  background: #6c757d;
-  color: white;
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.modal-footer .cancel-btn:hover {
-  background: #5a6268;
-}
-
-.modal-footer .purchase-btn {
-  background: #28a745;
-  color: white;
-}
-
-.modal-footer .purchase-btn:hover {
-  background: #218838;
-}
-
-/* === Animations === */
-@keyframes fadeInScale {
+@keyframes slideUp {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
   }
 }
 
-.error-text {
-  color: #dc3545;
-  font-size: 0.875rem;
-  display: block;
-  margin-top: 5px;
+/* Responsive */
+@media (max-width: 1024px) {
+  .purchase-page-wrapper .purchase-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .purchase-page-wrapper .car-showcase {
+    position: relative;
+    top: 0;
+  }
+
+  .purchase-page-wrapper .purchase-header h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .purchase-page-wrapper .action-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .purchase-page-wrapper .action-grid .btn-cancel {
+    grid-column: 1;
+  }
+
+  .purchase-page-wrapper .car-specs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .purchase-page-wrapper .purchase-header h1 {
+    font-size: 1.5rem;
+    letter-spacing: 0.15rem;
+  }
 }
