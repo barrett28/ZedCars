@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import apiClient from "../../../api/apiClient";
+import { getFirstImageUrl } from '../../../utils/imageUtils';
 import "../../Home/CSS/HomeInventory.css";
 import { useNavigate } from "react-router-dom";
 
@@ -152,7 +153,8 @@ const HomeInventory = () => {
             <div className="vehicle-card" key={car.id} onClick={() => navigate(`/vehicle/${car.carId || car.id}`)} style={{cursor: 'pointer'}}>
               <div className="vehicle-image">
                 <img
-                  src={car.imageUrl || "https://via.placeholder.com/300x200?text=No+Image"}
+                  // src={car.imageUrl || "https://via.placeholder.com/300x200?text=No+Image"}
+                  src={getFirstImageUrl(car.imageUrl) || "https://via.placeholder.com/300x200?text=No+Image"}
                   alt={`${car.make} ${car.model}`}
                 />
                 {car.stockQuantity <= 0 && (

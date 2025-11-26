@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import apiClient from '../../../api/apiClient';
+import { getFirstImageUrl, getAllImageUrls } from '../../../utils/imageUtils';
 import '../CSS/VehicleDetail.css';
 
 const VehicleDetail = () => {

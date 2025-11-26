@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import apiClient from "../../../api/apiClient";
+import { getFirstImageUrl } from "../../../utils/imageUtils";
 import "../CSS/AdminInventory.css";
 import { useNavigate } from "react-router-dom";
 
@@ -160,7 +161,7 @@ const AdminInventory = () => {
                   <td>
                     <img
                       src={
-                        car.imageUrl ||
+                        getFirstImageUrl(car.imageUrl) ||
                         "https://via.placeholder.com/80x60?text=No+Image"
                       }
                       alt={`${car.make} ${car.model}`}
