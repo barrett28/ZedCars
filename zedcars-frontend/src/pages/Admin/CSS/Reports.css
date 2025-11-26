@@ -208,9 +208,10 @@
 /* Table Section */
 .table-section {
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   overflow: hidden;
+  color: black;
+  padding: 2px;
 }
 
 .table-section h5 {
@@ -222,40 +223,47 @@
   font-weight: 700;
 }
 
-.table-responsive {
+.reports-table-responsive {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-.table {
+.reports-table-responsive .table {
   width: 100%;
   margin: 0;
   border-collapse: collapse;
 }
 
-.table th,
-.table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #e2e8f0;
+.reports-table-responsive .table td {
+  padding: 16px 12px;
+  text-align: center;
+  border-bottom: 1px solid #000000;
+  transition: background 0.2s ease;
+  border-left: 1px solid #000000;
+  border-right: 1px solid #000000;
 }
 
-.table th {
-  background: #f8fafc;
-  color: #475569;
+.reports-table-responsive .table th {
+  background: #B6C8FF;
+  color: black;
+  padding: 16px 12px;
+  text-align: center;
   font-weight: 600;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 0.95rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  white-space: nowrap;
+  border: 1px solid #000000;
 }
 
-.table tbody tr {
+.reports-table-responsive .table tbody tr {
   transition: background 0.2s ease;
 }
 
-.table tbody tr:hover {
+/* .table tbody tr:hover {
   background: #f8fafc;
-}
+} */
 
 .table td {
   color: #334155;
@@ -375,4 +383,51 @@
     padding: 1rem;
     font-size: 1rem;
   }
+}
+
+/* =============================
+   PAGINATION
+============================= */
+.admin-pagination-nav {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.admin-pagination {
+  display: flex;
+  list-style: none;
+  gap: 0.4rem;
+  padding: 0;
+}
+
+.admin-page-item button {
+  padding: 8px 14px;
+  border: 2px solid #0a56e8;
+  border-radius: 8px;
+  background: #fff;
+  color: #0a56e8;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.admin-page-item button:hover:not(:disabled),
+.admin-page-item.active button {
+  background: #0a56e8;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(10, 86, 232, 0.25);
+}
+
+.admin-page-item.disabled button {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.admin-pagination-info {
+  text-align: center;
+  margin-top: 15px;
+  color: #5f5f5f;
+  font-size: 0.9rem;
+  font-weight: 500;
 }

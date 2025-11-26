@@ -99,7 +99,7 @@ namespace ZedCars.Net8.Services
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
-                ExpiresIn = 900,
+                ExpiresIn = 86400, // 24 hours
                 User = new AdminDto
                 {
                     AdminId = admin.AdminId,

@@ -1,3 +1,4 @@
+
 .admin-dashboard{
     margin-top : 7vh;
 }
@@ -314,6 +315,7 @@
   -webkit-overflow-scrolling: touch;
   border-radius: 0 0 12px 12px;
   scrollbar-width: thin;
+  padding: 4px;
 }
 
 .table-responsive-wrapper::-webkit-scrollbar {
@@ -331,14 +333,14 @@
 }
 
 /* ==================== MAIN TABLE STYLE ==================== */
-.admin-table {
+/* .admin-table {
   width: 100%;
   min-width: 800px;
   border-collapse: separate;
   border-spacing: 0;
   font-size: 0.95rem;
   background: white;
-}
+} */
 
 .admin-table thead th {
   background: #B6C8FF;
@@ -351,23 +353,18 @@
   top: 0;
   z-index: 10;
   white-space: nowrap;
+  border: 1px solid #000000;
 }
 
 .admin-table tbody td {
   padding: 16px 12px;
   text-align: center;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid #000000;
   transition: background 0.2s ease;
+  border-left: 1px solid #000000;
+  border-right: 1px solid #000000;
 }
 
-.admin-table tbody tr:hover {
-  background-color: #f8faff !important;
-}
-
-/* Zebra striping */
-.admin-table tbody tr:nth-child(even) {
-  background-color: #fdfdfe;
-}
 
 /* Badges */
 .badge-stock {

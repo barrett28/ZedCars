@@ -77,15 +77,7 @@ const ManageUsers = () => {
     <div className="manage-users-container">
       <div className="header">
         <h2>Manage Users</h2>
-        <button 
-          className="add-user-btn"
-          onClick={() => navigate("/admin/users/add")}
-        >
-          Add New User
-        </button>
-      </div>
-
-      {/* Search and Filter Section */}
+              {/* Search and Filter Section */}
       <div className="search-filter-section">
         <div className="search-input">
           <input
@@ -107,7 +99,14 @@ const ManageUsers = () => {
           </select>
         </div>
         <button className="apply-filter-btn" onClick={handleApplyFilter}>
-          Apply
+          Filter
+        </button>
+      </div>
+        <button 
+          className="btn btn-primary"
+          onClick={() => navigate("/admin/users/add")}
+        >
+          Add New User
         </button>
       </div>
 

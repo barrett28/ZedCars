@@ -11,6 +11,8 @@ const Reports = () => {
   const [loading, setLoading] = useState(true);
   const [reportType, setReportType] = useState('carSales');
   const [selectedReportType, setSelectedReportType] = useState('carSales');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(10);
 
   useEffect(() => {
     fetchReportData();
@@ -21,6 +23,7 @@ const Reports = () => {
       const response = await apiClient.get('/Reports/sales');
       setReportData(response.data);
       setReportType(selectedReportType);
+      setCurrentPage(1);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching report data:', error);
@@ -60,6 +63,20 @@ const Reports = () => {
 
   if (loading) return <div className="loading">Loading reports...</div>;
   if (!reportData) return <div className="error">Failed to load report data</div>;
+
+  const currentData = reportType === 'carSales' ? reportData.purchases : reportData.accessoryPurchaseOnly;
+  const totalItems = currentData?.length || 0;
+  const totalPages = Math.ceil(totalItems / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const paginatedData = currentData?.slice(startIndex, endIndex) || [];
+
+  const handlePageChange = (e, page) => {
+    e.preventDefault();
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   const carChartData = {
     pie: {
@@ -233,7 +250,7 @@ const Reports = () => {
         {/* Purchase History Table */}
         <div className="table-section">
           <h5>{reportType === 'carSales' ? '🚗 Car Purchase History' : '🔧 Accessory Purchase History'}</h5>
-          <div className="table-responsive">
+          <div className="reports-table-responsive">
             <table className="table">
               <thead>
                 <tr>
@@ -258,7 +275,7 @@ const Reports = () => {
               </thead>
               <tbody>
                 {reportType === 'carSales' 
-                  ? reportData.purchases?.map((purchase, index) => (
+                  ? paginatedData?.map((purchase, index) => (
                       <tr key={index}>
                         <td>{new Date(purchase.purchaseDate).toLocaleDateString()}</td>
                         <td>{purchase.car?.brand}</td>
@@ -268,7 +285,7 @@ const Reports = () => {
                         <td>{purchase.buyerEmail}</td>
                       </tr>
                     ))
-                  : reportData.accessoryPurchaseOnly?.map((accessory, index) => (
+                  : paginatedData?.map((accessory, index) => (
                       <tr key={index}>
                         <td>{new Date(accessory.purchaseDate).toLocaleDateString()}</td>
                         <td>{accessory.buyerName}</td>
@@ -282,6 +299,48 @@ const Reports = () => {
             </table>
           </div>
         </div>
+
+        {/* Pagination */}
+        {totalPages > 0 && (
+          <>
+            <nav className="admin-pagination-nav">
+              <ul className="admin-pagination">
+                <li className={`admin-page-item ${currentPage <= 1 ? "disabled" : ""}`}>
+                  <button
+                    onClick={(e) => handlePageChange(e, currentPage - 1)}
+                    disabled={currentPage <= 1}
+                  >
+                    &laquo;
+                  </button>
+                </li>
+
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <li
+                    key={i + 1}
+                    className={`admin-page-item ${i + 1 === currentPage ? "active" : ""}`}
+                  >
+                    <button onClick={(e) => handlePageChange(e, i + 1)}>
+                      {i + 1}
+                    </button>
+                  </li>
+                ))}
+
+                <li className={`admin-page-item ${currentPage >= totalPages ? "disabled" : ""}`}>
+                  <button
+                    onClick={(e) => handlePageChange(e, currentPage + 1)}
+                    disabled={currentPage >= totalPages}
+                  >
+                    &raquo;
+                  </button>
+                </li>
+              </ul>
+            </nav>
+
+            <div className="admin-pagination-info">
+              Showing {startIndex + 1}–{Math.min(endIndex, totalItems)} of {totalItems} {reportType === 'carSales' ? 'purchases' : 'accessory purchases'}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

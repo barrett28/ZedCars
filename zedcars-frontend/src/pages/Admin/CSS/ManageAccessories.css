@@ -70,17 +70,27 @@
   border-collapse: collapse;
 }
 
-.accessories-table th,
 .accessories-table td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
+  padding: 16px 12px;
+  text-align: center;
+  border-bottom: 1px solid #000000;
+  transition: background 0.2s ease;
+  border-left: 1px solid #000000;
+  border-right: 1px solid #000000;
 }
 
 .accessories-table th {
-  background-color: #f8f9fa;
+  background: #B6C8FF;
+  color: black;
+  padding: 16px 12px;
+  text-align: center;
   font-weight: 600;
-  color: #2c3e50;
+  font-size: 0.95rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  white-space: nowrap;
+  border: 1px solid #000000;
 }
 
 .status {

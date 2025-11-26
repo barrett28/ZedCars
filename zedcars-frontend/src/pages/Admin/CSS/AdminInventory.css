@@ -190,10 +190,10 @@
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.admin-table tbody tr:hover {
+/* .admin-table tbody tr:hover {
   background: #f5f9ff;
   transform: scale(1.01);
-}
+} */
 
 /* Vehicle Image */
 .admin-vehicle-thumbnail {
