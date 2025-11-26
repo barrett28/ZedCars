@@ -7,111 +7,82 @@
 }
 
 .container{
-    margin-top: 8vh;
+    margin-top: 13vh;
     color: black;
     padding-top: 0vh;
     padding-bottom: 1vh;
 }
 
-.top-heading{
-    background-color: #FEFEFE;
-    padding: 1% 0px;
-    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.top-heading img{
-    width: 50px;
-    height: 50px;
-    /* margin-left: 4vw; */
-}
-
-/* .top-heading h1{
-    margin-left: 6vw;
-} */
-
-.below-heading{
-    margin: 4% 4vw;
-    background-color: transparent;
-}
-
-.dashboard2-overview{
-    background-color: transparent;
-    box-shadow: none;
-    /* margin-top: 5%; */
-}
-
-.dashboard-navigation {
-  width: 100%;
-  max-width: 90vw;
-  margin: auto;
+/* ---------- Top Heading Layout ---------- */
+.top-heading {
+  background: #FEFEFE;
+  padding: 1% 2vw;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   align-items: center;
-  padding: 25px;
 }
 
-/* Button Base Style */
-.dashboard-navigation button {
+/* ---------- Navigation Strip ---------- */
+.nav-strip {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.nav-items {
   position: relative;
-  overflow: hidden; /* Needed for ripple effect */
   background: #ffffff;
-  /* border: 2px solid rgba(0, 0, 0, 0.08); */
-  border-radius: 8px;
-  height: 40px;               
-  padding: 0 18px;         
-  
-  font-size: 1.1rem;
+  border: 1px solid rgba(0,0,0,0.07);
+  padding: 6px;
+  border-radius: 12px;
+  display: flex;
+  gap: 6px;
+  box-shadow: 0px 4px 18px rgba(0,0,0,0.06);
+}
+
+/* Base button style */
+.nav-items button {
+  position: relative;
+  z-index: 2;             /* Keep above sliding indicator */
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 2px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  color: #1f1f1f;
-  
-  /* box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); */
-  transition: all 0.25s ease;
+  color: #2d2d2d;
+  transition: color 0.25s ease;
 }
 
-/* Hover Micro Interaction */
-.dashboard-navigation button:hover {
-  border-color: #2a2a6a;
-  background: #f3f4ff;
-  /* transform: translateY(-3px) scale(1.02);    */
-  box-shadow: 0px 10px 22px rgba(0, 0, 0, 0.15);
-}
 
-/* Ripple Effect */
-.dashboard-navigation button:active::after {
+.nav-items::before {
   content: "";
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 0;
-  height: 0;
-  /* background: rgba(80, 80, 200, 0.25); */
-  background: #2c3e50;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: ripple 0.45s ease-out;
+  top: 5px;
+  left: var(--indicator-left);
+  width: var(--indicator-width);
+  height: calc(100% - 10px);
+
+  background: linear-gradient(135deg, #2a2a6a, #4646a3);
+  border-radius: 10px;
+  color: black;
+  z-index: 1;
+  transition: all 0.35s cubic-bezier(.25,.46,.45,.94); /* Smooth slide */
+  box-shadow: 0px 4px 15px rgba(44, 44, 120, 0.25);
 }
 
-/* Ripple Animation Keyframes */
-@keyframes ripple {
-  to {
-    width: 300px;
-    height: 300px;
-    opacity: 0;
-  }
+
+.nav-items button.active {
+  color: white;
 }
 
-/* Active Tab Style */
-.dashboard-navigation button.active {
+
+/* .nav-items button.active {
   background: linear-gradient(135deg, #2a2a6a, #4646a3);
   color: white;
-  border: none;
-  /* transform: translateY(-4px) scale(1.03); ⭐ Slight pop effect */
-  box-shadow: 0px 12px 30px rgba(44, 44, 120, 0.4);
-}
+  box-shadow: 0px 6px 18px rgba(44, 44, 120, 0.3);
+}  */
 
 
 .analysis-count{

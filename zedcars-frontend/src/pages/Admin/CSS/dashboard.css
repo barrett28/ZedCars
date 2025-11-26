@@ -236,9 +236,9 @@
 }
 
 .metric-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 20px;
+    background: #B6C8FF;
+    color: black;
+    padding: 10px 20px;
     border-radius: 14px;
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -341,8 +341,8 @@
 }
 
 .admin-table thead th {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #B6C8FF;
+  color: black;
   padding: 16px 12px;
   text-align: center;
   font-weight: 600;

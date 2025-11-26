@@ -10,13 +10,11 @@ import Reports from "./Reports";
 import apiClient from "../../../api/apiClient";
 import { useAuth } from "../../../context/AuthContext";
 
-
 const Dashboard2 = () => {
   const [activeTab, setActiveTab] = useState("dashboard2");
   const [dashboard, setDashboard] = useState(null);
   const [chartReload, setChartReload] = useState(0);
   const { user } = useAuth();
-
 
   // Fetch Dashboard Data
   useEffect(() => {
@@ -29,7 +27,16 @@ const Dashboard2 = () => {
         console.error("Error loading dashboard data.", error);
       });
   }, []);
+  
+  useEffect(() => {
+  const activeBtn = document.querySelector(".nav-items .active");
+  const nav = document.querySelector(".nav-items");
 
+  if (activeBtn && nav) {
+    nav.style.setProperty("--indicator-left", activeBtn.offsetLeft + "px");
+    nav.style.setProperty("--indicator-width", activeBtn.offsetWidth + "px");
+  }
+}, [activeTab]);
 
   // Render Stock VS Sold Chart
   useEffect(() => {
@@ -40,11 +47,7 @@ const Dashboard2 = () => {
     )
       return;
 
-
-    const ctx = document
-      .getElementById("stockSoldChart")
-      .getContext("2d");
-
+    const ctx = document.getElementById("stockSoldChart").getContext("2d");
 
     const chart = new Chart(ctx, {
       type: "bar",
@@ -65,176 +68,171 @@ const Dashboard2 = () => {
       },
       options: {
         responsive: true,
-          maintainAspectRatio: false,
+        maintainAspectRatio: false,
         plugins: {
           title: { display: true, text: "Stock Available vs Units Sold" },
           legend: { position: "bottom" },
         },
         scales: {
-        x: {
-          ticks: {
-            maxRotation: 45,
-            minRotation: 0
-          }
-        }
-      }
+          x: {
+            ticks: {
+              maxRotation: 45,
+              minRotation: 0,
+            },
+          },
+        },
       },
     });
-
 
     return () => chart.destroy();
   }, [dashboard, activeTab, chartReload]);
 
-
-  if (!dashboard)
-    return <div className="loading">Loading Dashboard...</div>;
-
+  if (!dashboard) return <div className="loading">Loading Dashboard...</div>;
 
   return (
     <div className="container">
       {/* ------------ Header -------------- */}
       <div className="top-heading">
-        {/* <img src={car_logo} alt="car_logo" /> */}
         <h1>Dashboard</h1>
 
-      {/* ------------ Navigation Buttons -------------- */}
-      <div className="dashboard-navigation">
-    <button
-    className={activeTab === "dashboard2" ? "active" : ""}
-    onClick={() => {
-      setActiveTab("dashboard2");
-      setChartReload((prev) => prev + 1);
-    }}
-  >
-    Overview
-  </button>
+        {/* ----------- New Modern Navigation Strip ----------- */}
+        <div className="nav-strip">
+          <div className="nav-items">
+            <button
+              className={activeTab === "dashboard2" ? "active" : ""}
+              onClick={() => {
+                setActiveTab("dashboard2");
+                setChartReload((prev) => prev + 1);
+              }}
+            >
+              Overview
+            </button>
 
-  {(user.role === "SuperAdmin" || user.role === "Manager") && (
-    <>
-      <button
-        className={activeTab === "inventory" ? "active" : ""}
-        onClick={() => setActiveTab("inventory")}
-      >
-        Vehicle
-      </button>
-      <button
-        className={activeTab === "accessories" ? "active" : ""}
-        onClick={() => setActiveTab("accessories")}
-      >
-        Accessories
-      </button>
-    </>
-  )}
+            {(user.role === "SuperAdmin" || user.role === "Manager") && (
+              <>
+                <button
+                  className={activeTab === "inventory" ? "active" : ""}
+                  onClick={() => setActiveTab("inventory")}
+                >
+                  Vehicle
+                </button>
 
-  {user.role === "SuperAdmin" && (
-    <button
-      className={activeTab === "users" ? "active" : ""}
-      onClick={() => setActiveTab("users")}
-    >
-      Users
-    </button>
-  )}
+                <button
+                  className={activeTab === "accessories" ? "active" : ""}
+                  onClick={() => setActiveTab("accessories")}
+                >
+                  Accessories
+                </button>
+              </>
+            )}
 
-  <button
-    className={activeTab === "report" ? "active" : ""}
-    onClick={() => setActiveTab("report")}
-  >
-    View Report
-  </button>
-</div>
+            {user.role === "SuperAdmin" && (
+              <button
+                className={activeTab === "users" ? "active" : ""}
+                onClick={() => setActiveTab("users")}
+              >
+                Users
+              </button>
+            )}
 
+            <button
+              className={activeTab === "report" ? "active" : ""}
+              onClick={() => setActiveTab("report")}
+            >
+              View Report
+            </button>
+          </div>
+        </div>
       </div>
-
-
 
       {/* ------------ MAIN CONTENT AREA -------------- */}
       <div className="dashboard2-overview">
         {activeTab === "dashboard2" && (
           <>
-        
-<div className="dashboard-grid-container">
-  <h2 className="mb-4">📊 Dashboard Overview</h2>
+            <div className="dashboard-grid-container">
+              <h2 className="mb-4">📊 Dashboard Overview</h2>
 
-  <div className="dashboard-grid">
-    <div className="grid-card">
-      <i className="bi bi-car-front-fill text-primary fs-1"></i>
-      <div>
-        <p className="label">Total Vehicles</p>
-        <h3 className="value">{dashboard.totalCars || 0}</h3>
-      </div>
-    </div>
+              <div className="dashboard-grid">
+                <div className="grid-card">
+                  <i className="bi bi-car-front-fill text-primary fs-1"></i>
+                  <div>
+                    <p className="label">Total Vehicles</p>
+                    <h3 className="value">{dashboard.totalCars || 0}</h3>
+                  </div>
+                </div>
 
-    <div className="grid-card">
-      <i className="bi bi-check-circle-fill text-info fs-1"></i>
-      <div>
-        <p className="label">Available Cars</p>
-        <h3 className="value">{dashboard.activeVehicles || 0}</h3>
-      </div>
-    </div>
+                <div className="grid-card">
+                  <i className="bi bi-check-circle-fill text-info fs-1"></i>
+                  <div>
+                    <p className="label">Available Cars</p>
+                    <h3 className="value">{dashboard.activeVehicles || 0}</h3>
+                  </div>
+                </div>
 
-    <div className="grid-card">
-      <i className="bi bi-cash-stack text-success fs-1"></i>
-      <div>
-        <p className="label">Car Inventory</p>
-        <h3 className="value">${dashboard.vehiclePrice || 0}</h3>
-      </div>
-    </div>
+                <div className="grid-card">
+                  <i className="bi bi-cash-stack text-success fs-1"></i>
+                  <div>
+                    <p className="label">Car Inventory</p>
+                    <h3 className="value">${dashboard.vehiclePrice || 0}</h3>
+                  </div>
+                </div>
 
-    <div className="grid-card">
-      <i className="bi bi-currency-dollar text-success fs-1"></i>
-      <div>
-        <p className="label">Car Sales</p>
-        <h3 className="value">${(dashboard.totalSales || 0).toFixed(2)}</h3>
-      </div>
-    </div>
+                <div className="grid-card">
+                  <i className="bi bi-currency-dollar text-success fs-1"></i>
+                  <div>
+                    <p className="label">Car Sales</p>
+                    <h3 className="value">
+                      ${(dashboard.totalSales || 0).toFixed(2)}
+                    </h3>
+                  </div>
+                </div>
 
-    <div className="grid-card">
-      <i className="bi bi-grid-fill text-success fs-1"></i>
-      <div>
-        <p className="label">Vehicle Brands</p>
-        <h3 className="value">8</h3>
-      </div>
-    </div>
+                <div className="grid-card">
+                  <i className="bi bi-grid-fill text-success fs-1"></i>
+                  <div>
+                    <p className="label">Vehicle Brands</p>
+                    <h3 className="value">8</h3>
+                  </div>
+                </div>
 
-    <div className="grid-card">
-      <i className="bi bi-people-fill text-warning fs-1"></i>
-      <div>
-        <p className="label">Total Users</p>
-        <h3 className="value">{dashboard.totalUsers || 0}</h3>
-      </div>
-    </div>
+                <div className="grid-card">
+                  <i className="bi bi-people-fill text-warning fs-1"></i>
+                  <div>
+                    <p className="label">Total Users</p>
+                    <h3 className="value">{dashboard.totalUsers || 0}</h3>
+                  </div>
+                </div>
 
-    <div className="grid-card">
-      <i className="bi bi-box-seam-fill text-danger fs-1"></i>
-      <div>
-        <p className="label">Accessory Inventory</p>
-        <h3 className="value">${dashboard.accessoriesTotal || 0}</h3>
-      </div>
-    </div>
+                <div className="grid-card">
+                  <i className="bi bi-box-seam-fill text-danger fs-1"></i>
+                  <div>
+                    <p className="label">Accessory Inventory</p>
+                    <h3 className="value">
+                      ${dashboard.accessoriesTotal || 0}
+                    </h3>
+                  </div>
+                </div>
 
-    <div className="grid-card">
-      <i className="bi bi-graph-up-arrow text-danger fs-1"></i>
-      <div>
-        <p className="label">Accessory Sales</p>
-        <h3 className="value">${dashboard.accessoriesSales || 0}</h3>
-      </div>
-    </div>
-  </div>
-</div>
-
-       
-
+                <div className="grid-card">
+                  <i className="bi bi-graph-up-arrow text-danger fs-1"></i>
+                  <div>
+                    <p className="label">Accessory Sales</p>
+                    <h3 className="value">
+                      ${dashboard.accessoriesSales || 0}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             {/* ---------- Analytics Chart Section ---------- */}
             <div className="analytics-section mt-4 d-flex flex-column">
               <h2>Inventory Analytics</h2>
 
-
               <div className="analytics-grid">
                 <div className="analytics-chart">
                   <canvas id="stockSoldChart"></canvas>
                 </div>
-
 
                 <div className="analytics-metrics">
                   <div className="metric-card">
@@ -247,7 +245,6 @@ const Dashboard2 = () => {
                     </div>
                   </div>
 
-
                   <div className="metric-card">
                     <div className="metric-title">Average Sale Price</div>
                     <div className="metric-value">
@@ -255,7 +252,6 @@ const Dashboard2 = () => {
                     </div>
                     <div className="metric-detail">Per vehicle</div>
                   </div>
-
 
                   <div className="metric-card">
                     <div className="metric-title">Total Units Sold</div>
@@ -268,14 +264,15 @@ const Dashboard2 = () => {
               </div>
             </div>
 
-
             <div className="admin-table-main">
-            {/* Recent Inventory Section */}
+              {/* Recent Inventory Section */}
               {/* ==================== RECENT INVENTORY TABLE ==================== */}
               <div className="admin-section-responsive">
                 <div className="section-header">
                   <h2>Recent Inventory</h2>
-                  <a href="/Admin/Inventory" className="view-all">View All →</a>
+                  <a href="/Admin/Inventory" className="view-all">
+                    View All →
+                  </a>
                 </div>
 
                 <div className="table-responsive-wrapper">
@@ -294,21 +291,32 @@ const Dashboard2 = () => {
                         dashboard.recentInventory.map((car, i) => (
                           <tr key={i}>
                             <td data-label="Vehicle">
-                              <strong>{car.brand} {car.model}</strong>
+                              <strong>
+                                {car.brand} {car.model}
+                              </strong>
                             </td>
-                            <td data-label="Transmission">{car.transmission}</td>
+                            <td data-label="Transmission">
+                              {car.transmission}
+                            </td>
                             <td data-label="Quantity">
-                              <span className="badge-stock">{car.stockQuantity}</span>
+                              <span className="badge-stock">
+                                {car.stockQuantity}
+                              </span>
                             </td>
                             <td data-label="Price">
-                              <strong className="text-success">${Number(car.price).toLocaleString()}</strong>
+                              <strong className="text-success">
+                                ${Number(car.price).toLocaleString()}
+                              </strong>
                             </td>
                             <td data-label="Added Date">
-                              {new Date(car.createdDate).toLocaleDateString("en-US", {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                              })}
+                              {new Date(car.createdDate).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                }
+                              )}
                             </td>
                           </tr>
                         ))
@@ -355,15 +363,20 @@ const Dashboard2 = () => {
                               {booking.car?.brand} {booking.car?.model}
                             </td>
                             <td data-label="Date">
-                              {new Date(booking.bookingDate).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                              })}
+                              {new Date(booking.bookingDate).toLocaleDateString(
+                                "en-US",
+                                {
+                                  month: "short",
+                                  day: "numeric",
+                                }
+                              )}
                             </td>
                             <td data-label="Phone">{booking.customerPhone}</td>
                             <td data-label="Time Slot">{booking.timeSlot}</td>
                             <td data-label="Status">
-                              <span className={`status-badge status-${booking.status.toLowerCase()}`}>
+                              <span
+                                className={`status-badge status-${booking.status.toLowerCase()}`}
+                              >
                                 {booking.status}
                               </span>
                             </td>
@@ -393,7 +406,6 @@ const Dashboard2 = () => {
                 </a>
               </div>
 
-
               <div className="ua-grid">
                 {dashboard.recentActivities?.length > 0 ? (
                   dashboard.recentActivities.map((activity, i) => {
@@ -412,16 +424,13 @@ const Dashboard2 = () => {
                       }
                     };
 
-
                     const icon = mapIcon(activity.activityType);
-
 
                     return (
                       <div key={i} className="ua-card">
                         <div className={`ua-icon text-${icon.color}`}>
                           <i className={`bi ${icon.icon}`}></i>
                         </div>
-
 
                         <div className="ua-body">
                           <div className="ua-title-row">
@@ -441,15 +450,12 @@ const Dashboard2 = () => {
                             </small>
                           </div>
 
-
                           <div className="ua-user">
                             <i className="bi bi-person me-1"></i>
                             {activity.username}
                           </div>
 
-
                           <p className="ua-desc">{activity.description}</p>
-
 
                           <span
                             className={`badge bg-${
@@ -477,18 +483,13 @@ const Dashboard2 = () => {
           </>
         )}
 
-
         {/* ---------- TABS COMPONENT RENDERS ---------- */}
-
 
         {activeTab === "inventory" && <AdminInventory />}
 
-
         {activeTab === "accessories" && <ManageAccessories />}
 
-
         {activeTab === "users" && <ManageUsers />}
-
 
         {activeTab === "report" && <Reports />}
       </div>
@@ -496,9 +497,4 @@ const Dashboard2 = () => {
   );
 };
 
-
 export default Dashboard2;
-
-
-
-
