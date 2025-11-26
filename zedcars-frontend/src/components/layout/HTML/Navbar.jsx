@@ -181,7 +181,7 @@ const handleHoverLeave = (ev, i) => {
 
         { text: "Manage Users", href: "/admin/users", image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg", show: user?.isAuthenticated && (user?.role === "Admin" || user?.role === "SuperAdmin") },
         { text: "Manage Vehicles", href: "/Admin/AdminInventory", image: "https://images.pexels.com/photos/1592384/pexels-photo-1592384.jpeg", show: user?.isAuthenticated && (user?.role === "Admin" || user?.role === "SuperAdmin") },    
-        { text: "Manage Accessories", href: "/Admin/ManageAccessories", image: "https://img.freepik.com/free-photo/different-car-accessories-arrangement_23-2149030403.jpg", show: user?.isAuthenticated && (user?.role === "Admin" || user?.role === "SuperAdmin") },
+        { text: "Accessories", href: "/Admin/ManageAccessories", image: "https://img.freepik.com/free-photo/different-car-accessories-arrangement_23-2149030403.jpg", show: user?.isAuthenticated && (user?.role === "Admin" || user?.role === "SuperAdmin") },
         { text: "View Reports", href: "/Admin/Reports", image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg", show: user?.isAuthenticated && (user?.role === "Admin" || user?.role === "SuperAdmin") },
         { text: "Dashboard", href: "/dashboard2", image: "https://img.freepik.com/free-photo/business-report-graphs-charts-business-reports-pile-documents-business-concept_1150-2254.jpg", show: user?.isAuthenticated && (user?.role === "Admin" || user?.role === "SuperAdmin") },
 

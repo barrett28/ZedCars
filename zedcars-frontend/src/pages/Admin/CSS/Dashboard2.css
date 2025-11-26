@@ -523,3 +523,37 @@
     align-self: flex-start;
   }
 }
+
+
+/* ==================== NAV-STRIP RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .top-heading {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+
+  .nav-strip {
+    justify-content: center;
+  }
+
+  .nav-items {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+  }
+
+  .nav-items button {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-items button {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+}

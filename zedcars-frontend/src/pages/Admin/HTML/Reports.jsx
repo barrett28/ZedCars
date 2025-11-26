@@ -157,7 +157,7 @@ const Reports = () => {
                 onChange={(e) => setSelectedReportType(e.target.value)} 
                 className="form-select"
               >
-                <option value="carSales">🚗 Car Sales</option>
+                <option value="carSales"><i class="fa-thin fa-car-side"></i>Car Sales</option>
                 <option value="accessorySales">🔧 Accessory Sales</option>
               </select>
             </div>
@@ -217,7 +217,7 @@ const Reports = () => {
         {/* Charts */}
         <div className="charts-section">
           <div className="chart-card">
-            <h5>{reportType === 'carSales' ? '🚗 Sales by Brand' : '🔧 Sales by Category'}</h5>
+            <h5>{reportType === 'carSales' ? 'Sales by Brand' : 'Sales by Category'}</h5>
             <Doughnut 
               data={reportType === 'carSales' ? carChartData.pie : accessoryChartData.pie}
               options={{ 
@@ -249,7 +249,7 @@ const Reports = () => {
 
         {/* Purchase History Table */}
         <div className="table-section">
-          <h5>{reportType === 'carSales' ? '🚗 Car Purchase History' : '🔧 Accessory Purchase History'}</h5>
+          <h5>{reportType === 'carSales' ? 'Car Purchase History' : 'Accessory Purchase History'}</h5>
           <div className="reports-table-responsive">
             <table className="table">
               <thead>

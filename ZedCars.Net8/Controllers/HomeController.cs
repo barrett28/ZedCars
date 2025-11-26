@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Net.Mime;
 using ZedCars.Net8.Models;
-using ZedCars.Net8.ViewModels.HomeCont;
-using ZedCars.Net8.Services.Interfaces;
 using ZedCars.Net8.Services;
+using ZedCars.Net8.Services.Interfaces;
+using ZedCars.Net8.ViewModels.HomeCont;
 
 namespace ZedCars.Net8.Controllers
 {
@@ -19,8 +20,9 @@ namespace ZedCars.Net8.Controllers
         private readonly IUserActivityRepository _userActivityRepository;
         private readonly IAccessoryRepository _accessoryRepository;
         private readonly ILogger<HomeController> _logger;
+        private readonly PdfReceiptService _pdfReceiptService;
 
-        public HomeController(ICarRepository carRepository, IPurchaseRepository purchaseRepository, ITestDriveRepository testDriveRepository, ILogger<HomeController> logger, IUserActivityRepository userActivityRepository, IAccessoryRepository accessoryRepository)
+        public HomeController(ICarRepository carRepository, IPurchaseRepository purchaseRepository, ITestDriveRepository testDriveRepository, ILogger<HomeController> logger, IUserActivityRepository userActivityRepository, IAccessoryRepository accessoryRepository, PdfReceiptService pdfReceiptService)
         {
             _carRepository = carRepository;
             _purchaseRepository = purchaseRepository;
@@ -28,6 +30,7 @@ namespace ZedCars.Net8.Controllers
             _logger = logger;
             _userActivityRepository = userActivityRepository;
             _accessoryRepository = accessoryRepository;
+            _pdfReceiptService = pdfReceiptService;
         }
 
         [HttpGet("index")]
@@ -218,6 +221,34 @@ namespace ZedCars.Net8.Controllers
             });
         }
 
+
+        [HttpGet("downloadReceipt/{purchaseId}")]
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> DownloadReceipt(int purchaseId)
+        {
+            var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return Unauthorized();
+            }
+
+            var purchase = await _purchaseRepository.GetPurchaseByIdAsync(purchaseId);
+
+            if (purchase == null || purchase.BuyerEmail != userEmail)
+            {
+                return NotFound(new { message = "Purchase not found" });
+            }
+
+            var pdfBytes = _pdfReceiptService.GeneratePurchaseReceipt(purchase);
+
+            return File(
+                pdfBytes,
+                "application/pdf",
+                $"Receipt_{purchaseId}_{DateTime.Now:yyyyMMdd}.pdf"
+            );
+        }
+
+
         [HttpGet("purchase/{id}")]
         public async Task<IActionResult> Purchase(int id)
         {
@@ -370,5 +401,5 @@ namespace ZedCars.Net8.Controllers
             await _testDriveRepository.AddTestDriveAsync(testDrive);
             return Ok(new { message = "Test drive booked successfully!" });
         }
-    }
+}
 }
