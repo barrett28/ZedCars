@@ -85,6 +85,7 @@ builder.Services.AddScoped<IPdfService, PdfService>();
 builder.Services.AddScoped<IExcelService, ExcelService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<PdfReceiptService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../../api/apiClient";
-import "../CSS/AddVehicle.css"
+import "../CSS/AddVehicle.css";
 
 const AddVehicle = () => {
   const navigate = useNavigate();
@@ -17,29 +17,71 @@ const AddVehicle = () => {
     transmission: "",
     mileage: "",
     description: "",
-    imageUrl: "",
+    imageUrl: "", // JSON string of URLs
   });
 
   const [message, setMessage] = useState({ type: "", text: "" });
   const [loading, setLoading] = useState(false);
 
+  // Multi-image handling states
+  const [imageUrls, setImageUrls] = useState([]);
+  const [urlInput, setUrlInput] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if ((name === 'price' || name === 'stockQuantity' || name === 'mileage') && value < 0) return;
-    if (name === 'year' && (value < 1900 || value > 2030)) return;
-    if (name === 'color') {
-      const lettersOnly = value.replace(/[^a-zA-Z\s]/g, '');
+
+    if ((name === "price" || name === "stockQuantity" || name === "mileage") && value < 0) return;
+
+    if (name === "year" && (value < 1900 || value > 2030)) return;
+
+    if (name === "color") {
+      const lettersOnly = value.replace(/[^a-zA-Z\s]/g, "");
       setFormData({ ...formData, [name]: lettersOnly });
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
 
+  // Add a single image URL
+  const addImageFromUrl = (url) => {
+    url = url.trim();
+    if (!url || imageUrls.includes(url)) return;
+
+    const img = new Image();
+    img.onload = () => {
+      const newImageUrls = [...imageUrls, url];
+      setImageUrls(newImageUrls);
+      setFormData({ ...formData, imageUrl: JSON.stringify(newImageUrls) });
+    };
+    img.onerror = () => {
+      alert(`Failed to load image: ${url}`);
+    };
+    img.src = url;
+  };
+
+  // Add multiple image URLs
+  const handleAddImages = () => {
+    const text = urlInput.trim();
+    if (!text) return;
+
+    const urls = text.split(/\s+|,|\n/).filter(Boolean);
+    urls.forEach(addImageFromUrl);
+    setUrlInput("");
+  };
+
+  // Remove an image
+  const removeImage = (urlToRemove) => {
+    const newImageUrls = imageUrls.filter((u) => u !== urlToRemove);
+    setImageUrls(newImageUrls);
+    setFormData({ ...formData, imageUrl: JSON.stringify(newImageUrls) });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      await apiClient.post("/admin/vehicle", formData);
+      await apiClient.post("/admin/vehicles", formData);
       setMessage({ type: "success", text: "Vehicle added successfully!" });
       setTimeout(() => navigate("/Admin/AdminInventory"), 2000);
     } catch {
@@ -51,19 +93,6 @@ const AddVehicle = () => {
 
   return (
     <div className="admin-add-vehicle-page">
-      {/* <header className="admin-header">
-        <h1>Add New Vehicle</h1>
-        <p>Add a new vehicle to your inventory.</p>
-        <div className="admin-actions">
-          <button onClick={() => navigate("/Admin/Dashboard")} className="admin-btn admin-btn-secondary">
-            Back to Dashboard
-          </button>
-          <button onClick={() => navigate("/Admin/AdminInventory")} className="admin-btn admin-btn-secondary">
-            View Inventory
-          </button>
-        </div>
-      </header> */}
-
       {message.text && (
         <div className={`admin-alert ${message.type === "success" ? "admin-alert-success" : "admin-alert-danger"}`}>
           {message.text}
@@ -73,6 +102,7 @@ const AddVehicle = () => {
       <div className="admin-form-container">
         <form onSubmit={handleSubmit} id="admin-vehicle-form">
           <div className="admin-grid">
+
             {/* LEFT COLUMN */}
             <div className="admin-form-column">
               <h3>Basic Details</h3>
@@ -153,15 +183,55 @@ const AddVehicle = () => {
 
             {/* RIGHT COLUMN */}
             <div className="admin-form-column">
-              <h3>Image & Description</h3>
+              <h3>Images & Description</h3>
 
               <div className="admin-form-group">
-                <label>Image URL</label>
-                <input type="url" name="imageUrl" value={formData.imageUrl} onChange={handleChange} />
+                <label>Vehicle Images (URLs)</label>
+                <div className="url-input-zone">
+                  <p>Paste one or more image URLs (line-by-line, comma, or space)</p>
+
+                  <textarea
+                    value={urlInput}
+                    onChange={(e) => setUrlInput(e.target.value)}
+                    placeholder="https://example.com/car1.jpg&#10;https://example.com/car2.png"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+                        e.preventDefault();
+                        handleAddImages();
+                      }
+                    }}
+                  />
+
+                  <button type="button" onClick={handleAddImages} className="add-images-btn">
+                    Add Images
+                  </button>
+                </div>
               </div>
 
-              {formData.imageUrl && (
-                <img src={formData.imageUrl} alt="Car Preview" className="admin-preview-image" />
+              {imageUrls.length > 0 && (
+                <div className="preview-container">
+                  {imageUrls.map((url, index) => (
+                    <div key={index} className="image-preview">
+                      <img src={url} alt={`Preview ${index + 1}`} />
+                      <button type="button" className="remove-btn" onClick={() => removeImage(url)}>
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {imageUrls.length > 0 && (
+                <div className="url-list">
+                  <h4>Current URLs ({imageUrls.length}):</h4>
+                  <div className="url-items">
+                    {imageUrls.map((url, index) => (
+                      <div key={index} className="url-item">
+                        {index + 1}. {url}
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
 
               <div className="admin-form-group mt-3">
@@ -179,15 +249,13 @@ const AddVehicle = () => {
                 <button type="submit" className="admin-btn admin-btn-primary" disabled={loading}>
                   {loading ? "Adding..." : "Add Vehicle"}
                 </button>
-                <button
-                  type="button"
-                  className="admin-btn admin-btn-secondary"
-                  onClick={() => navigate("/Admin/AdminInventory")}
-                >
+
+                <button type="button" className="admin-btn admin-btn-secondary" onClick={() => navigate("/Admin/AdminInventory")}>
                   Cancel
                 </button>
               </div>
             </div>
+
           </div>
         </form>
       </div>

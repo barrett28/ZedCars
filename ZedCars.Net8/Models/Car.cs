@@ -40,7 +40,7 @@ namespace ZedCars.Net8.Models
         [StringLength(500)]
         public string? Description { get; set; }
         
-        [StringLength(200)]
+        [StringLength(2000)]
         public string? ImageUrl { get; set; }
         
         public DateTime? CreatedDate { get; set; } = DateTime.Now;

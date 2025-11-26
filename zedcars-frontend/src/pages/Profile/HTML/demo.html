@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .url-input-zone {
+      border: 2px dashed #ccc;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      background: #f9f9f9;
+    }
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 12px;
+      margin-top: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: monospace;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .preview-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .image-preview {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .remove-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    .url-list {
+      margin-top: 30px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 14px;
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+    }
+    .url-list h4 {
+      margin: 0 0 10px 0;
+      color: #333;
+    }
+    .url-item {
+      margin: 8px 0;
+      word-break: break-all;
+      padding: 4px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .url-count {
+      color: #007bff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h3>Add Images by URL</h3>
+<div class="url-input-zone">
+  <p>Paste one or more image URLs (one per line or separated by comma/space)</p>
+  <textarea id="urlInput" placeholder="https://example.com/image1.jpg
+https://example.com/image2.png
+https://picsum.photos/800/600"></textarea>
+  <br>
+  <button id="addBtn">Add Images</button>
+</div>
+
+<div class="preview-container" id="previewContainer"></div>
+
+<!-- This is the new live URL list -->
+<div class="url-list" id="urlList">
+  <h4>Current URLs in <code>imageUrls</code> array (<span class="url-count" id="urlCount">0</span>):</h4>
+  <div id="urlItems"></div>
+</div>
+
+<script>
+  const urlInput = document.getElementById('urlInput');
+  const addBtn = document.getElementById('addBtn');
+  const previewContainer = document.getElementById('previewContainer');
+  const urlItemsContainer = document.getElementById('urlItems');
+  const urlCountElement = document.getElementById('urlCount');
+
+  let imageUrls = []; // Your main array
+
+  // Function to refresh the URL list display
+  function updateUrlList() {
+    urlItemsContainer.innerHTML = '';
+    if (imageUrls.length === 0) {
+      urlItemsContainer.innerHTML = '<em style="color:#888;">No URLs added yet</em>';
+    } else {
+      imageUrls.forEach((url, index) => {
+        const div = document.createElement('div');
+        div.className = 'url-item';
+        div.textContent = `${index + 1}. ${url}`;
+        urlItemsContainer.appendChild(div);
+      });
+    }
+    urlCountElement.textContent = imageUrls.length;
+  }
+
+  function addImageFromUrl(url) {
+    url = url.trim();
+    if (!url || imageUrls.includes(url)) return;
+
+    const img = new Image();
+    img.onload = () => {
+      imageUrls.push(url);
+      createPreview(url);
+      updateUrlList(); // Refresh list
+    };
+    img.onerror = () => {
+      alert(`Failed to load image: ${url}`);
+    };
+    img.src = url;
+  }
+
+  function createPreview(url) {
+    const div = document.createElement('div');
+    div.className = 'image-preview';
+
+    const imgEl = document.createElement('img');
+    imgEl.src = url;
+    imgEl.alt = 'Preview';
+
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = '×';
+    removeBtn.className = 'remove-btn';
+    removeBtn.onclick = () => {
+      div.remove();
+      imageUrls = imageUrls.filter(u => u !== url);
+      updateUrlList(); // Refresh list on remove
+      console.log('Current URLs:', imageUrls);
+    };
+
+    div.appendChild(imgEl);
+    div.appendChild(removeBtn);
+    previewContainer.appendChild(div);
+  }
+
+  addBtn.addEventListener('click', () => {
+    const text = urlInput.value.trim();
+    if (!text) return;
+    const urls = text.split(/\s+|,|\n/).filter(Boolean);
+    urls.forEach(addImageFromUrl);
+    urlInput.value = '';
+  });
+
+  urlInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      addBtn.click();
+    }
+  });
+
+  // Initial display
+  updateUrlList();
+
+  // Optional: access from console
+  window.getImageUrls = () => imageUrls;
+</script>
+
+</body>
+</html>
