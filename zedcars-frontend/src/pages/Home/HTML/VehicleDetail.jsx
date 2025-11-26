@@ -111,7 +111,7 @@ const VehicleDetail = () => {
       <section className="vd-hero-section">
         <div className="vd-image-container">
           <img 
-            src={car.imageUrl || "https://via.placeholder.com/1200x800/111827/ffffff?text=NO+IMAGE"} 
+            src={getFirstImageUrl(car.imageUrl) || "https://via.placeholder.com/1200x800/111827/ffffff?text=NO+IMAGE"} 
             alt={`${car.brand} ${car.model}`}
             className="vd-main-image"
           />
