@@ -39,13 +39,13 @@
 }
 
 .btn-edit {
-  background-color: #f39c12;
+  background-color: #0a56e8;
   color: white;
   margin-right: 5px;
 }
 
 .btn-edit:hover {
-  background-color: #e67e22;
+  background-color: #0e45aa;
 }
 
 .btn-delete {

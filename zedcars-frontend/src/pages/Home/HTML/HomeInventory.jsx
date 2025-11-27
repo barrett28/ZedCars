@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import apiClient from "../../../api/apiClient";
-import { getFirstImageUrl } from '../../../utils/imageUtils';
+import { getFirstImageUrl } from "../../../utils/imageUtils";
 import "../../Home/CSS/HomeInventory.css";
 import { useNavigate } from "react-router-dom";
 
@@ -49,7 +49,6 @@ const HomeInventory = () => {
       });
 
       const response = await apiClient.get(`/home/inventory?${params}`);
-
 
       // ✅ Normalize response keys (match React casing)
       setData({
@@ -113,7 +112,11 @@ const HomeInventory = () => {
       {/* Filter Form */}
       <form className="filter-form" onSubmit={handleFilterSubmit}>
         <div className="filter-grid">
-          <select name="brand" className="form-select" defaultValue={selectedBrand}>
+          <select
+            name="brand"
+            className="form-select"
+            defaultValue={selectedBrand}
+          >
             <option value="">All Brands</option>
             {brands.map((b, i) => (
               <option key={i} value={b}>
@@ -122,7 +125,11 @@ const HomeInventory = () => {
             ))}
           </select>
 
-          <select name="priceRange" className="form-select" defaultValue={selectedPriceRange}>
+          <select
+            name="priceRange"
+            className="form-select"
+            defaultValue={selectedPriceRange}
+          >
             <option value="">All Prices</option>
             <option value="0-20000">$0 - $20,000</option>
             <option value="20001-30000">$20,001 - $30,000</option>
@@ -131,7 +138,11 @@ const HomeInventory = () => {
             <option value="50001-60000">$50,001 - $60,000</option>
           </select>
 
-          <select name="fuelType" className="form-select" defaultValue={selectedFuelType}>
+          <select
+            name="fuelType"
+            className="form-select"
+            defaultValue={selectedFuelType}
+          >
             <option value="">All Fuel Types</option>
             {fuelTypes.map((f, i) => (
               <option key={i} value={f}>
@@ -150,11 +161,19 @@ const HomeInventory = () => {
       <div className="inventory-grid">
         {cars.length > 0 ? (
           cars.map((car) => (
-            <div className="vehicle-card" key={car.id} onClick={() => navigate(`/vehicle/${car.carId || car.id}`)} style={{cursor: 'pointer'}}>
+            <div
+              className="vehicle-card"
+              key={car.id}
+              onClick={() => navigate(`/vehicle/${car.carId || car.id}`)}
+              style={{ cursor: "pointer" }}
+            >
               <div className="vehicle-image">
                 <img
                   // src={car.imageUrl || "https://via.placeholder.com/300x200?text=No+Image"}
-                  src={getFirstImageUrl(car.imageUrl) || "https://via.placeholder.com/300x200?text=No+Image"}
+                  src={
+                    getFirstImageUrl(car.imageUrl) ||
+                    "https://via.placeholder.com/300x200?text=No+Image"
+                  }
                   alt={`${car.make} ${car.model}`}
                 />
                 {car.stockQuantity <= 0 && (
@@ -168,8 +187,12 @@ const HomeInventory = () => {
                 {car.year && <p className="vehicle-year">{car.year}</p>}
 
                 <div className="vehicle-details">
-                  {car.fuelType && <span className="detail-item">{car.fuelType}</span>}
-                  {car.transmission && <span className="detail-item">{car.transmission}</span>}
+                  {car.fuelType && (
+                    <span className="detail-item">{car.fuelType}</span>
+                  )}
+                  {car.transmission && (
+                    <span className="detail-item">{car.transmission}</span>
+                  )}
                   {car.mileage && (
                     <span className="detail-item">
                       {car.mileage.toLocaleString()} miles
@@ -178,12 +201,17 @@ const HomeInventory = () => {
                 </div>
 
                 <div className="vehicle-price">
-                  <span className="inventory-price">${car.price?.toLocaleString()}</span>
+                  <span className="inventory-price">
+                    ${car.price?.toLocaleString()}
+                  </span>
                   <span className="stock">Stock: {car.stockQuantity}</span>
                 </div>
 
                 <div className="vehicle-actions">
-                  <button onClick={() => navigate(`/vehicle/${car.carId || car.id}`)} className="btn btn-primary">
+                  <button
+                    onClick={() => navigate(`/vehicle/${car.carId || car.id}`)}
+                    className="btn btn-primary"
+                  >
                     View Details
                   </button>
                 </div>
@@ -218,7 +246,9 @@ const HomeInventory = () => {
               {Array.from({ length: totalPages }, (_, i) => (
                 <li
                   key={`page-${i + 1}`}
-                  className={`page-item ${i + 1 === currentPage ? "active" : ""}`}
+                  className={`page-item ${
+                    i + 1 === currentPage ? "active" : ""
+                  }`}
                 >
                   <button onClick={() => handlePageChange(i + 1)}>
                     {i + 1}
@@ -244,7 +274,8 @@ const HomeInventory = () => {
 
           <div className="pagination-info">
             Showing {(currentPage - 1) * pageSize + 1}–
-            {Math.min(currentPage * pageSize, totalCars)} of {totalCars} vehicles
+            {Math.min(currentPage * pageSize, totalCars)} of {totalCars}{" "}
+            vehicles
           </div>
         </>
       )}

@@ -26,7 +26,7 @@
   background: linear-gradient(135deg, #f8faff 0%, #e8f2ff 100%);
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 .filter-grid {
   display: grid;
@@ -42,7 +42,7 @@
   font-weight: 500;
   font-size: 14px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 .form-select:focus {
   outline: none;
@@ -54,7 +54,7 @@
 }
 
 /* Buttons */
-.btn {
+.form-grid .btn {
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -71,11 +71,19 @@
   transform: translateY(-2px);
 }
 
+.filter-grid button {
+  background-color: #1976d2;
+  width: 10vw;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
 /* Grid */
 .inventory-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 30px; 
+  gap: 30px;
 }
 
 /* Cards */
@@ -83,11 +91,11 @@
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s;
 }
 .vehicle-card:hover {
-  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
 }
 
 .inventory-page .inventory-grid .vehicle-card .vehicle-image {
@@ -147,6 +155,10 @@
 .vehicle-actions {
   text-align: right;
   margin-top: 10px;
+}
+
+.vehicle-actions button {
+  background-color: #1976d2;
 }
 
 /* Pagination */

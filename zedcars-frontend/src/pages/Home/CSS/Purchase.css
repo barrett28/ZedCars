@@ -45,7 +45,7 @@
 .purchase-page-wrapper .car-showcase {
   background: white;
   border: 1px solid #333;
-  border-radius: 4px;
+  border-radius: 35px;
   overflow: hidden;
   position: sticky;
   top: 2rem;
@@ -78,7 +78,7 @@
 
 .purchase-page-wrapper .car-meta {
   padding: 2rem;
-  border-top: 2px solid #e73939;
+  border-top: 8px solid #e73939;
 }
 
 .purchase-page-wrapper .car-meta h2 {
@@ -92,7 +92,7 @@
 .purchase-page-wrapper .car-meta h3 {
   font-size: 1.3rem;
   font-weight: 400;
-  color: #858585;
+  color: #333333;
   letter-spacing: 0.05rem;
   margin: 0 0 2rem;
 }
@@ -126,7 +126,7 @@
 .purchase-page-wrapper .purchase-form-section {
   background: white;
   border: 1px solid #333;
-  border-radius: 4px;
+  border-radius: 35px;
   padding: 2.5rem;
 }
 
@@ -152,7 +152,7 @@
   display: block;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #888;
+  color: #525252;
   letter-spacing: 0.1rem;
   margin-bottom: 0.5rem;
 }
@@ -162,7 +162,7 @@
   padding: 0.9rem 1rem;
   background: white;
   border: 1px solid #333;
-  border-radius: 2px;
+  border-radius: 10px;
   color: #313131;
   font-size: 1rem;
   transition: all 0.3s;
@@ -185,14 +185,14 @@
 .purchase-page-wrapper .cost-table {
   border: 1px solid #333;
   border-radius: 2px;
-  padding: 1.5rem;
+  padding: 1.2rem;
 }
 
 .purchase-page-wrapper .cost-row {
   display: flex;
   justify-content: space-between;
   padding: 0.75rem 0;
-  color: #aaa;
+  color: #000000;
   font-size: 0.95rem;
 }
 
@@ -203,7 +203,7 @@
 .purchase-page-wrapper .cost-row.total-row {
   margin-top: 0.5rem;
   padding-top: 1rem;
-  border-top: 2px solid #e73939;
+  /* border-top: 2px solid #e73939; */
   font-size: 1.2rem;
   font-weight: 700;
   color: black;
@@ -264,12 +264,12 @@
 
 .purchase-page-wrapper .btn-cancel {
   background: white;
-  color: #aaa;
+  color: #000000;
   border: 1px solid #444;
 }
 
 .purchase-page-wrapper .btn-cancel:hover {
-  background: #696969;
+  background: #3f3f3f;
   color: #fff;
 }
 
@@ -277,8 +277,7 @@
 .purchase-page-wrapper .purchase-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
