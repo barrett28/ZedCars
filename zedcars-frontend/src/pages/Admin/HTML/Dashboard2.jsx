@@ -27,16 +27,16 @@ const Dashboard2 = () => {
         console.error("Error loading dashboard data.", error);
       });
   }, []);
-  
-  useEffect(() => {
-  const activeBtn = document.querySelector(".nav-items .active");
-  const nav = document.querySelector(".nav-items");
 
-  if (activeBtn && nav) {
-    nav.style.setProperty("--indicator-left", activeBtn.offsetLeft + "px");
-    nav.style.setProperty("--indicator-width", activeBtn.offsetWidth + "px");
-  }
-}, [activeTab]);
+  useEffect(() => {
+    const activeBtn = document.querySelector(".nav-items .active");
+    const nav = document.querySelector(".nav-items");
+
+    if (activeBtn && nav) {
+      nav.style.setProperty("--indicator-left", activeBtn.offsetLeft + "px");
+      nav.style.setProperty("--indicator-width", activeBtn.offsetWidth + "px");
+    }
+  }, [activeTab]);
 
   // Render Stock VS Sold Chart
   useEffect(() => {
@@ -270,7 +270,7 @@ const Dashboard2 = () => {
               <div className="admin-section-responsive">
                 <div className="section-header">
                   <h2>Recent Inventory</h2>
-                  <a href="/Admin/Inventory" className="view-all">
+                  <a href="/Admin/AdminInventory" className="view-all">
                     View All →
                   </a>
                 </div>
@@ -336,6 +336,9 @@ const Dashboard2 = () => {
               <div className="admin-section-responsive">
                 <div className="section-header">
                   <h2>Recent Test Drives</h2>
+                  <a href="/Admin/TestDrives" className="view-all">
+                    View All →
+                  </a>
                 </div>
 
                 <div className="table-responsive-wrapper">
