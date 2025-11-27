@@ -169,7 +169,9 @@ const Purchase = () => {
                 </div>
                 <div className="spec-item">
                   <span className="spec-label">UNIT PRICE</span>
-                  <span className="spec-value">${car.price?.toLocaleString()}</span>
+                  <span className="spec-value">
+                    ${car.price?.toLocaleString()}
+                  </span>
                 </div>
               </div>
             </div>
@@ -191,7 +193,9 @@ const Purchase = () => {
                     placeholder="Enter full name"
                   />
                   {validationErrors.buyerName && (
-                    <span className="error-text">{validationErrors.buyerName}</span>
+                    <span className="error-text">
+                      {validationErrors.buyerName}
+                    </span>
                   )}
                 </div>
 
@@ -206,7 +210,9 @@ const Purchase = () => {
                     placeholder="Enter email address"
                   />
                   {validationErrors.buyerEmail && (
-                    <span className="error-text">{validationErrors.buyerEmail}</span>
+                    <span className="error-text">
+                      {validationErrors.buyerEmail}
+                    </span>
                   )}
                 </div>
 
@@ -222,7 +228,9 @@ const Purchase = () => {
                     required
                   />
                   {validationErrors.purchaseQuantity && (
-                    <span className="error-text">{validationErrors.purchaseQuantity}</span>
+                    <span className="error-text">
+                      {validationErrors.purchaseQuantity}
+                    </span>
                   )}
                 </div>
               </div>
@@ -231,13 +239,31 @@ const Purchase = () => {
                 <h4>COST BREAKDOWN</h4>
                 <div className="cost-table">
                   <div className="cost-row">
-                    <span>Vehicle Cost</span>
+                    <span>Vehicle Cost ({formData.purchaseQuantity}x)</span>
                     <span>${carTotal.toLocaleString()}</span>
                   </div>
-                  <div className="cost-row">
-                    <span>Accessories ({formData.selectedAccessories.length})</span>
-                    <span>${accessoryTotal.toLocaleString()}</span>
-                  </div>
+                  {formData.selectedAccessories.length > 0 && (
+                    <>
+                      <div className="cost-row accessories-header">
+                        <span>Accessories</span>
+                        <span></span>
+                      </div>
+                      {formData.selectedAccessories.map((accessoryName) => {
+                        const accessory = accessories.find(
+                          (a) => a.name === accessoryName
+                        );
+                        return accessory ? (
+                          <div
+                            key={accessoryName}
+                            className="cost-row accessory-item-bill"
+                          >
+                            <span>{accessory.name}</span>
+                            <span>${accessory.price.toLocaleString()}</span>
+                          </div>
+                        ) : null;
+                      })}
+                    </>
+                  )}
                   <div className="cost-row total-row">
                     <span>TOTAL AMOUNT</span>
                     <span>${grandTotal.toLocaleString()}</span>
@@ -256,10 +282,20 @@ const Purchase = () => {
                 >
                   <span>ADD ACCESSORIES</span>
                 </button>
-                <button type="submit" className="btn-primary" disabled={submitting}>
-                  <span>{submitting ? "PROCESSING..." : "CONFIRM PURCHASE"}</span>
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  disabled={submitting}
+                >
+                  <span>
+                    {submitting ? "PROCESSING..." : "CONFIRM PURCHASE"}
+                  </span>
                 </button>
-                <button type="button" className="btn-cancel" onClick={() => navigate("/")}>
+                <button
+                  type="button"
+                  className="btn-cancel"
+                  onClick={() => navigate("/")}
+                >
                   <span>CANCEL</span>
                 </button>
               </div>
@@ -269,13 +305,18 @@ const Purchase = () => {
 
         {/* Accessories Modal */}
         {showAccessoryModal && (
-          <div className="purchase-modal-overlay">
-            <div className="purchase-modal">
-              <div className="purchase-modal-header">
+          <div className="purchase-accessory-modal-overlay">
+            <div className="purchase-accessory-modal">
+              <div className="purchase-accessory-modal-header">
                 <h3>ACCESSORY SELECTION</h3>
-                <button className="close-btn" onClick={() => setShowAccessoryModal(false)}>×</button>
+                <button
+                  className="purchase-accessory-close-btn"
+                  onClick={() => setShowAccessoryModal(false)}
+                >
+                  ×
+                </button>
               </div>
-              <div className="purchase-modal-body">
+              <div className="purchase-accessory-modal-body">
                 {Object.entries(
                   accessories.reduce((groups, accessory) => {
                     const category = accessory.category || "Other";
@@ -284,28 +325,49 @@ const Purchase = () => {
                     return groups;
                   }, {})
                 ).map(([category, categoryAccessories]) => (
-                  <div key={category} className="accessory-group">
+                  <div key={category} className="purchase-accessory-group">
                     <h5>{category.toUpperCase()}</h5>
-                    <div className="accessory-list">
+                    <div className="purchase-accessory-list">
                       {categoryAccessories.map((accessory) => (
-                        <label key={accessory.accessoryId} className="accessory-checkbox">
-                          <input
-                            type="checkbox"
-                            checked={tempSelectedAccessories.includes(accessory.name)}
-                            onChange={(e) => handleAccessoryChange(accessory.name, e.target.checked)}
-                          />
-                          <span className="checkmark"></span>
-                          <span className="accessory-name">{accessory.name}</span>
-                          <span className="accessory-price">${accessory.price}</span>
-                        </label>
+                        <div
+                          key={accessory.accessoryId}
+                          className={`purchase-accessory-box ${
+                            tempSelectedAccessories.includes(accessory.name)
+                              ? "selected"
+                              : ""
+                          }`}
+                          onClick={() =>
+                            handleAccessoryChange(
+                              accessory.name,
+                              !tempSelectedAccessories.includes(accessory.name)
+                            )
+                          }
+                        >
+                          <span className="purchase-accessory-name">
+                            {accessory.name}
+                          </span>
+                          <span className="purchase-accessory-price">
+                            ${accessory.price}
+                          </span>
+                        </div>
                       ))}
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="purchase-modal-footer">
-                <button className="btn-cancel" onClick={() => setShowAccessoryModal(false)}>CLOSE</button>
-                <button className="btn-primary" onClick={saveAccessorySelection}>SAVE SELECTION</button>
+              <div className="purchase-accessory-modal-footer">
+                <button
+                  className="btn-cancel"
+                  onClick={() => setShowAccessoryModal(false)}
+                >
+                  CLOSE
+                </button>
+                <button
+                  className="btn-primary"
+                  onClick={saveAccessorySelection}
+                >
+                  SAVE SELECTION
+                </button>
               </div>
             </div>
           </div>
