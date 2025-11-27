@@ -169,7 +169,7 @@
     height: 100vh;
     overflow: hidden;
     background-color: black;
-    background: url('../../../assets/images/landingPage/hoverContainer.png');
+    /* background: url('../../../assets/images/landingPage/hoverContainer.png'); */
 }
 
 .hover-container button{

@@ -6,6 +6,8 @@ import "../CSS/AddVehicle.css";
 const EditVehicle = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  
+  // Form data state
   const [formData, setFormData] = useState({
     carId: "",
     brand: "",
@@ -21,18 +23,48 @@ const EditVehicle = () => {
     description: "",
     imageUrl: ""
   });
+
+  // UI states
   const [message, setMessage] = useState({ type: "", text: "" });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
+  // Multi-image handling states
+  const [imageUrls, setImageUrls] = useState([]); // Array of image URLs for preview
+  const [urlInput, setUrlInput] = useState(""); // Textarea input for adding new URLs
+
+  // Clean and validate URL
+  const cleanUrl = (url) => {
+    if (!url || typeof url !== 'string') return null;
+    
+    let cleanedUrl = url.trim();
+    
+    // Fix common URL issues
+    if (cleanedUrl.startsWith('tps://')) {
+      cleanedUrl = 'h' + cleanedUrl;
+    }
+    if (cleanedUrl.startsWith('ttps://')) {
+      cleanedUrl = 'h' + cleanedUrl;
+    }
+    
+    // Validate URL format
+    if (cleanedUrl.startsWith('http://') || cleanedUrl.startsWith('https://')) {
+      return cleanedUrl;
+    }
+    
+    return null;
+  };
+
+  // Load vehicle data on component mount
   useEffect(() => {
     const fetchVehicle = async () => {
       try {
         console.log("Fetching vehicle with ID:", id);
-        console.log("JWT Token:", localStorage.getItem("jwtToken"));
         const response = await apiClient.get(`/admin/vehicles/${id}`);
         console.log("Vehicle data received:", response.data);
         const vehicle = response.data;
+        
+        // Set form data with proper field mapping
         setFormData({
           carId: vehicle.carId || vehicle.id,
           brand: vehicle.brand || vehicle.Brand || "",
@@ -48,9 +80,53 @@ const EditVehicle = () => {
           description: vehicle.description || vehicle.Description || "",
           imageUrl: vehicle.imageUrl || vehicle.ImageUrl || ""
         });
+
+        // Parse existing images from database
+        const existingImageUrl = vehicle.imageUrl || vehicle.ImageUrl || "";
+        console.log("Raw imageUrl from database:", existingImageUrl);
+        
+        if (existingImageUrl) {
+          try {
+            // Try to parse as JSON array first
+            const parsedUrls = JSON.parse(existingImageUrl);
+            if (Array.isArray(parsedUrls)) {
+              // Clean and filter valid URLs
+              const cleanUrls = parsedUrls
+                .map(url => cleanUrl(url))
+                .filter(url => url !== null);
+              setImageUrls(cleanUrls);
+              console.log("Parsed and cleaned image URLs:", cleanUrls);
+            } else {
+              // Single URL
+              const cleaned = cleanUrl(parsedUrls);
+              setImageUrls(cleaned ? [cleaned] : []);
+            }
+          } catch (parseError) {
+            console.log("JSON parse failed, checking for malformed JSON...");
+            
+            // Handle malformed JSON (missing opening bracket)
+            if (existingImageUrl.includes('",') && !existingImageUrl.startsWith('[')) {
+              try {
+                const fixedJson = '[' + existingImageUrl;
+                const parsedUrls = JSON.parse(fixedJson);
+                setImageUrls(Array.isArray(parsedUrls) ? parsedUrls : [parsedUrls]);
+                console.log("Fixed malformed JSON, parsed URLs:", parsedUrls);
+              } catch (fixError) {
+                console.log("Could not fix malformed JSON, treating as single URL");
+                setImageUrls([existingImageUrl]);
+              }
+            } else {
+              // Treat as single URL
+              console.log("Treating as single URL");
+              setImageUrls([existingImageUrl]);
+            }
+          }
+        } else {
+          setImageUrls([]);
+        }
+        
       } catch (error) {
         console.error("Error fetching vehicle:", error);
-        console.error("Error response:", error.response);
         setMessage({ type: "error", text: "Failed to load vehicle details." });
       } finally {
         setLoading(false);
@@ -62,25 +138,68 @@ const EditVehicle = () => {
     }
   }, [id]);
 
+  // Handle form input changes
   const handleChange = (e) => {
-    // setFormData({
-    //   ...formData,
-    //   [e.target.name]: e.target.value
-    // });
     const { name, value } = e.target;
-    if (name === 'color') {
-      const lettersOnly = value.replace(/[^a-zA-Z\s]/g, '');
+    
+    if (name === "color") {
+      // Only allow letters and spaces for color
+      const lettersOnly = value.replace(/[^a-zA-Z\s]/g, "");
       setFormData({ ...formData, [name]: lettersOnly });
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
 
+  // Add a single image URL to the preview
+  const addImageFromUrl = (url) => {
+    url = url.trim();
+    if (!url || imageUrls.includes(url)) return;
+
+    // Validate image URL by loading it
+    const img = new Image();
+    img.onload = () => {
+      const newImageUrls = [...imageUrls, url];
+      setImageUrls(newImageUrls);
+      // Update formData with JSON string
+      setFormData(prev => ({ ...prev, imageUrl: JSON.stringify(newImageUrls) }));
+      console.log("Added image URL:", url);
+      console.log("Updated imageUrls:", newImageUrls);
+    };
+    img.onerror = () => {
+      alert(`Failed to load image: ${url}`);
+    };
+    img.src = url;
+  };
+
+  // Add multiple image URLs from textarea input
+  const handleAddImages = () => {
+    const text = urlInput.trim();
+    if (!text) return;
+
+    // Split by newlines, commas, or spaces and filter empty strings
+    const urls = text.split(/\s+|,|\n/).filter(Boolean);
+    urls.forEach(addImageFromUrl);
+    setUrlInput(""); // Clear input after adding
+  };
+
+  // Remove an image from the preview
+  const removeImage = (urlToRemove) => {
+    const newImageUrls = imageUrls.filter((u) => u !== urlToRemove);
+    setImageUrls(newImageUrls);
+    // Update formData with JSON string
+    setFormData(prev => ({ ...prev, imageUrl: JSON.stringify(newImageUrls) }));
+    console.log("Removed image:", urlToRemove);
+    console.log("Updated imageUrls:", newImageUrls);
+  };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
+    
     try {
-      // Map frontend field names to backend model
+      // Prepare data for backend with proper field mapping
       const backendData = {
         carId: formData.carId,
         Brand: formData.brand,
@@ -94,13 +213,19 @@ const EditVehicle = () => {
         Transmission: formData.transmission,
         Mileage: parseInt(formData.mileage) || 0,
         Description: formData.description,
-        ImageUrl: formData.imageUrl
+        ImageUrl: imageUrls.length > 0 ? JSON.stringify(imageUrls) : "",
       };
+
+      console.log("Submitting data:", backendData);
+      console.log("ImageUrls array:", imageUrls);
+      console.log("ImageUrl being sent:", backendData.ImageUrl);
       
       await apiClient.put(`/admin/vehicles/${id}`, backendData);
       setMessage({ type: "success", text: "Vehicle updated successfully!" });
       setTimeout(() => navigate("/Admin/AdminInventory"), 2000);
+      
     } catch (error) {
+      console.error("Error updating vehicle:", error);
       setMessage({ type: "error", text: "Failed to update vehicle. Please try again." });
     } finally {
       setSaving(false);
@@ -133,7 +258,8 @@ const EditVehicle = () => {
       <div className="admin-form-container">
         <form onSubmit={handleSubmit} id="admin-vehicle-form">
           <div className="admin-grid">
-            {/* LEFT COLUMN */}
+            
+            {/* LEFT COLUMN - Basic Details */}
             <div className="admin-form-column">
               <h3>Basic Details</h3>
               <input type="hidden" name="carId" value={formData.carId} />
@@ -167,17 +293,17 @@ const EditVehicle = () => {
 
               <div className="admin-form-group">
                 <label>Year</label>
-                <input type="number" name="year" value={formData.year} onChange={handleChange} />
+                <input type="number" name="year" value={formData.year} onChange={handleChange} min="1900" max="2030" />
               </div>
 
               <div className="admin-form-group">
                 <label>Price ($)</label>
-                <input type="number" step="0.01" name="price" value={formData.price} onChange={handleChange} required />
+                <input type="number" step="0.01" name="price" value={formData.price} onChange={handleChange} min="0" required />
               </div>
 
               <div className="admin-form-group">
                 <label>Stock Quantity</label>
-                <input type="number" name="stockQuantity" value={formData.stockQuantity} onChange={handleChange} />
+                <input type="number" name="stockQuantity" value={formData.stockQuantity} onChange={handleChange} min="0" />
               </div>
 
               <div className="admin-form-group">
@@ -208,23 +334,69 @@ const EditVehicle = () => {
 
               <div className="admin-form-group">
                 <label>Mileage (MPG)</label>
-                <input type="number" name="mileage" value={formData.mileage} onChange={handleChange} />
+                <input type="number" name="mileage" value={formData.mileage} onChange={handleChange} min="0" />
               </div>
             </div>
 
-            {/* RIGHT COLUMN */}
+            {/* RIGHT COLUMN - Images & Description */}
             <div className="admin-form-column">
-              <h3>Image & Description</h3>
+              <h3>Images & Description</h3>
 
+              {/* Multi-Image URL Input Section */}
               <div className="admin-form-group">
-                <label>Image URL</label>
-                <input type="url" name="imageUrl" value={formData.imageUrl} onChange={handleChange} />
+                <label>Vehicle Images (URLs)</label>
+                <div className="url-input-zone">
+                  <p>Paste one or more image URLs (line-by-line, comma, or space separated)</p>
+
+                  <textarea
+                    value={urlInput}
+                    onChange={(e) => setUrlInput(e.target.value)}
+                    placeholder="https://example.com/car1.jpg&#10;https://example.com/car2.png"
+                    rows="4"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+                        e.preventDefault();
+                        handleAddImages();
+                      }
+                    }}
+                  />
+
+                  <button type="button" onClick={handleAddImages} className="add-images-btn">
+                    Add Images
+                  </button>
+                </div>
               </div>
 
-              {formData.imageUrl && (
-                <img src={formData.imageUrl} alt="Car Preview" className="admin-preview-image" />
+              {/* Image Preview Section */}
+              {imageUrls.length > 0 && (
+                <div className="preview-container">
+                  <h4>Image Previews ({imageUrls.length}):</h4>
+                  {imageUrls.map((url, index) => (
+                    <div key={index} className="image-preview">
+                      <img src={url} alt={`Preview ${index + 1}`} />
+                      <button type="button" className="remove-btn" onClick={() => removeImage(url)}>
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
               )}
 
+              {/* URL List Section */}
+              {imageUrls.length > 0 && (
+                <div className="url-list">
+                  <h4>Current URLs ({imageUrls.length}):</h4>
+                  <div className="url-items">
+                    {imageUrls.map((url, index) => (
+                      <div key={index} className="url-item">
+                        {index + 1}. {url}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Description Section */}
               <div className="admin-form-group mt-3">
                 <label>Description</label>
                 <textarea
@@ -236,6 +408,7 @@ const EditVehicle = () => {
                 />
               </div>
 
+              {/* Form Actions */}
               <div className="admin-form-actions">
                 <button type="submit" className="admin-btn admin-btn-primary" disabled={saving}>
                   {saving ? "Updating..." : "Update Vehicle"}
@@ -249,6 +422,7 @@ const EditVehicle = () => {
                 </button>
               </div>
             </div>
+
           </div>
         </form>
       </div>
